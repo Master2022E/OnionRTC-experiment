@@ -3,7 +3,7 @@ This project is a collection of the documentation, tools and scripts used for th
 
 The project is about investigating performance and usability of onion routing technologies like Tor, I2P and Lokinet for proxying WebRTC traffic.
 
-# General overview of the experiment 
+## General overview of the experiment 
 The experiment is visuallized in the diagram below and are made up of several hosts and components.
 The application services are a collection of WebRTC specific infrastructure and central components, which enables hosting a WebRTC application, logging facilities, connection candidate signalling and "Traversal Using Relays around NAT" (TURN). These services are required for the experiment, and are hosted facing the public internet (Links to specific software packages can see in the next chapter with a small description).
 
@@ -21,7 +21,7 @@ Each communication line is explained here:
 ![](overview.drawio.svg)
 
 
-# Software used for the experiment
+## Software used for the experiment
 
 This table contains a component name, software package/reporsitory, a description and a link for getting the software.
 
@@ -35,8 +35,13 @@ This table contains a component name, software package/reporsitory, a descriptio
 | Onion routing (Tor)    | Provide an anonymity proxy through the TOR network, which tunnels all HTTPs and WebRTC traffic.                                                                   | Tor                              | https://support.torproject.org/apt/#tor-deb-repo |
 | Host browser           | Browser automation tool that will start a WebRTC session on a client host. It is activated by the Central control server and send its logs to the logging server. | Selenium                         | https://www.selenium.dev/                        |
 
+## Development details
 
-# Experiment details
+To run the current test run `make`. this will install the python dependencies and execute the pytest suite. 
+
+> **NOTE:** The host is currently static, could use `thomsen-it.dk`, `localhost` or `host.docker.internal` depending on the situation [reference link](https://stackoverflow.com/questions/31324981/how-to-access-host-port-from-docker-container). 
+
+## Experiment details
 
 
 
