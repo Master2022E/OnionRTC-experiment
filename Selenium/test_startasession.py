@@ -17,15 +17,23 @@ from selenium.webdriver.firefox.options import Options
 class TestStartasession():
     def setup_method(self, method):
         webdriverOptions = Options()
+        webdriverOptions.set_preference("media.navigator.permission.disabled", True)
+        webdriverOptions.set_preference("media.peerconnection.ice.relay_only", True)
+        #webdriverOptions.headless = True
         self.driver = webdriver.Firefox(service=FirefoxService(
             GeckoDriverManager().install()), options=webdriverOptions)
         self.vars = {}
 
+
+
+
+
     def teardown_method(self, method):
-        self.driver.quit()
+        pass
+        #self.driver.quit()
 
     def test_startasession(self):
-        self.driver.get("http://localhost:3000")
+        self.driver.get("https://thomsen-it.dk")
         self.driver.set_window_size(1911, 1158)
         WebDriverWait(self.driver, 30).until(
             expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
