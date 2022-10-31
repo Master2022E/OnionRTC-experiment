@@ -60,3 +60,11 @@ class TestStartasession():
         print("\n" + self.vars["wanIp"] + " " + self.vars["country"] + " " +
               self.vars["region"] + " " + self.vars["city"] + " " + self.vars["isp"])
         self.driver.find_element(By.ID, "start-call").click()
+
+
+
+if __name__ == "__main__":
+    t = TestStartasession()
+    t.setup_method(None)
+    t.test_startasession()
+    t.teardown_method(None)
