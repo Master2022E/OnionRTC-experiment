@@ -20,8 +20,7 @@ class TestStartasession():
         webdriverOptions.set_preference("media.navigator.permission.disabled", True)
         webdriverOptions.set_preference("media.peerconnection.ice.relay_only", True)
         #webdriverOptions.headless = True
-        self.driver = webdriver.Firefox(service=FirefoxService(
-            GeckoDriverManager().install()), options=webdriverOptions)
+        self.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()),options=webdriverOptions)
         self.vars = {}
 
 
@@ -33,8 +32,21 @@ class TestStartasession():
         #self.driver.quit()
 
     def test_startasession(self):
-        self.driver.get("https://thomsen-it.dk")
+        self.driver.get("about:webrtc")
         self.driver.set_window_size(1911, 1158)
+        # Services.prefs.getBoolPref("media.peerconnection.ice.relay_only")
+        ice_relay_only_str = "media.peerconnection.ice.relay_only"
+        permission_disabled_str = "media.navigator.permission.disabled"
+        cmd = f'Services.prefs.getBoolPref("{ice_relay_only_str}");'
+        cmd2 = f'Services.prefs.getBoolPref("{permission_disabled_str}");'
+        re = self.driver.execute_script(cmd)
+        re2 = self.driver.execute_script(cmd)
+        print("Browser settings:")
+        print(ice_relay_only_str,re,permission_disabled_str,re2)
+
+        self.driver.get("https://thomsen-it.dk")
+
+
         WebDriverWait(self.driver, 30).until(
             expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
         WebDriverWait(self.driver, 30).until(expected_conditions.visibility_of_element_located(
@@ -65,6 +77,8 @@ class TestStartasession():
 
 if __name__ == "__main__":
     t = TestStartasession()
+    print("Before")
     t.setup_method(None)
+    print("After")
     t.test_startasession()
     t.teardown_method(None)
