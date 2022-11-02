@@ -20,65 +20,109 @@ class TestStartasession():
         webdriverOptions.set_preference("media.navigator.permission.disabled", True)
         webdriverOptions.set_preference("media.peerconnection.ice.relay_only", True)
         #webdriverOptions.headless = True
-        self.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()),options=webdriverOptions)
+
+
+        # Setup Socks Proxy
+        # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
+        profile = webdriver.FirefoxProfile()
+        profile.set_preference("network.proxy.type", 1)
+        profile.set_preference("network.proxy.socks", "localhost")
+        profile.set_preference("network.proxy.socks_port", 9050)
+        profile.update_preferences()
+
+
+
+        self.driver = webdriver.Firefox(executable_path="/usr/bin/geckodriver",options=webdriverOptions, firefox_profile=profile)
         self.vars = {}
+        self.vars["headless"] = webdriverOptions.headless
 
 
 
 
 
     def teardown_method(self, method):
-        pass
-        #self.driver.quit()
+        if self.vars["headless"]:
+            self.driver.quit()
+
+        print("Done")
 
     def test_startasession(self):
         self.driver.get("about:webrtc")
         self.driver.set_window_size(1911, 1158)
-        # Services.prefs.getBoolPref("media.peerconnection.ice.relay_only")
-        ice_relay_only_str = "media.peerconnection.ice.relay_only"
-        permission_disabled_str = "media.navigator.permission.disabled"
-        cmd = f'Services.prefs.getBoolPref("{ice_relay_only_str}");'
-        cmd2 = f'Services.prefs.getBoolPref("{permission_disabled_str}");'
-        re = self.driver.execute_script(cmd)
-        re2 = self.driver.execute_script(cmd)
-        print("Browser settings:")
-        print(ice_relay_only_str,re,permission_disabled_str,re2)
+        
+        if self.driver.title == 'WebRTC Internals':
+            # We are on the webRTC page
+            ice_relay_only_str = "media.peerconnection.ice.relay_only"
+            permission_disabled_str = "media.navigator.permission.disabled"
 
+            relay_only , permissions = None, None
+
+            if ice_relay_only_str in self.driver.page_source:
+                relay_only = ice_relay_only_str+": true" in self.driver.page_source
+            
+            if permission_disabled_str in self.driver.page_source:
+                permissions = permission_disabled_str+": true" in self.driver.page_source
+
+            print("Browser settings:")
+            print(ice_relay_only_str,relay_only)
+            print(permission_disabled_str,permissions)
+        else:
+            print("Was not able to go to about:webrtc to check permissions!!!")
+            
+
+
+
+        print("Navigating to https://www.thomsen-it.dk..")
         self.driver.get("https://thomsen-it.dk")
 
+        if self.driver.title == 'React App':
+            # We are on the webRTC application page
+            print("Navigated to https://www.thomsen-it.dk..")
 
-        WebDriverWait(self.driver, 30).until(
-            expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
-        WebDriverWait(self.driver, 30).until(expected_conditions.visibility_of_element_located(
-            (By.CSS_SELECTOR, ".country > .value")))
-        self.vars["wanIp"] = self.driver.find_element(
-            By.CSS_SELECTOR, ".ip > .value").text
-        self.vars["country"] = self.driver.find_element(
-            By.CSS_SELECTOR, ".country > .value").text
-        self.vars["region"] = self.driver.find_element(
-            By.CSS_SELECTOR, ".region > .value").text
-        self.vars["city"] = self.driver.find_element(
-            By.CSS_SELECTOR, ".city > .value").text
-        self.driver.find_element(By.CSS_SELECTOR, ".username-input").click()
-        self.vars["isp"] = self.driver.find_element(
-            By.CSS_SELECTOR, ".isp > .value").text
-        self.driver.find_element(By.CSS_SELECTOR, ".username-input").click()
-        self.driver.find_element(
-            By.CSS_SELECTOR, ".username-input").send_keys("username")
-        self.driver.find_element(By.CSS_SELECTOR, ".room-input").click()
-        self.driver.find_element(
-            By.CSS_SELECTOR, ".room-input").send_keys("room")
+            # Starting test
+            WebDriverWait(self.driver, 30).until(
+                expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
+            WebDriverWait(self.driver, 30).until(
+                expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".country > .value")))
+            self.vars["wanIp"] = self.driver.find_element(
+                By.CSS_SELECTOR, ".ip > .value").text
+            self.vars["country"] = self.driver.find_element(
+                By.CSS_SELECTOR, ".country > .value").text
+            self.vars["region"] = self.driver.find_element(
+                By.CSS_SELECTOR, ".region > .value").text
+            self.vars["city"] = self.driver.find_element(
+                By.CSS_SELECTOR, ".city > .value").text
+            self.driver.find_element(By.CSS_SELECTOR, ".username-input").click()
+            self.vars["isp"] = self.driver.find_element(
+                By.CSS_SELECTOR, ".isp > .value").text
+            self.driver.find_element(By.CSS_SELECTOR, ".username-input").click()
+            self.driver.find_element(
+                By.CSS_SELECTOR, ".username-input").send_keys("username")
+            self.driver.find_element(By.CSS_SELECTOR, ".room-input").click()
+            self.driver.find_element(
+                By.CSS_SELECTOR, ".room-input").send_keys("room")
 
-        print("\n" + self.vars["wanIp"] + " " + self.vars["country"] + " " +
-              self.vars["region"] + " " + self.vars["city"] + " " + self.vars["isp"])
-        self.driver.find_element(By.ID, "start-call").click()
+            print("\n" + self.vars["wanIp"] + " " + self.vars["country"] + " " +
+                self.vars["region"] + " " + self.vars["city"] + " " + self.vars["isp"])
+            self.driver.find_element(By.ID, "start-call").click()
+
+            # Waiting for the call to start by checking if the video element is visible
+            while "<td>kind</td><td></td>" in self.driver.page_source:
+                time.sleep(1)
+                print("Waiting for the call to start..")
+
+            print("Waiting for 30 seconds to see if the call is working..")
+            time.sleep(30)
+
+        
+
+        else:
+            print("Was not able to confirm that we are on the React App!!!")
 
 
 
 if __name__ == "__main__":
     t = TestStartasession()
-    print("Before")
     t.setup_method(None)
-    print("After")
     t.test_startasession()
     t.teardown_method(None)

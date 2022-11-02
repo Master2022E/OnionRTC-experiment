@@ -13,10 +13,21 @@ When developing in a VM with ssh in vs code, you can enable x11 Forwarding, by r
 ssh -X user@VM
 ```
 
-## Tor setup
+## Tor and Firefox setup
 
 The client should have installed and setup a running instance of tor.
 See the script [**setup_tor.sh**](../client_scripts/setup_tor.sh) for ubuntu instructions
+
+We also need to install a firefox selenium driver by running
+
+Now the following command should show the install path of firefox:
+
+```shell
+$ which firefox
+/usr/bin/firefox
+```
+
+Which should be the same program or the path in the Selenium script, that is used for starting firefox.
 
 Because of the possible privacy leaks in using STUN and WebRTC, WebRTC has been disabled from the Tor Browser. So the project uses the firefox Browser, and sets the proxy settings to point at the local Tor proxy. A ff addon is needed for quick access to setting the Tor proxy. The [addon](https://addons.mozilla.org/en-US/firefox/addon/tortm-browser-button/) simply adds a button for toggling the tor proxy on and off.
 
