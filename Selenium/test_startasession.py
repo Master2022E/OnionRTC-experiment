@@ -88,6 +88,9 @@ class TestStartasession():
         self.driver = selenium_wrapper(browser)
         self.vars = {}
         self.vars["headless"] = webdriverOptions.headless
+        self.vars["session_length_seconds"] = 20*60
+
+
 
 
 
@@ -159,12 +162,12 @@ class TestStartasession():
 
             # Waiting for the call to start by checking if the video element is visible
             while "<td>kind</td><td></td>" in self.driver.page_source:
-                time.sleep(1)
+                time.sleep(2)
                 logging.info("Waiting for the call to start..")
 
-            logging.info("Waiting for 30 seconds to see if the call is working..")
+            logging.info(f"Waiting for {self.vars['session_length_seconds']} seconds to see if the call is working..")
             try:
-                time.sleep(20*60)
+                time.sleep(self.vars["session_length_seconds"])
             except KeyboardInterrupt:
                 pass
 
