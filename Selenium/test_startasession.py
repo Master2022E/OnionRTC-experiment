@@ -184,13 +184,13 @@ class TestStartasession():
             
 
 
-
-        logging.info("Navigating to https://www.thomsen-it.dk..")
-        self.driver.get("https://thomsen-it.dk")
+        URL = f"https://thomsen-it.dk/#/call/{self.vars['client_username']}/{self.vars['room_id']}"
+        logging.info(f"Starting session by navigating to '{URL}'")
+        self.driver.get(f"{URL}")
 
         if self.driver.title == 'React App':
             # We are on the webRTC application page
-            logging.info("Navigated to https://www.thomsen-it.dk..")
+            logging.info("We are on the webRTC application page")
 
             # Starting test
             WebDriverWait(self.driver, 30).until(
@@ -205,19 +205,12 @@ class TestStartasession():
                 By.CSS_SELECTOR, ".region > .value").text
             self.vars["city"] = self.driver.find_element(
                 By.CSS_SELECTOR, ".city > .value").text
-            self.driver.find_element(By.CSS_SELECTOR, ".username-input").click()
             self.vars["isp"] = self.driver.find_element(
                 By.CSS_SELECTOR, ".isp > .value").text
-            self.driver.find_element(By.CSS_SELECTOR, ".username-input").click()
-            self.driver.find_element(
-                By.CSS_SELECTOR, ".username-input").send_keys("username")
-            self.driver.find_element(By.CSS_SELECTOR, ".room-input").click()
-            self.driver.find_element(
-                By.CSS_SELECTOR, ".room-input").send_keys("room")
+
 
             logging.info(self.vars["wanIp"] + " " + self.vars["country"] + " " +
                 self.vars["region"] + " " + self.vars["city"] + " " + self.vars["isp"])
-            self.driver.find_element(By.ID, "start-call").click()
 
             # Waiting for the call to start by checking if the video element is visible
             while "<td>kind</td><td></td>" in self.driver.page_source:
