@@ -10,7 +10,7 @@ Tor should be installed manually:
 For pycurl: sudo apt install libcurl4-openssl-dev libssl-dev
 """
 
-
+# https://stackoverflow.com/questions/8880603/loop-through-an-array-of-strings-in-bash
 ## now loop through the above array
 for i in "${arr[@]}"
 do

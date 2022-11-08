@@ -14,13 +14,17 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver import firefox
 from selenium.webdriver.firefox.service import Service
 
+import pyfiglet
+import sys
+import argparse
+
+
 import logging
-logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
+import logging.handlers
+
 
 def selenium_execute_with_retry(execute, command,
                                 params):
@@ -69,26 +73,81 @@ ALWAYS_RETRY_EXCEPTIONS = (
 
 class TestStartasession():
     def setup_method(self, method):
+
+        parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk", optinally using onion routing.')
+
+        # Positional arguments, meaning they are not required but can be used.
+        # If you want to set the last one, then you need to set the previous ones as well.
+        # Example: 'python3 test_startasession.py "Torben" "Room42" 2'
+        # Results in: 'Namespace(client_username='Torben', room_id='Room42', session_length_seconds=2, proxy=False, headless=True, verbose=False)'
+        parser.add_argument('client_username', metavar="client_username", nargs='?', type=str, default="client_username", help='The username of the client')
+        parser.add_argument('room_id', metavar="room_id",nargs='?', type=str, default="room_id",  help='The room id that the client should join')
+        parser.add_argument('session_length_seconds', metavar='N', type=int, nargs='?', default=60,
+                            help='Sets the number of seconds a session should be running for')
+
+        # Optional arguments
+        parser.add_argument('-p','--proxy', action='store_const',
+                            const=True, default=False,
+                            help='Whether the browser should use the onion routing proxy')
+        
+        # Debug arguments
+        parser.add_argument('-hl','--headless', action='store_const',
+                            const=False, default=True,
+                            help='Whether the browser should run in headless mode')
+        parser.add_argument("-v", "--verbose", help="Print debug messages into debug.log file",
+                            action="store_true", default=False)
+        
+        
+        args = parser.parse_args()
+        print(args)
+        self.vars = vars(args)
+
+
+        logging_level = logging.INFO
+        if args.verbose:
+            logging_level = logging.DEBUG
+            """# Set the threshold for selenium to WARNING
+            from selenium.webdriver.remote.remote_connection import LOGGER as seleniumLogger
+            seleniumLogger.setLevel(logging.INFO)
+            # Set the threshold for urllib3 to WARNING
+            from urllib3.connectionpool import log as urllibLogger
+            urllibLogger.setLevel(logging.INFO)"""
+
+
+
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setLevel(logging.INFO)
+
+        logging.basicConfig(
+                format='%(asctime)s %(levelname)-8s %(message)s',
+                level=logging_level,
+                datefmt='%Y-%m-%d %H:%M:%S',
+                    handlers=[
+                    logging.FileHandler("debug.log"),
+                    #logging.StreamHandler(), # Show everything on console
+                    console_handler # Only show INFO and above on console
+                ])
+
+
         webdriverOptions = Options()
+        webdriverOptions.headless = self.vars["headless"]
         webdriverOptions.set_preference("media.navigator.permission.disabled", True)
         webdriverOptions.set_preference("media.peerconnection.ice.relay_only", True)
-        webdriverOptions.headless = True
+        
 
 
         # Setup Socks Proxy
         # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
-        webdriverOptions.set_preference("network.proxy.type", 1)
-        webdriverOptions.set_preference("network.proxy.socks", "localhost")
-        webdriverOptions.set_preference("network.proxy.socks_port", 9050)
-        #webdriverOptions.update_preferences()
+        if self.vars["proxy"]:
+            webdriverOptions.set_preference("network.proxy.type", 1)
+            webdriverOptions.set_preference("network.proxy.socks", "localhost")
+            webdriverOptions.set_preference("network.proxy.socks_port", 9050)
+            #webdriverOptions.update_preferences()
 
 
 
         browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
         self.driver = selenium_wrapper(browser)
-        self.vars = {}
-        self.vars["headless"] = webdriverOptions.headless
-        self.vars["session_length_seconds"] = 20*60
 
 
 
@@ -156,7 +215,7 @@ class TestStartasession():
             self.driver.find_element(
                 By.CSS_SELECTOR, ".room-input").send_keys("room")
 
-            logging.info("\n" + self.vars["wanIp"] + " " + self.vars["country"] + " " +
+            logging.info(self.vars["wanIp"] + " " + self.vars["country"] + " " +
                 self.vars["region"] + " " + self.vars["city"] + " " + self.vars["isp"])
             self.driver.find_element(By.ID, "start-call").click()
 
@@ -179,6 +238,9 @@ class TestStartasession():
 
 
 if __name__ == "__main__":
+    result = pyfiglet.figlet_format("OnionRTC")
+    print(result)
+    
     t = TestStartasession()
     t.setup_method(None)
     t.test_startasession()
