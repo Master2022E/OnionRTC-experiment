@@ -41,6 +41,7 @@ protobuf==3.12.4
 ptyprocess==0.7.0
 pycairo==1.20.1
 pycups==2.0.1
+pyfiglet==0.8.post1
 PyGObject==3.42.1
 PyJWT==2.3.0
 pymacaroons==0.13.0
@@ -66,7 +67,6 @@ sortedcontainers==2.4.0
 stem==1.8.0
 systemd-python==234
 tomli==2.0.1
-torbrowser-launcher==0.3.3
 tqdm==4.64.1
 trio==0.22.0
 trio-websocket==0.9.2
