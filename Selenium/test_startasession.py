@@ -89,6 +89,9 @@ class TestStartasession():
         parser.add_argument('-p','--proxy', action='store_const',
                             const=True, default=False,
                             help='Whether the browser should use the onion routing proxy')
+        parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
+                            help='How many times the session setup should be retried before failing the test')
+                            
         
         # Debug arguments
         parser.add_argument('-hl','--headless', action='store_const',
@@ -177,10 +180,13 @@ class TestStartasession():
             
             if permission_disabled_str in self.driver.page_source:
                 permissions = permission_disabled_str+": true" in self.driver.page_source
-
-            logging.info("Browser settings:"+ice_relay_only_str+":"+str(relay_only)+" - "+permission_disabled_str+":"+str(permissions))
+            
+            if not permissions and relay_only:
+                logging.info("Browser settings:"+ice_relay_only_str+":"+str(relay_only)+" - "+permission_disabled_str+":"+str(permissions))
+            else:
+                logging.warning("Browser settings should be 'True':"+ice_relay_only_str+":"+str(relay_only)+" - "+permission_disabled_str+":"+str(permissions))
         else:
-            logging.warn("Was not able to go to about:webrtc to check permissions!!!")
+            logging.warning("Was not able to go to about:webrtc to check permissions!!!")
             
 
 
@@ -212,11 +218,24 @@ class TestStartasession():
             logging.info(self.vars["wanIp"] + " " + self.vars["country"] + " " +
                 self.vars["region"] + " " + self.vars["city"] + " " + self.vars["isp"])
 
+            retry_counter = 0
+            waiting_counter = 0
+            session_setup_retries = self.vars['session_setup_retries']
+
             # Waiting for the call to start by checking if the video element is visible
             while "<td>kind</td><td></td>" in self.driver.page_source:
-                time.sleep(2)
+                time.sleep(5)
                 logging.info("Waiting for the call to start..")
+                waiting_counter += 1
+                if waiting_counter > 2:
+                    waiting_counter = 0
+                    logging.info(f"Refreshing the page to check if the call just needed a restart! #{retry_counter} out of {session_setup_retries}")
+                    self.driver.refresh()
+                    retry_counter += 1
+                    if retry_counter > session_setup_retries:
+                        logging.warning(f"Call did not start after {session_setup_retries} retries! Session failed!")
 
+                        return
             logging.info(f"Waiting for {self.vars['session_length_seconds']} seconds to see if the call is working..")
             try:
                 time.sleep(self.vars["session_length_seconds"])
@@ -226,7 +245,7 @@ class TestStartasession():
         
 
         else:
-            logging.warn("Was not able to confirm that we are on the React App!!!")
+            logging.warning("Was not able to confirm that we are on the React App!!!")
 
 
 
