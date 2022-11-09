@@ -1,0 +1,59 @@
+observer:
+  # configuration to expose metrics
+  metrics:
+    # the prefix for metrics exposed by the observer processes
+    prefix: "observertc"
+    # the name of the tag for serviceId used where it is exposed
+    serviceIdTagName: "myServiceId"
+    # the name of the tag for mediaUnitId used where it is exposed
+    mediaUnitIdTagName: "myMediaUnitId"
+    # metrics exposed from evaluators
+    evaluatorMetrics:
+      # flag indicate if evaluator metrics are exposed or not
+      enabled: false
+    reportMetrics:
+      # flag indicate if report metrics are exposed or not
+      enabled: false
+    sinkMetrics:
+      # flag indicate if sink metrics are exposed or not
+      enabled: false
+    sourceMetrics:
+      # flag indicate if source metrics are exposed or not
+      enabled: false
+    repositoryMetrics:
+      # flag indicate if repository metrics are exposed or not
+      enabled: false
+      # sets the period for exposing metrics about the number of entries the repository holds
+      exposePeriodInMins: 5
+  sources:
+    # settings related to REST API accepting Samples
+    rest:
+      # indicate if Samples are accepted through REST or not
+      enabled: true
+    # settings related to Websockets accepting Samples
+    websocket:
+      # indicate if Samples are accepted through websockets or not
+      enabled: true
+
+  buffers:
+    samplesCollector:
+      maxTimeInMs: 1000
+
+    debouncers:
+      maxTimeInMs: 1000
+
+    reportsCollector:
+      maxTimeInMs: 1000
+
+  sinks:
+    MyLogger:
+      type: LoggerSink
+      config:
+        printTypeSummary: true
+
+    MyMongoSink:
+      type: MongoSink
+      config:
+        uri: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017"
+        database: "observertc-reports"
+        printSummary: true

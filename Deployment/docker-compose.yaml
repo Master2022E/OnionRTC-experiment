@@ -1,0 +1,52 @@
+version: '3.3'
+services:
+
+  caddy:
+    container_name: caddy
+    image: caddy:2-alpine
+    restart: always
+    ports:
+      - "7080:7080"
+      - "80:80"
+      - "443:433"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data # Optional
+      - ./caddy/config:/config # Optional
+
+  observer:
+    container_name: observer
+    restart: always
+    image: observertc/observer:1.0.0-beta
+    env_file:
+      - .env
+    volumes:
+      - ./observer/config_observer.yaml:/config_observer.yaml
+      - ./observer/config_micronaut.yaml:/config_micronaut.yaml
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:4.2
+    hostname: mongodb
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    ports:
+      - 8081:8081
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      mongodb:
+        condition: service_healthy
