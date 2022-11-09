@@ -1,0 +1,13 @@
+{
+    # Global options block. Entirely optional, https is on by default
+    # Optional email key for lets encrypt
+    # email youremail@domain.com
+    # Optional staging lets encrypt for testing. Comment out for production.
+    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+observertc.thomsen-it.dk:7080 {
+    reverse_proxy / observer:7080
+    log {
+        output stdout
+    }
+}
