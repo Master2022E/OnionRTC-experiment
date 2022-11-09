@@ -1,0 +1,7 @@
+micronaut:
+  server:
+    # defines the port the service is listening on
+    port: 7080
+    security:
+      enabled: false
+
