@@ -5,6 +5,8 @@ To simulate a Video and audio call, we create a fake webcame and microphone, whi
 
 The script requires an input video which can be fetched from the script [**get_bigbunny_video.sh**](../client_scripts/get_bigbunny_video.sh).
 
+To make sure that the selenium script uses the correct "fake" microphone, we need to make sure that any other microphone is disabled. In the VM running ubuntu it can be done by following the solution [here](https://askubuntu.com/questions/146654/how-can-i-completely-disable-internal-mic-and-webcam), by blacklisting "snd_hda_intel".
+
 ## Development
 
 When developing in a VM with ssh in vs code, you can enable x11 Forwarding, by running an ssh session in another terminal window by running the command:
@@ -12,6 +14,9 @@ When developing in a VM with ssh in vs code, you can enable x11 Forwarding, by r
 ```shell
 ssh -X user@VM
 ```
+
+
+
 
 ## Tor and Firefox setup
 

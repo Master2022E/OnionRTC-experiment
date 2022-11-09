@@ -74,7 +74,7 @@ ALWAYS_RETRY_EXCEPTIONS = (
 class TestStartasession():
     def setup_method(self, method):
 
-        parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk", optinally using onion routing.')
+        parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk", optionally using onion routing.')
 
         # Positional arguments, meaning they are not required but can be used.
         # If you want to set the last one, then you need to set the previous ones as well.
@@ -167,7 +167,38 @@ class TestStartasession():
     def test_startasession(self):
         self.driver.get("about:webrtc")
         self.driver.set_window_size(1911, 1158)
+
+        video_info = self.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ video: true}).then(function (stream) { if (stream.getVideoTracks().length > 0 ){ return stream.getVideoTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
+        time.sleep(1)
+        logging.debug(f"Returned by JS: {video_info}")
         
+        video_info = str(video_info) # Given as a list, but we want a string, so we can use the "in" operator
+        if video_info == "0":
+            logging.error("No video device found")
+            assert False
+        elif "ABORT_ERR" in video_info:
+            logging.warning("getUserMedia failed with error. Was not able to verify that the webcam worked!")
+        elif "'kind': 'video', 'label': 'Dummy video device (0x0000)'" in video_info and "'enabled': True" in video_info:
+            logging.info("getUserMedia returned a video track, which is enabled. This means that the webcam works!")
+
+        audio_info = self.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ audio: true}).then(function (stream) { if (stream.getAudioTracks().length > 0){ return stream.getAudioTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
+        time.sleep(1)
+        logging.debug(f"Returned by JS: {audio_info}")
+        
+        audio_info = str(audio_info)
+        if audio_info == "0":
+            logging.error("No audio device found")
+            assert False
+        elif "ABORT_ERR" in audio_info:
+            logging.warning("getUserMedia failed with error. Was not able to verify that the webcam mic worked!")
+        elif "'kind': 'audio', 'label': 'virtual_mic'" in audio_info and "'enabled': True" in audio_info:
+            logging.info("getUserMedia returned a audio track, which is enabled. This means that the webcam mic works!")
+       
+
+
+        time.sleep(10000)
+        
+
         if self.driver.title == 'WebRTC Internals':
             # We are on the webRTC page
             ice_relay_only_str = "media.peerconnection.ice.relay_only"
