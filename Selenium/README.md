@@ -32,7 +32,7 @@ $ which firefox
 /usr/bin/firefox
 ```
 
-Because of the possible privacy leaks in using STUN and WebRTC, WebRTC has been disabled from the Tor Browser. So the project uses the firefox Browser, and sets the proxy settings to point at the local Tor proxy. A ff addon is needed for quick access to setting the Tor proxy. The [addon](https://addons.mozilla.org/en-US/firefox/addon/tortm-browser-button/) simply adds a button for toggling the tor proxy on and off.
+Because of the possible privacy leaks in using STUN and WebRTC, WebRTC has been disabled from the Tor Browser. So the project uses the firefox Browser, and sets the proxy settings to point at the local Tor proxy. A ff addon is needed for quick access to setting the Tor proxy. The [addon](https://addons.mozilla.org/en-US/firefox/addon/tortm-browser-button/) simply adds a button for toggling the tor proxy on and off. This can be used when testing manually in the browser.
 
 ![](Onion_browser_button.png)
 
