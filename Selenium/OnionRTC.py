@@ -21,7 +21,7 @@ import pyfiglet
 import sys
 import argparse
 
-
+import os
 import logging
 import logging.handlers
 
@@ -75,11 +75,21 @@ ALWAYS_RETRY_EXCEPTIONS = (
       TimeoutException
   )
 
+# Define a consistent state space for the test
+states_str = ["setup_client","setup_browser","check_media","check_webrtc_settings",
+              "starting_session","waiting_for_call","call_in_progress","call_ended",
+              "teardown","done","error"]
+states = dict()
+for state in states_str:
+    states[state] = state
 
-class TestStartasession():
-    def setup_method(self, method):
 
-        parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk", optionally using onion routing.')
+class OnionRTC():
+    def setup_session(self):
+
+        client_config = os.environ.get("CLIENT_CONFIG","NOT_SET")
+
+        parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk" using Selenium, optionally using onion routing.')
 
         # Positional arguments, meaning they are not required but can be used.
         # If you want to set the last one, then you need to set the previous ones as well.
@@ -96,7 +106,7 @@ class TestStartasession():
                             help='Whether the browser should use the onion routing proxy')
         parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
                             help='How many times the session setup should be retried before failing the test')
-                            
+        parser.add_argument("-c", dest="client_config", help="Sets a client config string. Defaults to env var $CLIENT_CONFIG", default=client_config)
         
         # Debug arguments
         parser.add_argument('-hl','--headless', action='store_const',
@@ -108,18 +118,26 @@ class TestStartasession():
         
         args = parser.parse_args()
         print(args)
-        self.vars = vars(args)
+        self.vars = args
+        self.vars.client_config = os.environ.get("CLIENT_CONFIG","NOT_SET")
+
+
+
+        self.vars.state = states["setup_browser"]
 
 
         logging_level = logging.INFO
+        # Set the threshold for selenium to WARNING
+        from selenium.webdriver.remote.remote_connection import LOGGER as seleniumLogger
+        seleniumLogger.setLevel(logging.INFO)
+        # Set the threshold for urllib3 to WARNING
+        logging.getLogger("urllib3").setLevel(logging.CRITICAL)
+
         if args.verbose:
             logging_level = logging.DEBUG
-            """# Set the threshold for selenium to WARNING
-            from selenium.webdriver.remote.remote_connection import LOGGER as seleniumLogger
-            seleniumLogger.setLevel(logging.INFO)
-            # Set the threshold for urllib3 to WARNING
-            from urllib3.connectionpool import log as urllibLogger
-            urllibLogger.setLevel(logging.INFO)"""
+            logging.getLogger("urllib3").setLevel(logging.INFO)
+
+
 
 
 
@@ -138,7 +156,7 @@ class TestStartasession():
 
 
         webdriverOptions = Options()
-        webdriverOptions.headless = self.vars["headless"]
+        webdriverOptions.headless = self.vars.headless
         webdriverOptions.set_preference("media.navigator.permission.disabled", True)
         webdriverOptions.set_preference("media.peerconnection.ice.relay_only", True)
         
@@ -146,7 +164,7 @@ class TestStartasession():
 
         # Setup Socks Proxy
         # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
-        if self.vars["proxy"]:
+        if self.vars.proxy:
             webdriverOptions.set_preference("network.proxy.type", 1)
             webdriverOptions.set_preference("network.proxy.socks", "localhost")
             webdriverOptions.set_preference("network.proxy.socks_port", 9050)
@@ -155,7 +173,10 @@ class TestStartasession():
 
 
         browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
-        self.driver = selenium_wrapper(browser)
+        driver = selenium_wrapper(browser)
+        self.vars.driver = driver
+        
+        return self.vars
 
 
 
@@ -163,59 +184,65 @@ class TestStartasession():
 
 
 
-    def teardown_method(self, method):
-        if self.vars["headless"]:
-            self.driver.quit()
+    def clean_up(self):
+        if self.vars.state != states["error"]:
+            self.vars.state = states["teardown"]
 
-        logging.info("Test done")
+        if self.vars.headless:
+            self.vars.driver.quit()
+        logging.info("Test clean up complete")
+        self.vars.state = states["done"]
 
-    def test_startasession(self):
-        self.driver.get("about:webrtc")
-        self.driver.set_window_size(1911, 1158)
+    def run_session(self):
+        self.vars.state = states["check_media"]
+        
+        self.vars.driver.get("about:webrtc")
+        self.vars.driver.set_window_size(1911, 1158)
 
-        video_info = self.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ video: true}).then(function (stream) { if (stream.getVideoTracks().length > 0 ){ return stream.getVideoTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
+        video_info = self.vars.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ video: true}).then(function (stream) { if (stream.getVideoTracks().length > 0 ){ return stream.getVideoTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
         time.sleep(1)
         logging.debug(f"Returned by JS: {video_info}")
         
         video_info = str(video_info) # Given as a list, but we want a string, so we can use the "in" operator
         if video_info == "0":
             logging.error("No video device found")
-            assert False
+            raise Exception("No video device found")
         elif "ABORT_ERR" in video_info:
             logging.warning("getUserMedia failed with error. Was not able to verify that the webcam worked!")
+            raise IOError("Can't verify that the webcam works")
         elif "'kind': 'video', 'label': 'Dummy video device (0x0000)'" in video_info and "'enabled': True" in video_info:
             logging.info("getUserMedia returned a video track, which is enabled. This means that the webcam works!")
+        
 
-        audio_info = self.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ audio: true}).then(function (stream) { if (stream.getAudioTracks().length > 0){ return stream.getAudioTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
+
+        audio_info = self.vars.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ audio: true}).then(function (stream) { if (stream.getAudioTracks().length > 0){ return stream.getAudioTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
         time.sleep(1)
         logging.debug(f"Returned by JS: {audio_info}")
         
         audio_info = str(audio_info)
         if audio_info == "0":
             logging.error("No audio device found")
-            assert False
+            raise Exception("No audio device found")
         elif "ABORT_ERR" in audio_info:
             logging.warning("getUserMedia failed with error. Was not able to verify that the webcam mic worked!")
+            raise IOError("Can't verify that the webcam mic works")
         elif "'kind': 'audio', 'label': 'virtual_mic'" in audio_info and "'enabled': True" in audio_info:
             logging.info("getUserMedia returned a audio track, which is enabled. This means that the webcam mic works!")
-       
-
-
-        time.sleep(10000)
         
+        self.vars.state = states["check_webrtc_settings"]
 
-        if self.driver.title == 'WebRTC Internals':
+        if self.vars.driver.title == 'WebRTC Internals':
             # We are on the webRTC page
             ice_relay_only_str = "media.peerconnection.ice.relay_only"
             permission_disabled_str = "media.navigator.permission.disabled"
 
             relay_only , permissions = None, None
 
-            if ice_relay_only_str in self.driver.page_source:
-                relay_only = ice_relay_only_str+": true" in self.driver.page_source
+            if ice_relay_only_str in self.vars.driver.page_source:
+                relay_only = ice_relay_only_str+": true" in self.vars.driver.page_source
             
-            if permission_disabled_str in self.driver.page_source:
-                permissions = permission_disabled_str+": true" in self.driver.page_source
+            if permission_disabled_str in self.vars.driver.page_source:
+                permissions = permission_disabled_str+": true" in self.vars.driver.page_source
             
             if not permissions and relay_only:
                 logging.info("Browser settings:"+ice_relay_only_str+":"+str(relay_only)+" - "+permission_disabled_str+":"+str(permissions))
@@ -226,70 +253,98 @@ class TestStartasession():
             
 
 
-        URL = f"https://thomsen-it.dk/#/call/{self.vars['client_username']}/{self.vars['room_id']}"
+        URL = f"https://thomsen-it.dk/#/call/{self.vars.client_username}/{self.vars.room_id}"
+        self.vars.state = states["starting_session"]
         logging.info(f"Starting session by navigating to '{URL}'")
-        self.driver.get(f"{URL}")
+        
+        self.vars.driver.get(f"{URL}")
 
-        if self.driver.title == 'React App':
+        if self.vars.driver.title == 'React App':
             # We are on the webRTC application page
             logging.info("We are on the webRTC application page")
 
             # Starting test
-            WebDriverWait(self.driver, 30).until(
+            WebDriverWait(self.vars.driver, 30).until(
                 expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
-            WebDriverWait(self.driver, 30).until(
+            WebDriverWait(self.vars.driver, 30).until(
                 expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".country > .value")))
-            self.vars["wanIp"] = self.driver.find_element(
+            self.vars.wanIp = self.vars.driver.find_element(
                 By.CSS_SELECTOR, ".ip > .value").text
-            self.vars["country"] = self.driver.find_element(
+            self.vars.country = self.vars.driver.find_element(
                 By.CSS_SELECTOR, ".country > .value").text
-            self.vars["region"] = self.driver.find_element(
+            self.vars.region = self.vars.driver.find_element(
                 By.CSS_SELECTOR, ".region > .value").text
-            self.vars["city"] = self.driver.find_element(
+            self.vars.city = self.vars.driver.find_element(
                 By.CSS_SELECTOR, ".city > .value").text
-            self.vars["isp"] = self.driver.find_element(
+            self.vars.isp = self.vars.driver.find_element(
                 By.CSS_SELECTOR, ".isp > .value").text
 
 
-            logging.info(self.vars["wanIp"] + " " + self.vars["country"] + " " +
-                self.vars["region"] + " " + self.vars["city"] + " " + self.vars["isp"])
+            logging.info(self.vars.wanIp + " " + self.vars.country + " " +
+                self.vars.region + " " + self.vars.city + " " + self.vars.isp)
 
             retry_counter = 0
             waiting_counter = 0
-            session_setup_retries = self.vars['session_setup_retries']
+            session_setup_retries = self.vars.session_setup_retries
+
+            self.vars.state = states["waiting_for_call"]
 
             # Waiting for the call to start by checking if the video element is visible
-            while "<td>kind</td><td></td>" in self.driver.page_source:
-                time.sleep(5)
-                logging.info("Waiting for the call to start..")
-                waiting_counter += 1
-                if waiting_counter > 2:
-                    waiting_counter = 0
-                    logging.info(f"Refreshing the page to check if the call just needed a restart! #{retry_counter} out of {session_setup_retries}")
-                    self.driver.refresh()
-                    retry_counter += 1
-                    if retry_counter > session_setup_retries:
-                        logging.warning(f"Call did not start after {session_setup_retries} retries! Session failed!")
-
-                        return
-            logging.info(f"Waiting for {self.vars['session_length_seconds']} seconds to see if the call is working..")
             try:
-                time.sleep(self.vars["session_length_seconds"])
-            except KeyboardInterrupt:
-                pass
+                while "<td>kind</td><td></td>" in self.vars.driver.page_source:
+                    time.sleep(5)
+                    logging.info("Waiting for the call to start..")
+                    waiting_counter += 1
+                    if waiting_counter > 2:
+                        waiting_counter = 0
+                        logging.info(f"Refreshing the page to check if the call just needed a restart! #{retry_counter} out of {session_setup_retries}")
+                        self.vars.driver.refresh()
+                        retry_counter += 1
+                        if retry_counter > session_setup_retries:
+                            logging.warning(f"Call did not start after {session_setup_retries} retries! Session failed!")
 
+                            return
+            except KeyboardInterrupt:
+                logging.info("Skipping waiting for call to start caused by keyboard interrupt")
+            
+
+            self.vars.state = states["call_in_progress"]
+            logging.info(f"Waiting for {self.vars.session_length_seconds} seconds to see if the call is working.. Press CTRL+C to end the test early!")
+            try:
+                time.sleep(self.vars.session_length_seconds)
+            except KeyboardInterrupt:
+                logging.info("Skipping waiting for call to end caused by keyboard interrupt")
+            
+
+            self.vars.state = states["call_ended"]
         
 
         else:
             logging.warning("Was not able to confirm that we are on the React App!!!")
 
 
+        return self.vars
+
+
 
 if __name__ == "__main__":
     result = pyfiglet.figlet_format("OnionRTC")
     print(result)
+
+    o = OnionRTC()
+
+    try:
+        o.setup_session()
+        o.run_session()    
+        o.clean_up()
+    except (Exception,KeyboardInterrupt) as e:
+        logging.error(f"Exception: {e}")
+        o.vars.state = states["error"]
+        o.vars.exception = e
+        try:
+            o.clean_up()
+        except:
+            pass
+
+    logging.info(f"Printing variables: {o.vars}")
     
-    t = TestStartasession()
-    t.setup_method(None)
-    t.test_startasession()
-    t.teardown_method(None)
