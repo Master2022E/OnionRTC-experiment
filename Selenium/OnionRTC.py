@@ -334,7 +334,7 @@ class OnionRTC():
                     time.sleep(5)
                     logging.info("Waiting for the call to start..")
                     waiting_counter += 1
-                    if waiting_counter > 2:
+                    if waiting_counter > 6:
                         waiting_counter = 0
                         logging.info(f"Refreshing the page to check if the call just needed a restart! #{retry_counter} out of {session_setup_retries}")
                         self.vars.driver.refresh()
