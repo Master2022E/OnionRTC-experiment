@@ -17,6 +17,9 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver import firefox
 from selenium.webdriver.firefox.service import Service
 
+from misc.stem1 import return_circuit_status 
+
+
 import pyfiglet
 import sys
 import argparse
@@ -24,6 +27,9 @@ import argparse
 import os
 import logging
 import logging.handlers
+
+from misc.mongo_report import create_client_report
+import uuid
 
 
 """
@@ -83,11 +89,19 @@ states = dict()
 for state in states_str:
     states[state] = state
 
+# Report types
+logging_str = ["NOT_SET","CLIENT_START","CLIENT_RUNNING", "CLIENT_END", "CLIENT_ERROR"]
+logging_types = dict()
+for type in logging_str:
+    logging_types[type] = type
+
+
+
 
 class OnionRTC():
     def setup_session(self):
 
-        client_config = os.environ.get("CLIENT_CONFIG","NOT_SET")
+        client_config = os.environ.get("CLIENT_CONFIG",None)
 
         parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk" using Selenium, optionally using onion routing.')
 
@@ -119,7 +133,7 @@ class OnionRTC():
         args = parser.parse_args()
         print(args)
         self.vars = args
-        self.vars.client_config = os.environ.get("CLIENT_CONFIG","NOT_SET")
+        #self.vars.client_config = os.environ.get("CLIENT_CONFIG","NOT_SET")
 
 
 
@@ -263,6 +277,27 @@ class OnionRTC():
             # We are on the webRTC application page
             logging.info("We are on the webRTC application page")
 
+            # Find client id in text FIXME: use find_element when implemented into app
+            self.vars.client_id = "client_id2"
+            if "Client Id:" in self.vars.driver.page_source:
+                self.vars.client_id = self.vars.driver.page_source.split("Client Id: ")[1].split("</label>")[0]
+
+
+
+                
+            data = {'client_username':self.vars.client_username,
+                    "client_id": self.vars.client_id,
+                    "client_type": self.vars.client_config,
+                    "room_id": self.vars.room_id,
+                    "test_id": str(uuid.uuid4()),
+                    "logging_type": logging_types["CLIENT_START"]}
+
+            print(data)
+
+
+            create_client_report(data)
+            
+
             # Starting test
             WebDriverWait(self.vars.driver, 30).until(
                 expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
@@ -282,6 +317,10 @@ class OnionRTC():
 
             logging.info(self.vars.wanIp + " " + self.vars.country + " " +
                 self.vars.region + " " + self.vars.city + " " + self.vars.isp)
+
+            # If we have set the proxy and the client knows that it is a Tor Client
+            if self.vars.proxy: # FIXME: "and "TOR" in self.vars.client_config"
+                self.vars.circuits = return_circuit_status(self.vars.wanIp)
 
             retry_counter = 0
             waiting_counter = 0
