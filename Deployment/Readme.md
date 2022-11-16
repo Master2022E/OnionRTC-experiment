@@ -21,3 +21,9 @@ The database that stores the records saved by ObserveRTC and where we can query 
 A frontend for the MongoDB database where we can query data.
 
 We expect to NOT open this up for WAN connections and only access ith through a ssh tunnel.
+
+## Server deployment
+
+The diagram [Deployment.drawio.svg](./Deployment.drawio.svg) describes the server deployment structure that we expect to deploy and run the tests with.
+
+![Deployment](Deployment.drawio.svg)
