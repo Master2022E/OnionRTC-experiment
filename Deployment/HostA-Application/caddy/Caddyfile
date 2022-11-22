@@ -1,0 +1,41 @@
+{
+    # Global options block. Entirely optional, https is on by default
+    # Optional email key for lets encrypt
+    # email youremail@domain.com
+    # Optional staging lets encrypt for testing. Comment out for production.
+    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+www.thomsen-it.dk www.thomsen-it.dk:3000  {
+    redir thomsen-it.dk{uri}
+}
+www.app.thomsen-it.dk {
+    redir https://app.thomsen-it.dk{uri}
+}
+www.signal.thomsen-it.dk www.signal.thomsen-it.dk:3000 {
+    redir https://signal.thomsen-it.dk{uri}
+}
+
+thomsen-it.dk thomsen-it.dk:3000 {
+    reverse_proxy webrtc-server:3000
+    log {
+        output stdout
+    }
+}
+app.thomsen-it.dk {
+    reverse_proxy webrtc-server:3000
+    log {
+        output stdout
+    }
+}
+signal.thomsen-it.dk {
+    reverse_proxy signal-server:8080
+    log {
+        output stdout
+    }
+}
+observertc.thomsen-it.dk:7080 {
+    reverse_proxy / observer:7080
+    log {
+        output stdout
+    }
+}
