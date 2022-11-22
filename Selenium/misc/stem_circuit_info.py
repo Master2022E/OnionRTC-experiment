@@ -6,6 +6,9 @@ from stem.util.log import get_logger
 import os
 global return_dict
 
+# Orginally from: https://stem.torproject.org/tutorials/examples/exit_used.html
+# Remixed with this: https://stem.torproject.org/tutorials/the_little_relay_that_could.html
+
 
 def node_data(entry,controller):
   nickname = "Unknown"
@@ -69,6 +72,7 @@ if __name__ == "__main__":
     
 
 """
+# From https://stem.torproject.org/tutorials/examples/list_circuits.html
 with Controller.from_port(port = 9051) as controller:
   controller.authenticate(os.environ.get("TOR_CONTROL_PASSWORD",None))
 
