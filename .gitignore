@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 client_scripts/BigBuckBunny.mp4
 .idea/
+.ssh/
