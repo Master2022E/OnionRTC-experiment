@@ -1,2 +1,7 @@
 #!/bin/bash
-export CLIENT_CONFIG="Tor:NormalTurn"
+
+echo 'export CLIENT_CONFIG="Tor"' >> ~/.bashrc
+#update current shell
+source ~/.bashrc
+
+echo $CLIENT_CONFIG
