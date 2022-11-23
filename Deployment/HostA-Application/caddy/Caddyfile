@@ -1,38 +1,38 @@
 {
-        # Global options block. Entirely optional, https is on by default
-    # Optional email key for lets encrypt
-    # email youremail@domain.com
-    # Optional staging lets encrypt for testing. Comment out for production.
-    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
-    log {
-        output stdout
-        format json {
-            time_format     iso8601 
-        }
-        level  info
-    }
+	# Global options block. Entirely optional, https is on by default
+	# Optional email key for lets encrypt
+	# email youremail@domain.com
+	# Optional staging lets encrypt for testing. Comment out for production.
+	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+	log {
+		output stdout
+		format json {
+			time_format iso8601
+		}
+		level info
+	}
 }
-www.stage.thomsen-it.dk, www.stage.thomsen-it.dk:3000  {
-    redir https://stage.thomsen-it.dk{uri}
+www.stage.thomsen-it.dk, www.stage.thomsen-it.dk:3000 {
+	redir https://stage.thomsen-it.dk{uri}
 }
 www.stage.app.thomsen-it.dk {
-    redir https://stage.app.thomsen-it.dk{uri}
+	redir https://stage.app.thomsen-it.dk{uri}
 }
 www.stage.signal.thomsen-it.dk, www.stage.signal.thomsen-it.dk:3000 {
-    redir https://stage.signal.thomsen-it.dk{uri}
+	redir https://stage.signal.thomsen-it.dk{uri}
 }
 stage.thomsen-it.dk {
-    reverse_proxy webrtc:3000
+	reverse_proxy webrtc:3000
 }
 stage.thomsen-it.dk:3000 {
-    reverse_proxy webrtc:3000
+	reverse_proxy webrtc:3000
 }
 stage.app.thomsen-it.dk {
-    reverse_proxy webrtc:3000
+	reverse_proxy webrtc:3000
 }
 stage.signal.thomsen-it.dk {
-    reverse_proxy signal:8080
+	reverse_proxy signal:8080
 }
 stage.observertc.thomsen-it.dk:7080 {
-    reverse_proxy observer:7080
+	reverse_proxy observer:7080
 }
