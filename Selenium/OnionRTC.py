@@ -29,7 +29,7 @@ import os
 import logging
 import logging.handlers
 
-from misc.mongo_report import create_client_report
+from misc.mongo_report import close_mongo_connection, create_client_report
 import uuid
 
 
@@ -210,7 +210,16 @@ class OnionRTC():
         logging.info("Test clean up complete")
         self.vars.state = states["done"]
 
+        close_mongo_connection()
+
     def run_session(self):
+        data = {'client_username':self.vars.client_username,
+        "client_id": self.vars.client_id,
+        "client_type": self.vars.client_config,
+        "room_id": self.vars.room_id,
+        "test_id": str(uuid.uuid4()),
+        "logging_type": logging_types["NOT_SET"]}
+
         self.vars.state = states["check_media"]
         
         self.vars.driver.get("about:webrtc")
@@ -288,16 +297,7 @@ class OnionRTC():
 
 
                 
-            data = {'client_username':self.vars.client_username,
-                    "client_id": self.vars.client_id,
-                    "client_type": self.vars.client_config,
-                    "room_id": self.vars.room_id,
-                    "test_id": str(uuid.uuid4()),
-                    "logging_type": logging_types["CLIENT_START"]}
-
-            print(data)
-
-
+            data["logging_type"] = logging_types["CLIENT_START"]
             create_client_report(data)
             
 
@@ -364,6 +364,9 @@ class OnionRTC():
             
 
             self.vars.state = states["call_in_progress"]
+            data["logging_type"] = logging_types["CLIENT_RUNNING"]
+            create_client_report(data)
+
             logging.info(f"Waiting for {self.vars.session_length_seconds} seconds to see if the call is working.. Press CTRL+C to end the test early!")
             # Implement while loop with time.sleep(1) and check if the call is still working
             # Check if session_length_seconds is overdue.
@@ -374,16 +377,23 @@ class OnionRTC():
             
 
             self.vars.state = states["call_ended"]
+            data["logging_type"] = logging_types["CLIENT_END"] # CLIENT_ERROR CLIENT_RUNNING
         
 
         else:
             logging.warning("Was not able to confirm that we are on the React App!!!")
+            data["logging_type"] = logging_types["CLIENT_ERROR"]
+            data["error"] = f"Could not go to the React App page. Title was '{self.vars.driver.title}'"
 
         try:
             # Close the Tor event listener and save the data reported from the last session
             self.vars.latest_circuit = close_event_streamer()
         except (Exception) as e:
             logging.error(f"Exception: {e}")
+            data["logging_type"] = logging_types["CLIENT_ERROR"]
+            data["error"] = f"Exception: {e}"
+
+        create_client_report(data)
 
         return self.vars
 

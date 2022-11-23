@@ -3,47 +3,57 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 import json
-import pandas as pd
 
 """
 !pip install pymongo
 !pip install pandas
 """
 
+mongo_conn = None
+
 
 def setup_mongo_connection():
+    print("Setting up mongo connection")
     address = f'mongodb://{os.getenv("MONGO_USER")}:{os.getenv("MONGO_PASSWORD")}@{os.getenv("MONGO_HOST")}:{os.getenv("MONGO_PORT")}'
     client = MongoClient(address)
     return client
 
-
+def close_mongo_connection():
+    global mongo_conn
+    if mongo_conn is not None:
+        try:
+            mongo_conn.close()
+            mongo_conn = None
+        except Exception as e:
+            pass
+            
 def create_client_report(data:dict=dict()):
+    global mongo_conn
+
     load_dotenv()
-    mongo_conn = setup_mongo_connection()
+    if mongo_conn is None:
+        mongo_conn = setup_mongo_connection()
 
     logging_str = ["NOT_SET","CLIENT_START","CLIENT_RUNNING", "CLIENT_END", "CLIENT_ERROR"]
     logging_types = dict()
     for type in logging_str:
         logging_types[type] = type
 
-    with mongo_conn as client:
+    
         
-        database= client["observertc-reports"]
+    database= mongo_conn["observertc-reports"]
 
-        # the collection we want to query
-        reportsDatabase = database.calls       
+    # the collection we want to query
+    reportsDatabase = database.calls       
 
-        # Timestamp, client_username, client_id, client_type, room_id, test_id, logging_type
-        data = {'timestamp': str(datetime.now()), 'client_username': data.get('client_username','client_username'),
-        'client_id': data.get('client_id','client_id'), 'client_type': data.get('client_type','client_type'),
-        'room_id': data.get("room_id","room_id"), 
-        "test_id":data.get("test_id","test_id"), "logging_type": logging_types[data.get("logging_type","NOT_SET")]}
+    data['timestamp'] = str(datetime.now())
+    data["logging_type"] = logging_types[data.get("logging_type","NOT_SET")]
 
-        try:
-            reportsDatabase.insert_one(data)
-        except (KeyboardInterrupt, Exception) as e:
-            print("Error while processing data")
-            print(e)
+    try:
+        reportsDatabase.insert_one(data)
+    except (KeyboardInterrupt, Exception) as e:
+        print("Error while processing data")
+        print(e)
         
     
 if __name__ == "__main__":
@@ -57,3 +67,10 @@ if __name__ == "__main__":
             "test_id": "test_id","logging_type": logging_types["CLIENT_START"]}
 
     create_client_report(data)
+
+    data = {'client_username':'hej', "client_id": "client_id", "client_type": "client_type",
+            "room_id": "room_id",
+            "test_id": "test_id","logging_type": logging_types["CLIENT_ERROR"], "error": "This is a test error"}
+    create_client_report(data)
+
+    close_mongo_connection()
