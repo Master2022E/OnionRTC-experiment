@@ -5,7 +5,9 @@ services:
     container_name: coturn
     image: coturn/coturn:4.6.0
     restart: always
-    #FIXME: Map the ports instead of using host mode
+    # Uses the host mode because it is much faster than mapping large port ranges
+    # https://docs.docker.com/network/host/
+    # https://github.com/instrumentisto/coturn-docker-image/issues/3
     network_mode: host
     volumes:
       - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf
