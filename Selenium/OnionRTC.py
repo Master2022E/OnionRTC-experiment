@@ -32,9 +32,16 @@ import logging.handlers
 from misc.mongo_report import close_mongo_connection, create_client_report
 import uuid
 
+"""
+Python script for running WebRTC session tests using Selenium and different anonymization services.
+
+The script can be run from the command line with the -h flag to see the available options.
+
+Written by: Christian Mark and Jonas Thomsen 2022
+"""
 
 """
-Taken from
+selenium_execute_with_retry() and selenium_wrapper() are taken from
 https://betterprogramming.pub/a-simple-addition-to-your-selenium-test-framework-that-makes-it-more-robust-and-reliable-e9cf97f52e78?gi=bb10badcc8b0
 """
 
@@ -108,7 +115,7 @@ class OnionRTC():
 
         # Positional arguments, meaning they are not required but can be used.
         # If you want to set the last one, then you need to set the previous ones as well.
-        # Example: 'python3 test_startasession.py "Torben" "Room42" 2'
+        # Example: 'python3 OnionRTC.py "Torben" "Room42" 2'
         # Results in: 'Namespace(client_username='Torben', room_id='Room42', session_length_seconds=2, proxy=False, headless=True, verbose=False)'
         parser.add_argument('client_username', metavar="client_username", nargs='?', type=str, default="client_username", help='The username of the client')
         parser.add_argument('room_id', metavar="room_id",nargs='?', type=str, default="room_id",  help='The room id that the client should join')
@@ -117,7 +124,7 @@ class OnionRTC():
 
         # Optional arguments
         parser.add_argument('-p','--proxy', action='store_const',
-                            const=True, default=False,
+                            const=True, default=True,
                             help='Whether the browser should use the onion routing proxy') #FIXME: set default proxy to False 
         parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
                             help='How many times the session setup should be retried before failing the test')
@@ -140,8 +147,7 @@ class OnionRTC():
         # Related to session_setup_retries, which is default 4 and is the amount of rounds
         self.waiting_counter_max = 8
 
-        self.vars.state = states["setup_browser"]
-
+        self.vars.state = states["setup_browser"]        
 
         logging_level = logging.INFO
         # Set the threshold for selenium to WARNING
@@ -213,6 +219,7 @@ class OnionRTC():
         close_mongo_connection()
 
     def run_session(self):
+        self.vars.client_id = "client_id_not_set"
         data = {'client_username':self.vars.client_username,
         "client_id": self.vars.client_id,
         "client_type": self.vars.client_config,
@@ -228,32 +235,42 @@ class OnionRTC():
         video_info = self.vars.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ video: true}).then(function (stream) { if (stream.getVideoTracks().length > 0 ){ return stream.getVideoTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
         time.sleep(1)
         logging.debug(f"Returned by JS: {video_info}")
+
+        try:
         
-        video_info = str(video_info) # Given as a list, but we want a string, so we can use the "in" operator
-        if video_info == "0":
-            logging.error("No video device found")
-            raise Exception("No video device found")
-        elif "ABORT_ERR" in video_info:
-            logging.warning("getUserMedia failed with error. Was not able to verify that the webcam worked!")
-            raise IOError("Can't verify that the webcam works")
-        elif "'kind': 'video', 'label': 'Dummy video device (0x0000)'" in video_info and "'enabled': True" in video_info:
-            logging.info("getUserMedia returned a video track, which is enabled. This means that the webcam works!")
-        
+            video_info = str(video_info) # Given as a list, but we want a string, so we can use the "in" operator
+            if video_info == "0":
+                logging.error("No video device found")
+                raise Exception("No video device found")
+            elif "ABORT_ERR" in video_info:
+                logging.warning("getUserMedia failed with error. Was not able to verify that the webcam worked!")
+                raise IOError("Can't verify that the webcam works")
+            elif "'kind': 'video', 'label': 'Dummy video device (0x0000)'" in video_info and "'enabled': True" in video_info:
+                logging.info("getUserMedia returned a video track, which is enabled. This means that the webcam works!")
+            
 
 
-        audio_info = self.vars.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ audio: true}).then(function (stream) { if (stream.getAudioTracks().length > 0){ return stream.getAudioTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
-        time.sleep(1)
-        logging.debug(f"Returned by JS: {audio_info}")
-        
-        audio_info = str(audio_info)
-        if audio_info == "0":
-            logging.error("No audio device found")
-            raise Exception("No audio device found")
-        elif "ABORT_ERR" in audio_info:
-            logging.warning("getUserMedia failed with error. Was not able to verify that the webcam mic worked!")
-            raise IOError("Can't verify that the webcam mic works")
-        elif "'kind': 'audio', 'label': 'virtual_mic'" in audio_info and "'enabled': True" in audio_info:
-            logging.info("getUserMedia returned a audio track, which is enabled. This means that the webcam mic works!")
+            audio_info = self.vars.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ audio: true}).then(function (stream) { if (stream.getAudioTracks().length > 0){ return stream.getAudioTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
+            time.sleep(1)
+            logging.debug(f"Returned by JS: {audio_info}")
+            
+            audio_info = str(audio_info)
+            if audio_info == "0":
+                logging.error("No audio device found")
+                raise Exception("No audio device found")
+            elif "ABORT_ERR" in audio_info:
+                logging.warning("getUserMedia failed with error. Was not able to verify that the webcam mic worked!")
+                raise IOError("Can't verify that the webcam mic works")
+            elif "'kind': 'audio', 'label': 'virtual_mic'" in audio_info and "'enabled': True" in audio_info:
+                logging.info("getUserMedia returned a audio track, which is enabled. This means that the webcam mic works!")
+        except Exception as e:
+            logging.error(f"Exception: {e}")
+            data["logging_type"] = logging_types["CLIENT_ERROR"]
+            data["error"] = f"Exception: {e}"
+            data["state"] = self.vars.state
+            create_client_report(data,logging)
+
+            raise e
         
         self.vars.state = states["check_webrtc_settings"]
 
@@ -279,47 +296,67 @@ class OnionRTC():
             
 
 
-        URL = f"https://thomsen-it.dk/#/call/{self.vars.client_username}/{self.vars.room_id}"
+        URL = f"https://stage.thomsen-it.dk/#/call/{self.vars.client_username}/{self.vars.room_id}"
         self.vars.state = states["starting_session"]
+        data["state"] = self.vars.state
         logging.info(f"Starting session by navigating to '{URL}'")
         
-        self.vars.driver.get(f"{URL}")
+        try:
+            self.vars.driver.get(f"{URL}")
+        except Exception as e:
+            #logging.error(f"Exception: {e}")
+            data["logging_type"] = logging_types["CLIENT_ERROR"]
+            data["error"] = f"Exception: {e}"
+            
+            create_client_report(data,logging)
+
+            raise e
 
         if self.vars.driver.title == 'React App':
             # We are on the webRTC application page
             logging.info("We are on the webRTC application page")
 
-            # Find client id in text FIXME: use find_element when implemented into app
-            self.vars.client_id = "client_id2"
+            # Find client id in text
             if "Client Id:" in self.vars.driver.page_source:
                 self.vars.client_id = self.vars.driver.page_source.split("Client Id: ")[1].split("</label>")[0]
+                data['client_id'] = self.vars.client_id
 
 
 
                 
             data["logging_type"] = logging_types["CLIENT_START"]
-            create_client_report(data)
+            create_client_report(data,logging)
             
 
             # Starting test
-            WebDriverWait(self.vars.driver, 30).until(
-                expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
-            WebDriverWait(self.vars.driver, 30).until(
-                expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".country > .value")))
-            self.vars.wanIp = self.vars.driver.find_element(
-                By.CSS_SELECTOR, ".ip > .value").text
-            self.vars.country = self.vars.driver.find_element(
-                By.CSS_SELECTOR, ".country > .value").text
-            self.vars.region = self.vars.driver.find_element(
-                By.CSS_SELECTOR, ".region > .value").text
-            self.vars.city = self.vars.driver.find_element(
-                By.CSS_SELECTOR, ".city > .value").text
-            self.vars.isp = self.vars.driver.find_element(
-                By.CSS_SELECTOR, ".isp > .value").text
+            try:
+                WebDriverWait(self.vars.driver, 30).until(
+                    expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".ip > .value")))
+                WebDriverWait(self.vars.driver, 30).until(
+                    expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".country > .value")))
+                self.vars.iplocation = dict()
+                self.vars.iplocation["wanIp"] = self.vars.driver.find_element(
+                    By.CSS_SELECTOR, ".ip > .value").text
+                self.vars.iplocation["country"] = self.vars.driver.find_element(
+                    By.CSS_SELECTOR, ".country > .value").text
+                self.vars.iplocation["region"] = self.vars.driver.find_element(
+                    By.CSS_SELECTOR, ".region > .value").text
+                self.vars.iplocation["city"] = self.vars.driver.find_element(
+                    By.CSS_SELECTOR, ".city > .value").text
+                self.vars.iplocation["isp"] = self.vars.driver.find_element(
+                    By.CSS_SELECTOR, ".isp > .value").text
 
 
-            logging.info(self.vars.wanIp + " " + self.vars.country + " " +
-                self.vars.region + " " + self.vars.city + " " + self.vars.isp)
+                logging.info(self.vars.iplocation)
+            except Exception as e:
+                #logging.error(f"Exception: {e}")
+                data["logging_type"] = logging_types["CLIENT_ERROR"]
+                data["error"] = f"Exception: {e}"
+                
+                create_client_report(data,logging)
+
+                raise e            
+
 
 
 
@@ -328,6 +365,7 @@ class OnionRTC():
             session_setup_retries = self.vars.session_setup_retries
 
             self.vars.state = states["waiting_for_call"]
+            data["state"] = self.vars.state
 
             # If we have set the proxy and the client knows that it is a Tor Client
             if self.vars.proxy: # FIXME: "and "TOR" in self.vars.client_config"
@@ -338,7 +376,7 @@ class OnionRTC():
             # Waiting for the call to start by checking if the video element is visible
             try:
                 while "<tr><td><p>Connection state:</p></td><td><p>connected</p></td></tr>" not in self.vars.driver.page_source:
-                    logging.info(f"Waiting for the call to start.. #{waiting_counter} out of ")
+                    logging.info(f"Waiting for the call to start.. #{waiting_counter} out of {self.waiting_counter_max}")
                     time.sleep(5)
                     
 
@@ -356,16 +394,21 @@ class OnionRTC():
                         self.vars.driver.refresh()
                         retry_counter += 1
                         if retry_counter > session_setup_retries:
-                            logging.warning(f"Call did not start after {session_setup_retries} retries! Session failed!")
-
-                            return
+                            data["logging_type"] = logging_types["CLIENT_ERROR"]
+                            data["error"] = f"Call did not start after {session_setup_retries} retries! Session failed!"
+                            raise Exception(f"Call did not start after {session_setup_retries} retries! Session failed!")
+                            
             except KeyboardInterrupt:
                 logging.info("Skipping waiting for call to start caused by keyboard interrupt")
-            
+            except Exception as e:
+                data["error"] = f"Exception: {e}"
+                create_client_report(data,logging)
+                raise e
 
             self.vars.state = states["call_in_progress"]
+            data["state"] = self.vars.state
             data["logging_type"] = logging_types["CLIENT_RUNNING"]
-            create_client_report(data)
+            create_client_report(data,logging)
 
             logging.info(f"Waiting for {self.vars.session_length_seconds} seconds to see if the call is working.. Press CTRL+C to end the test early!")
             # Implement while loop with time.sleep(1) and check if the call is still working
@@ -377,8 +420,15 @@ class OnionRTC():
             
 
             self.vars.state = states["call_ended"]
+            data["state"] = self.vars.state
             data["logging_type"] = logging_types["CLIENT_END"] # CLIENT_ERROR CLIENT_RUNNING
-        
+            data.update(self.vars.__dict__)
+            data.pop("driver") # Take out the driver object from selenium, since it can't be serialized
+
+            # Remove irrelevant keys for the logging report
+            entries_to_remove = ('client_config', 'headless','verbose','session_setup_retries','session_length_seconds','proxy')
+            for k in entries_to_remove:
+                data.pop(k, None)
 
         else:
             logging.warning("Was not able to confirm that we are on the React App!!!")
@@ -387,13 +437,15 @@ class OnionRTC():
 
         try:
             # Close the Tor event listener and save the data reported from the last session
-            self.vars.latest_circuit = close_event_streamer()
+            if self.vars.proxy:
+                self.vars.latest_circuit = close_event_streamer()
         except (Exception) as e:
-            logging.error(f"Exception: {e}")
+            logging.error(f"Exception run_session: {e}")
             data["logging_type"] = logging_types["CLIENT_ERROR"]
             data["error"] = f"Exception: {e}"
 
-        create_client_report(data)
+        data["state"] = self.vars.state
+        create_client_report(data,logging)
 
         return self.vars
 
@@ -410,9 +462,10 @@ if __name__ == "__main__":
         o.run_session()    
         o.clean_up()
     except (Exception,KeyboardInterrupt) as e:
-        logging.error(f"Exception: {e}")
+        logging.error(f"Exception {o.vars.state}: {e}")
         o.vars.state = states["error"]
         o.vars.exception = e
+        
         try:
             o.clean_up()
         except:
