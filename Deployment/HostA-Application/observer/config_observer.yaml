@@ -54,6 +54,6 @@ observer:
     MyMongoSink:
       type: MongoSink
       config:
-        uri: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017"
+        uri: "mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017"
         database: "observertc-reports"
         printSummary: true

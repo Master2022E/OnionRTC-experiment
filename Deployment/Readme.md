@@ -1,23 +1,18 @@
-# ObserveRTC Deployment details
+# Deployment details
 
-Here is the information for deploying the ObserveRTC stack
+Here is the information for deploying the entire application stack
 
-Start the deployment with `docker-compose up -d`
 
-## Caddy
+In the figure below are there an overview of the four servers, and what applications runs where. The "backend" infrastructure runs on host A and B.
 
-A reverse proxy that can handle TLS certificates and pass the raw TCP socket data to ObserveRTC, both http and ws.
+The deployment of host A and B can be seen in the two sub folders:
 
-## ObserveRTC
+- [HostA-Application](./HostA-Application/)
+- [HostB-Turn](./HostB-Turn/)
 
-Backend for receiving statistics of WebRTC streams.
 
-## MongoDB
+The [Deployment](./Deployment.drawio.svg) diagram describes the server deployment structure that we expect to deploy and run the tests with.
 
-The database that stores the records saved by ObserveRTC and where we can query data for our notebook scripts.
+![Deployment](Deployment.drawio.svg)
 
-## Mongo Express
-
-A frontend for the MongoDB database where we can query data.
-
-We expect to NOT open this up for WAN connections and only access ith through a ssh tunnel.
+> NOTE: The deployment and configuration of Host C and Host D is not decided yet and may change.
