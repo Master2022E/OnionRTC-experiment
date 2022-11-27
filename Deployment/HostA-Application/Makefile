@@ -9,10 +9,10 @@ all:
 	@echo "Options include:"
 	@echo "  upload  - Uploads the local configuration files"
 	@echo "  start   - Starts the services from docker-compose"
-	@echo "  stop    - Stops the serives from docker-compose"
+	@echo "  stop    - Stops the services from docker-compose"
 	@echo "  restart - Stops and starts the services."
-	@echo "  status  - Get the status of the servies"
-	@echo "  pull    - Pulls the latest images of the servies"
+	@echo "  status  - Get the status of the services"
+	@echo "  pull    - Pulls the latest images of the services"
 	@echo "  logs    - Get the latest 20 logs and follows the next logs"
 	@echo "  ssh     - Gets an ssh shell on the server"
 	
