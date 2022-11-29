@@ -32,4 +32,7 @@ sudo apt install tor deb.torproject.org-keyring
 test -e /etc/tor/torrc || (echo "/etc/tor/torrc was not found, do you have Tor installed in the correct folder?" && exit)
 
 echo "ExitNodes {dk},{se} StrictNodes 1 
-EntryNodes {dk},{se} StrictNodes 0" >> test.txt
+MiddleNodes {dk},{se} StrictNodes 1
+EntryNodes {dk},{se} StrictNodes 1
+HashedControlPassword 16:57DE65B9EFE2F2DE6023D7E90AA9E0C93F08E2636B07C7678985388B9D
+ControlPort 9051" >> test.txt
