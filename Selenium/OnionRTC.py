@@ -124,7 +124,7 @@ class OnionRTC():
 
         # Optional arguments
         parser.add_argument('-p','--proxy', action='store_const',
-                            const=True, default=True,
+                            const=True, default=False,
                             help='Whether the browser should use the onion routing proxy') #FIXME: set default proxy to False 
         parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
                             help='How many times the session setup should be retried before failing the test')
@@ -135,7 +135,7 @@ class OnionRTC():
                             const=False, default=True,
                             help='Whether the browser should run in headless mode')
         parser.add_argument("-v", "--verbose", help="Print debug messages into debug.log file",
-                            action="store_true", default=False)
+                            action="store_true", default=False)           
         
         
         args = parser.parse_args()
@@ -193,6 +193,13 @@ class OnionRTC():
             webdriverOptions.set_preference("network.proxy.socks_port", 9050)
             #webdriverOptions.update_preferences()
 
+        # Setup the client_config string by appending the proxy flag
+        if "Tor" in self.vars.client_config:
+            if self.vars.proxy:
+                self.vars.client_config += ":Proxy"
+            else:
+                self.vars.client_config += ":NoProxy"
+        
 
 
         browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
@@ -212,6 +219,8 @@ class OnionRTC():
             self.vars.state = states["teardown"]
 
         if self.vars.headless:
+            # Wait a bit before we close the connection to the other client to account for different registered start times
+            time.sleep(3)            
             self.vars.driver.quit()
         logging.info("Test clean up complete")
         self.vars.state = states["done"]
@@ -368,7 +377,7 @@ class OnionRTC():
             data["state"] = self.vars.state
 
             # If we have set the proxy and the client knows that it is a Tor Client
-            if self.vars.proxy: # FIXME: "and "TOR" in self.vars.client_config"
+            if self.vars.proxy and "Tor" in self.vars.client_config:
                 logging.info("Starting Tor circuit subscriber")
                 setup_event_streamer(self.vars,logging)
                 logging.info("Done starting Tor circuit subscriber")
@@ -414,9 +423,34 @@ class OnionRTC():
             # Implement while loop with time.sleep(1) and check if the call is still working
             # Check if session_length_seconds is overdue.
             try:
-                time.sleep(self.vars.session_length_seconds)
+                updates = 0
+                for i in range(self.vars.session_length_seconds):
+                    time.sleep(1)
+                    finished = 100*(i/self.vars.session_length_seconds)
+                    if divmod(finished, 10) == (updates, 0):
+                        updates += 1
+                        logging.info(f'Finished waiting {i} seconds out of {self.vars.session_length_seconds} seconds\t({int(finished)}%)')                    
+                    
+                    # Explanation of the states: https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionstatechange_event
+                    # FIXME: Should use "self.vars.driver.find_element(By.CSS_SELECTOR, ".Connection_state > .value").text" when
+                    # it has been implemented in the webRTC application
+                    if "<tr><td><p>Connection state:</p></td><td><p>failed</p></td></tr>" in self.vars.driver.page_source \
+                    or "<tr><td><p>Connection state:</p></td><td><p>disconnected</p></td></tr>" in self.vars.driver.page_source \
+                    and self.vars.session_length_seconds > i+10: 
+                        # If the session is less than 10 seconds from finishing, we don't fail the session, due to a non synchronized start of the call
+
+                        data["error"] = f"Connection state failed. This means that the connection failed after {i} seconds out of {self.vars.session_length_seconds} ({int(finished)}/100%) during the call."
+                        logging.error(data["error"])
+                        data["logging_type"] = logging_types["CLIENT_ERROR"]
+                        
+                        create_client_report(data,logging)
+                        raise Exception(data["error"])
+                
+
             except KeyboardInterrupt:
                 logging.info("Skipping waiting for call to end caused by keyboard interrupt")
+            except Exception as e:
+                raise e
             
 
             self.vars.state = states["call_ended"]
@@ -437,10 +471,10 @@ class OnionRTC():
 
         try:
             # Close the Tor event listener and save the data reported from the last session
-            if self.vars.proxy:
+            if self.vars.proxy and "Tor" in self.vars.client_config:
                 self.vars.latest_circuit = close_event_streamer()
         except (Exception) as e:
-            logging.error(f"Exception run_session: {e}")
+            logging.error(f"Exception close_event_streamer: {e}")
             data["logging_type"] = logging_types["CLIENT_ERROR"]
             data["error"] = f"Exception: {e}"
 
