@@ -18,7 +18,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver import firefox
 from selenium.webdriver.firefox.service import Service
 
-from misc.stem_event_streamer import setup_event_streamer, close_event_streamer
+from misc.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
 
 
 import pyfiglet
@@ -103,6 +103,13 @@ logging_types = dict()
 for type in logging_str:
     logging_types[type] = type
 
+# Annonimization network types
+network_types_str = ["None","Tor","I2P","Lokinet"]
+network_types = dict()
+for type in network_types_str:
+    network_types[type] = type
+
+
 
 
 
@@ -124,7 +131,7 @@ class OnionRTC():
 
         # Optional arguments
         parser.add_argument('-p','--proxy', action='store_const',
-                            const=True, default=False,
+                            const=True, default=True,
                             help='Whether the browser should use the onion routing proxy') #FIXME: set default proxy to False 
         parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
                             help='How many times the session setup should be retried before failing the test')
@@ -147,7 +154,8 @@ class OnionRTC():
         # Related to session_setup_retries, which is default 4 and is the amount of rounds
         self.waiting_counter_max = 8
 
-        self.vars.state = states["setup_browser"]        
+        self.vars.state = states["setup_browser"]  
+         
 
         logging_level = logging.INFO
         # Set the threshold for selenium to WARNING
@@ -182,23 +190,66 @@ class OnionRTC():
         webdriverOptions.headless = self.vars.headless
         webdriverOptions.set_preference("media.navigator.permission.disabled", True)
         webdriverOptions.set_preference("media.peerconnection.ice.relay_only", True)
+
+
+        # Setup the client_config string by appending the proxy flag
+        if any(net_type in self.vars.client_config for net_type in network_types_str):
+            if self.vars.proxy:
+                self.vars.client_config += ":Proxy"
+            else:
+                self.vars.client_config += ":NoProxy"
         
 
 
         # Setup Socks Proxy
         # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
         if self.vars.proxy:
-            webdriverOptions.set_preference("network.proxy.type", 1)
-            webdriverOptions.set_preference("network.proxy.socks", "localhost")
-            webdriverOptions.set_preference("network.proxy.socks_port", 9050)
-            #webdriverOptions.update_preferences()
 
-        # Setup the client_config string by appending the proxy flag
-        if "Tor" in self.vars.client_config:
-            if self.vars.proxy:
-                self.vars.client_config += ":Proxy"
+            # Setup error report template, if we fail
+            data = {'client_username':self.vars.client_username,
+            "client_type": self.vars.client_config,
+            "room_id": self.vars.room_id,
+            "test_id": str(uuid.uuid4()),
+            "logging_type": logging_types["CLIENT_ERROR"]}
+
+            if network_types["Tor"] in self.vars.client_config:
+
+
+                # Check if Tor proxy is running
+                try:
+                    setup_controller(logging)
+                    if not is_tor_ready():
+                        raise Exception("Tor proxy was not ready yet")
+
+                except Exception as e:
+                    data["state"] = states["setup_client"]
+                    type = ""
+                    if hasattr(e,"__module__"):
+                        type = e.__module__ 
+                    data["error"] = f"Exception {type}: {e}"
+                    create_client_report(data,logging)
+                    raise e
+
+
+                webdriverOptions.set_preference("network.proxy.type", 1)
+                webdriverOptions.set_preference("network.proxy.socks", "localhost")
+                webdriverOptions.set_preference("network.proxy.socks_port", 9050)
+                #webdriverOptions.update_preferences()
+            elif network_types["Lokinet"] in self.vars.client_config:
+                logging.error("Lokinet is not supported yet!")
+                # FIXME: Do Lokinet setup and checking here
+                pass
+            elif network_types["I2P"] in self.vars.client_config:
+                logging.error("I2P is not supported yet!")
+                # FIXME: Do I2P setup and checking here
+                pass
             else:
-                self.vars.client_config += ":NoProxy"
+                data["state"] = states["setup_client"]
+                e = "No valid annonymity network type was was found in the client_config string, but proxy flag was set?, failing prematurely"
+                data["error"] = f"Exception: {e}"
+                create_client_report(data,logging)
+                raise Exception(e)
+
         
 
 
