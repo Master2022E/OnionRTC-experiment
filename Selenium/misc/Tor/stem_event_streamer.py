@@ -1,7 +1,7 @@
 import functools
 import time
 try:
-  from misc.stem_circuit_info import return_circuit_status 
+  from misc.Tor.stem_circuit_info import return_circuit_status 
 except:
   from stem_circuit_info import return_circuit_status 
 from stem import StreamStatus, SocketError
