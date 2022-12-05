@@ -1,0 +1,18 @@
+---
+# Copy the ssh key to the remote server
+
+- hosts: playserver
+
+  tasks:
+  
+  - name: Copy the private key
+    ansible.builtin.copy:
+      src: ./.ssh/id_ecdsa
+      dest: ~/.ssh/id_ecdsa
+      mode: '0600'
+
+  - name: Copy the public key
+    ansible.builtin.copy:
+      src: ./.ssh/id_ecdsa.pub
+      dest: ~/.ssh/id_ecdsa.pub
+      mode: '0644'

@@ -1,0 +1,90 @@
+all:
+  children:
+
+    playserver:
+      hosts:  
+        player-c1:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22001
+
+        player-d1:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22001
+
+    a:
+      hosts:
+        server-a:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22022
+    b:
+      hosts:
+        server-b:
+          ansible_host: b.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22022
+    c:
+      hosts:
+        server-c:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22022
+    d:
+      hosts:
+        server-d:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22022
+    
+    clients:
+      hosts:
+        alice-normal:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22001
+        alice-tor-normal:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22002
+        alice-tor-eu:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22003
+        alice-tor-scandinavia:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22004
+        alice-loki:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22005
+        alice-i2p:
+          ansible_host: c.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22006
+        bob-normal:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22001
+        bob-tor:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22002
+        bob-tor-eu:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22003
+        bob-tor-scandinavia:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22004
+        bob-loki:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22005
+        bob-i2p:
+          ansible_host: d.thomsen-it.dk
+          ansible_user: agpbruger
+          ansible_port: 22006
