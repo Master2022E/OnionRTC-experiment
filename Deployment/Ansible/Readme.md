@@ -14,6 +14,10 @@ There are some plays which requires some updated versions of external collection
 
 - This feature has not been tested.
 
+## SSH setup
+
+The were accessible through password base authentication it can be disabled across all the clients with the following command: `ansible-playbook playbooks/setupSecureSSH.yaml`
+
 ## SSH keys
 
 The key were generated with:
@@ -26,5 +30,16 @@ ssh-keygen -f ./playbooks/files/.ssh/id_ecdsa -t ecdsa -b 521 -q -N "" -C Deploy
 
 The public key is also added to [GitHub](https://github.com/Master2022E/OnionRTC-experiment/settings/keys)
 
-To send the keys to the remote hosts. (Client hosts C1-C6 and D1-D6) run the command `ansible-playbook playbooks/sshKeyPlays.yaml`
+To send the keys to the remote hosts. (Client hosts C1-C6 and D1-D6) run the command `ansible-playbook playbooks/setupSSHKeys.yaml`
 
+## Git pull
+
+To pull the latest code the ssh keys must be distributed first. Here after is it possible to pull the latest version of the main branch with `ansible-playbook playbooks/updateGit.yaml`
+
+The code will be located in `/home/agpbruger/OnionRTC-experiment/s`
+
+## CPU status information
+
+The play `ansible-playbook playbooks/readCPU.yaml --limit c1-normal` will display top four cpu processes running and how much CPU it consumes.
+
+> NOTE: The -l or --limit flag is currently required. and could be i.e. `clients`, `all`, `c1-normal` or any other host/group.

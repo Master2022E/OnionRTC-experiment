@@ -1,8 +1,8 @@
 ---
 # Copy the ssh key to the remote server
 
-- hosts: playserver
-
+- hosts: clients
+  gather_facts: false
   tasks:
   
   - name: Copy the private key
