@@ -1,0 +1,13 @@
+---
+
+  - hosts: clients
+    gather_facts: false
+    tasks:
+      
+    - name: Pull the latest code
+      ansible.builtin.git:
+        repo: 'git@github.com:Master2022E/OnionRTC-experiment.git'
+        dest: ./OnionRTC-experiment
+        clone: yes
+        update: yes
+        accept_hostkey: true
