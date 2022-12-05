@@ -39,52 +39,56 @@ all:
           ansible_port: 22022
     
     clients:
-      hosts:
-        c1-normal:
-          ansible_host: c.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22001
-        c2-tor-normal:
-          ansible_host: c.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22002
-        c3-tor-eu:
-          ansible_host: c.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22003
-        c4-tor-scandinavia:
-          ansible_host: c.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22004
-        c5-i2p:
-          ansible_host: c.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22005
-        c6-loki:
-          ansible_host: c.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22006
-        d1-normal:
-          ansible_host: d.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22001
-        d2-tor:
-          ansible_host: d.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22002
-        d3-tor-eu:
-          ansible_host: d.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22003
-        d4-tor-scandinavia:
-          ansible_host: d.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22004
-        d5-i2p:
-          ansible_host: d.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22005
-        d6-loki:
-          ansible_host: d.thomsen-it.dk
-          ansible_user: agpbruger
-          ansible_port: 22006
+      children:
+        c_clients:
+          hosts:
+            c1-normal:
+              ansible_host: c.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22001
+            c2-tor-normal:
+              ansible_host: c.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22002
+            c3-tor-eu:
+              ansible_host: c.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22003
+            c4-tor-scandinavia:
+              ansible_host: c.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22004
+            c5-i2p:
+              ansible_host: c.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22005
+            c6-loki:
+              ansible_host: c.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22006
+        d_clients:
+          hosts:
+            d1-normal:
+              ansible_host: d.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22001
+            d2-tor:
+              ansible_host: d.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22002
+            d3-tor-eu:
+              ansible_host: d.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22003
+            d4-tor-scandinavia:
+              ansible_host: d.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22004
+            d5-i2p:
+              ansible_host: d.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22005
+            d6-loki:
+              ansible_host: d.thomsen-it.dk
+              ansible_user: agpbruger
+              ansible_port: 22006
