@@ -16,7 +16,7 @@ all:
     a:
       hosts:
         server-a:
-          ansible_host: c.thomsen-it.dk
+          ansible_host: a.thomsen-it.dk
           ansible_user: agpbruger
           ansible_port: 22022
     b:
