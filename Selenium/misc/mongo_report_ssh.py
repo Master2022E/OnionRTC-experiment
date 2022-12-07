@@ -33,6 +33,7 @@ class SSHTunnel:
             '-l', self.user,
             '-L', '{}:{}:{}'.format(self.local_port, self.local_host, self.remote_port),
             '-o', 'ExitOnForwardFailure=True',
+            '-o', 'StrictHostKeyChecking=accept-new',
             self.host,
             '-p', '22022'
         ])

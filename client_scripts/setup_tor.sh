@@ -8,6 +8,7 @@ sudo snap remove firefox
 
 sudo add-apt-repository ppa:mozillateam/ppa
 
+# This seems to ask for "Enter" promt when ran, maybe look into alternativ if the script should be automated!
 echo '
 Package: firefox*
 Pin: release o=LP-PPA-mozillateam

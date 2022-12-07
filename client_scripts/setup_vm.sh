@@ -4,7 +4,7 @@
 declare -a arr=("git --version" "ffmpeg -version" "tor --version" "jq --version" "curl --version" "pip --version")
 
 """
-sudo apt -y install python3-pip jq curl git ffmpeg libcurl4-openssl-dev libssl-dev htop net-tools vim v4l2loopback-dkms v4l2loopback-utils linux-modules-extra-$(uname -r)
+sudo apt -y install python3-pip jq curl git ffmpeg libcurl4-openssl-dev libssl-dev htop net-tools vim v4l2loopback-dkms v4l2loopback-utils linux-modules-extra-$(uname -r) pulseaudio pulseaudio-utils
 
 
 # For Tor debugging use: nyx

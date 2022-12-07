@@ -1,0 +1,16 @@
+[Unit]
+Description=Webcam service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=agpbruger
+ExecStart=/home/agpbruger/OnionRTC-experiment/client_scripts/setup_fake_webcam.sh
+
+[Install]
+WantedBy=multi-user.target
+# sudo vim /etc/systemd/system/webcam.service
+# Should run on boot and restart always 
