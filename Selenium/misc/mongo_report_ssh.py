@@ -1,10 +1,7 @@
 #!/usr/bin/python3
-from ssh_pymongo import MongoSession
-from sshtunnel import SSHTunnelForwarder
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
-import json
 from datetime import datetime
 import time
 import subprocess
@@ -52,7 +49,8 @@ class SSHTunnel:
             self.open = False
 
     def send_control_command(self, cmd):
-        return subprocess.check_call(['ssh', '-S', self.socket, '-O', cmd, '-l', self.user, self.host])
+        return subprocess.check_call(['ssh', '-S', self.socket, '-O', cmd, '-l', self.user, self.host], 
+        stderr=subprocess.PIPE) # Add stderr=subprocess.PIPE to suppress output from start() and stop()
 
     def __enter__(self):
         self.start()
@@ -61,30 +59,104 @@ class SSHTunnel:
     def __exit__(self, type, value, traceback):
         self.stop()
 
+mongo_conn = None
+ssh_conn = None
+logging_global = print
 
-load_dotenv()
-print(os.getenv('MONGO_HOST'))
 
-my_local_port = random.randint(10000, 65535)
+logging_str = ["NOT_SET","CLIENT_START","CLIENT_RUNNING", "CLIENT_END", "CLIENT_ERROR"]
+logging_types = dict()
+for type in logging_str:
+    logging_types[type] = type
 
-with SSHTunnel(os.getenv("MONGO_HOST"), os.getenv("SSH_TUNNEL_USER"), os.getenv("SSH_TUNNEL_PORT"), os.getenv("SSH_KEY_PATH"), os.getenv("MONGO_PORT"),my_local_port) as tunnel:
-    print("Connected on port {} at {}".format(tunnel.local_port, tunnel.local_host))
+"""
+This function uses a SSH tunnel to connect to a remote MongoDB instance.
+"""
+def setup_mongo_connection(logging=None):
+    global logging_global
+    global ssh_conn
+
+    if logging is not None:
+        logging_global = logging.info
+    else:
+        logging_global = print
+    
+    load_dotenv()
+
+    my_local_port = random.randint(10000, 65535)
+
+    conn = SSHTunnel(os.getenv("MONGO_HOST"), os.getenv("SSH_TUNNEL_USER"), os.getenv("SSH_TUNNEL_PORT"), os.getenv("SSH_KEY_PATH"), os.getenv("MONGO_PORT"),my_local_port)
+    conn.start()
+    ssh_conn = conn
+
+    #logging_global("Connected on port {} at {}".format(conn.local_port, conn.local_host))
     address = f'mongodb://{os.getenv("MONGO_USER")}:{os.getenv("MONGO_PASSWORD")}@127.0.0.1:{my_local_port}'
     client = MongoClient(address)
-    database= client["observertc-reports"]
+
+    return client
+
+def close_mongo_connection():
+    global mongo_conn
+    global ssh_conn
+
+    if mongo_conn is not None:
+        try:
+            mongo_conn.close()
+            mongo_conn = None
+        except Exception as e:
+            pass
+    if ssh_conn is not None:
+        try:
+            ssh_conn.stop()
+            ssh_conn = None
+        except Exception as e:
+            pass
+
+            
+def create_client_report(data:dict=dict(),logging=None):
+
+    global mongo_conn
+    global logging_types
+
+    load_dotenv()
+    if mongo_conn is None:
+        mongo_conn = setup_mongo_connection(logging)
+
+
+    
+        
+    database= mongo_conn["observertc-reports"]
 
     # the collection we want to query
-    reportsDatabase = database.calls
-    print(reportsDatabase)
-    print(database.reports)
-    
-    data = {"test":f"ssh_tunnel "}
+    reportsDatabase = database.calls       
+
     data['timestamp'] = str(datetime.now())
+    data["logging_type"] = logging_types[data.get("logging_type","NOT_SET")]
 
     try:
         reportsDatabase.insert_one(data)
-        print("Done sending: {}".format(data))
+        del data['_id'] # https://stackoverflow.com/questions/17529216/mongodb-insert-raises-duplicate-key-error
+        logging_global(f'A {data.get("logging_type")} log was sent')
     except (KeyboardInterrupt, Exception) as e:
-        print("Error: ", e)
-
+        logging_global("Error while sending logging data")
+        logging_global(e)
+        
     
+if __name__ == "__main__":
+    logging_str = ["NOT_SET","CLIENT_START","CLIENT_RUNNING", "CLIENT_END", "CLIENT_ERROR"]
+    logging_types = dict()
+    for type in logging_str:
+        logging_types[type] = type
+        
+    data = {'client_username':'hej', "client_id": "client_id", "client_type": "client_type",
+            "room_id": "room_id",
+            "test_id": "test_id","logging_type": logging_types["CLIENT_START"]}
+
+    create_client_report(data)
+
+    data = {'client_username':'hej', "client_id": "client_id", "client_type": "client_type",
+            "room_id": "room_id",
+            "test_id": "test_id","logging_type": logging_types["CLIENT_ERROR"], "error": "This is a test error"}
+    create_client_report(data)
+
+    close_mongo_connection()

@@ -18,7 +18,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver import firefox
 from selenium.webdriver.firefox.service import Service
 
-from misc.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
+from misc.Tor.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
 
 
 import pyfiglet
@@ -29,7 +29,7 @@ import os
 import logging
 import logging.handlers
 
-from misc.mongo_report import close_mongo_connection, create_client_report
+from misc.mongo_report_ssh import close_mongo_connection, create_client_report
 import uuid
 
 """
@@ -116,7 +116,7 @@ for type in network_types_str:
 class OnionRTC():
     def setup_session(self):
 
-        client_config = os.environ.get("CLIENT_CONFIG",None)
+        client_config = os.environ.get("CLIENT_CONFIG","None")
 
         parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk" using Selenium, optionally using onion routing.')
 
@@ -555,6 +555,9 @@ if __name__ == "__main__":
             o.clean_up()
         except:
             pass
+        logging.info(f"Printing variables: {o.vars}")
+        exit(1)
 
     logging.info(f"Printing variables: {o.vars}")
+    exit(0)
     
