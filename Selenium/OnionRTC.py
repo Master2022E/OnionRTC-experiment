@@ -3,24 +3,17 @@
 import traceback
 from selenium.common import *
 
-import pytest
 import time
-import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver import firefox
 from selenium.webdriver.firefox.service import Service
 
 from misc.Tor.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
 
-
+from dotenv import load_dotenv
 import pyfiglet
 import sys
 import argparse
@@ -115,8 +108,11 @@ for type in network_types_str:
 
 class OnionRTC():
     def setup_session(self):
+        
+        load_dotenv()
 
         client_config = os.environ.get("CLIENT_CONFIG","None")
+        print("CLIENT_CONFIG: ", client_config)
 
         parser = argparse.ArgumentParser(description='Run a WebRTC session on "https://thomsen-it.dk" using Selenium, optionally using onion routing.')
 
@@ -131,7 +127,7 @@ class OnionRTC():
 
         # Optional arguments
         parser.add_argument('-p','--proxy', action='store_const',
-                            const=True, default=True,
+                            const=True, default=False,
                             help='Whether the browser should use the onion routing proxy') #FIXME: set default proxy to False 
         parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
                             help='How many times the session setup should be retried before failing the test')
@@ -191,6 +187,12 @@ class OnionRTC():
         webdriverOptions.set_preference("media.navigator.permission.disabled", True)
         webdriverOptions.set_preference("media.peerconnection.ice.relay_only", True)
 
+        # Setup error report template, if we fail
+        data = {'client_username':self.vars.client_username,
+        "client_type": self.vars.client_config,
+        "room_id": self.vars.room_id,
+        "test_id": str(uuid.uuid4()),
+        "logging_type": logging_types["CLIENT_ERROR"]}
 
         # Setup the client_config string by appending the proxy flag
         if any(net_type in self.vars.client_config for net_type in network_types_str):
@@ -204,13 +206,6 @@ class OnionRTC():
         # Setup Socks Proxy
         # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
         if self.vars.proxy:
-
-            # Setup error report template, if we fail
-            data = {'client_username':self.vars.client_username,
-            "client_type": self.vars.client_config,
-            "room_id": self.vars.room_id,
-            "test_id": str(uuid.uuid4()),
-            "logging_type": logging_types["CLIENT_ERROR"]}
 
             if network_types["Tor"] in self.vars.client_config:
 
@@ -252,10 +247,18 @@ class OnionRTC():
 
         
 
+        data["state"] = states["setup_client"]
+        
+        try:
+            browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
+            driver = selenium_wrapper(browser)
+            self.vars.driver = driver
+        except Exception as e:
+            data["error"] = f"Exception: {e}"
+            create_client_report(data,logging)
 
-        browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
-        driver = selenium_wrapper(browser)
-        self.vars.driver = driver
+            raise Exception("geckodriver not found!")
+
         
         return self.vars
 
