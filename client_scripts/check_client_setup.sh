@@ -1,13 +1,13 @@
 #!/bin/bash
 
-env_file='/home/{$USER}/OnionRTC-experiment/Selenium/.env'
+env_file='/home/'${USER}'/OnionRTC-experiment/Selenium/.env'
 
 if [ ! -f $env_file ]; then
     echo "Env file '${env_file}' not found!"
     exit 0
 fi
 
-env_file='/home/{$USER}/OnionRTC-experiment/Selenium/misc/.env'
+env_file='/home/'${USER}'/OnionRTC-experiment/Selenium/misc/.env'
 
 if [ ! -f $env_file ]; then
     echo "Env file '${env_file}' not found!"
@@ -15,14 +15,14 @@ if [ ! -f $env_file ]; then
 fi
 
 
-env_file='/home/{$USER}/OnionRTC-experiment/Selenium/misc/Tor/.env'
+env_file='/home/'${USER}'/OnionRTC-experiment/Selenium/misc/Tor/.env'
 
 if [ ! -f $env_file ]; then
     echo "Env file '${env_file}' not found!"
     exit 0
 fi
 
-key_file='/home/{$USER}/.ssh/id_ecdsa'
+key_file='/home/'${USER}'/.ssh/id_ecdsa'
 
 if [ ! -f $key_file ]; then
     echo "Key file '${key_file}' not found!"

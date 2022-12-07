@@ -15,8 +15,12 @@ sudo apt install tor deb.torproject.org-keyring
 
 test -e /etc/tor/torrc || (echo "/etc/tor/torrc was not found, do you have Tor installed in the correct folder?" && exit)
 
-echo "ExitNodes {dk},{se} StrictNodes 1 
-MiddleNodes {dk},{se} StrictNodes 1
-EntryNodes {dk},{se} StrictNodes 1
+# Depending on the Tor Setup add these as a new lines in the torrc file below
+#ExitNodes {dk},{se} StrictNodes 1 
+#MiddleNodes {dk},{se} StrictNodes 1
+#EntryNodes {dk},{se} StrictNodes 1
+
+echo "
 HashedControlPassword 16:57DE65B9EFE2F2DE6023D7E90AA9E0C93F08E2636B07C7678985388B9D
-ControlPort 9051" >> test.txt
+ControlPort 9051" | sudo tee -a /etc/tor/torrc
+
