@@ -1,22 +1,48 @@
 # Ansible
 
+This document describes how to setup Ansible and the plays which is implemented.
+
+The complete list of servers and names can be found in [inventory.yaml](./inventory.yaml) but can be summarized to:
+
+- server-[a-d]
+- clients
+  - c_clients
+    - c[1-6]  
+  - d_clients
+    - d[1-6]
+
+And can be called by group, list or individually.
+
+## Installation and setup
+
 Read the [getting started documentation](https://docs.ansible.com/ansible/latest/getting_started/index.html) or just install with `python -m pip install --user ansible`
 
-> NOTE: All commands is expected to be run from this directory.
 
-If WSL is used it might be required to set the environment variable `ANSIBLE_CONFIG` to the current directory for it to find the inventory file. Set it with: `export ANSIBLE_CONFIG=`
+If WSL is used it might be required to set the environment variable `ANSIBLE_CONFIG` to the current directory for it to find the inventory file. Set it with: `export ANSIBLE_CONFIG=$PWD`
 
-Example commands for testing that ansible is working:
-
-- Check the ram usage of the the server A with `ansible server-a -a "free -h"`
 
 There are some plays which requires some updated versions of external collections install them with `ansible-galaxy collection install -r` Further information can be found in the [documentation](https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html#install-multiple-collections-with-a-requirements-file).
 
-- This feature has not been tested.
+> NOTE: the requirements installation have not been tested yet.
+
+> NOTE: All commands is expected to be run from this directory.
+
+## Testing the setup
+
+Example commands for testing that ansible is working:
+
+```shell
+# Check the ram usage of the the server A with
+ansible server-a -a "free -h"
+```
 
 ## SSH setup
 
-The were accessible through password base authentication it can be disabled across all the clients with the following command: `ansible-playbook playbooks/setupSecureSSH.yaml`
+The were accessible through password base authentication it can be disabled across all the clients with the following command.
+
+```shell
+ansible-playbook playbooks/setupSecureSSH.yaml
+```
 
 ## SSH keys
 
@@ -30,16 +56,38 @@ ssh-keygen -f ./playbooks/files/.ssh/id_ecdsa -t ecdsa -b 521 -q -N "" -C Deploy
 
 The public key is also added to [GitHub](https://github.com/Master2022E/OnionRTC-experiment/settings/keys)
 
-To send the keys to the remote hosts. (Client hosts C1-C6 and D1-D6) run the command `ansible-playbook playbooks/setupSSHKeys.yaml`
+To send the keys to the remote hosts. (Client hosts C1-C6 and D1-D6) run the command 
+
+```shell
+ansible-playbook playbooks/setupSSHKeys.yaml
+```
+
+## Hostname setup
+
+When browsing the servers can it sometimes be hard to know with certainty which server one is using, Therefor have the hostname's of the servers been defined in the [inventory list](./inventory.yaml) and the hostname can be set for each server.
+
+**Beware that it will reboot the host!**
+
+```shell
+ansible-playbook playbooks/setupHostname.yaml -K
+```
 
 ## Git pull
 
-To pull the latest code the ssh keys must be distributed first. Here after is it possible to pull the latest version of the main branch with `ansible-playbook playbooks/updateGit.yaml`
+To pull the latest code the ssh keys must be distributed first. Here after is it possible to pull the latest version of the main branch.
 
-The code will be located in `/home/agpbruger/OnionRTC-experiment/s`
+```shell
+ansible-playbook playbooks/updateGit.yaml
+```
+
+The code will be located in `/home/agpbruger/OnionRTC-experiment/`
 
 ## CPU status information
 
-The play `ansible-playbook playbooks/readCPU.yaml --limit c1-normal` will display top four cpu processes running and how much CPU it consumes.
+The play will display top four cpu processes running and how much CPU it consumes.
 
-> NOTE: The -l or --limit flag is currently required. and could be i.e. `clients`, `all`, `c1-normal` or any other host/group.
+```shell
+ansible-playbook playbooks/readCPU.yaml --limit c1
+```
+
+> NOTE: The -l or --limit flag is currently required. and could be i.e. `clients`, `all`, `c1` or any other host/group.
