@@ -1,0 +1,9 @@
+---
+
+- hosts: clients
+  gather_facts: false
+  tasks:
+
+  - name: Check if the /dev/video0 exists
+    ansible.builtin.script:
+      cmd: ./checkForVideoDevice.sh
