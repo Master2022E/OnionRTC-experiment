@@ -25,6 +25,10 @@ wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8C
 #        Recommends: torsocks but it is not going to be installed
 # E: Unable to correct problems, you have held broken packages."
 # you can fix it here: https://askubuntu.com/questions/563178/the-following-packages-have-unmet-dependencies
+# by installing aptitude and running: sudo aptitude install tor
+# Then say 'n' to the first solution and 'Y' to the second solution.
+
+
 
 sudo apt update
 sudo apt install tor deb.torproject.org-keyring
@@ -46,3 +50,8 @@ sudo systemctl restart tor
 sudo systemctl status tor
 
 # You can verify that Tor uses the new config by installing and running: sudo nyx
+# or by running:
+# curl --socks5-hostname localhost:9050 https://check.torproject.org | grep 'You are not using Tor\| Congratulations. This browser is configured to use Tor'
+# And verify that you get two different IP addresses when running:
+# curl -s --socks5-hostname 127.0.0.1:9050 ifconfig.me
+# curl ifconfig.me
