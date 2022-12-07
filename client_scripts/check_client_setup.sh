@@ -37,7 +37,7 @@ if [ $_RCODE -ne 0 ]
 then
     echo "unable to ssh, host is not accessible"
 else
-    echo "ssh is working"
+    echo "ssh tunnel to mongoDB server is working"
 fi
 
 
