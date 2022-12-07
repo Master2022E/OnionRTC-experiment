@@ -91,3 +91,21 @@ ansible-playbook playbooks/readCPU.yaml --limit c1
 ```
 
 > NOTE: The -l or --limit flag is currently required. and could be i.e. `clients`, `all`, `c1` or any other host/group.
+
+## Get client logs
+
+To allow the developers to more easily locate errors will the clients log to a file, which then can be reviewed either on the server or locally pulled with a playbook.
+
+```shell
+ansible-playbook playbooks/getLogs.yaml --limit "c2,d2"
+```
+
+The logs will here after be located in `./playbooks/logs/c2/debug.log` and `./playbooks/logs/d2/debug.log`.
+
+## Check for video device
+
+To check if the video is running on all hosts:
+
+```shell
+ansible-playbook playbooks/checkForVideoDevice.yaml
+```
