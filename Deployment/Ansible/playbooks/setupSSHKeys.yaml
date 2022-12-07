@@ -18,6 +18,7 @@
       mode: '0644'
 
 - hosts: server-a
+  gather_facts: false
   tasks:
 
   - name: Set authorized key taken from file
