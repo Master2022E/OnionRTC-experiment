@@ -29,6 +29,19 @@ if [ ! -f $key_file ]; then
     exit 0
 fi
 
+# Check if the key can be used for SSH tunnel to MongoDB
+_HOST=stage.thomsen-it.dk
+ssh -q -o BatchMode=yes  -o StrictHostKeyChecking=no -i $key_file $_HOST -p 22022 'exit 0'
+_RCODE=$?
+if [ $_RCODE -ne 0 ]
+then
+    echo "unable to ssh, host is not accessible"
+else
+    echo "ssh is working"
+fi
+
+
+
 service_file='/etc/systemd/system/webcam_permission.service'
 
 if [ ! -f $service_file ]; then
