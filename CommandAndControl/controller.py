@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from fabric import Connection, SerialGroup
+from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
-
+from multiprocessing import Process
 
 class Client(Enum):
     c1 = "c1"
@@ -46,33 +46,46 @@ def getConnection(c: Client) -> Connection:
     
     return None
 
+
+def clientSession(client: Client) -> None:
+
+    name = str(client).split(".")[1]
+
+    connection = getConnection(client)
+
+    command = "python3 OnionRTC.py " + name + " roomID1337 " + "10"
+
+    print("Starting the client " + name + " with the command: " + command )
+    with connection.cd("OnionRTC-experiment/Selenium"):
+        result = connection.run(command, hide=True)
+        print(result)
+
+def runSession(alice: Client, bob: Client) -> None:
+    '''
+    Runs a session between two clients.
+
+    The clients know what type of service it uses, if any.
+    '''
+
+    aliceProcess = Process(target=clientSession, args=(alice,))
+    BobProcess = Process(target=clientSession, args=(bob,))
+    
+    print("Starting the session")
+    aliceProcess.start()
+    BobProcess.start()
+
+    # Wait for the processes to finish
+    aliceProcess.join()
+    BobProcess.join()
+
+    print("Session ended")
+
+
+
 def main():
    
+    runSession(Client.c1, Client.d1)
 
-    group = SerialGroup.from_connections([getConnection(Client.c1),
-                                          getConnection(Client.c2),
-                                          getConnection(Client.c3),
-                                          getConnection(Client.c4),
-                                          getConnection(Client.c5),
-                                          getConnection(Client.c6),
-                                          getConnection(Client.d1),
-                                          getConnection(Client.d2),
-                                          getConnection(Client.d3),
-                                          getConnection(Client.d4),
-                                          getConnection(Client.d5),
-                                          getConnection(Client.d6)])
-
-    try:
-        results = group.run('hostname',hide=True)
-        for connection, result in results.items():
-            print("{0.host}:{1.port}: {2.stdout}".format(connection,connection, result))
-
-    except Exception as e:
-        print("Error: {0}".format(e))
-
-    # Test that all connections are working.
-    #for connection in connections.values():
-    #    print("{0}:{1}: {2}".format(connection.host ,connection.port, str(connection.is_connected)))
 
 # main method
 if __name__ == "__main__":
