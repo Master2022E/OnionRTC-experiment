@@ -130,3 +130,17 @@ To check if the video is running on all hosts:
 ```shell
 ansible-playbook playbooks/checkForVideoDevice.yaml
 ```
+
+## Check servers ready
+
+Verify that all clients is ready to run, by checking if the services is started and enabled.
+
+The script is still a work in progress.
+
+- Tor
+- Lokinet [TODO]
+- Webcam [TODO]
+
+```shell
+ansible-playbook playbooks/checkClientsReady.yaml
+```
