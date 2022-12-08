@@ -75,6 +75,16 @@ When browsing the servers can it sometimes be hard to know with certainty which 
 ansible-playbook playbooks/setupHostname.yaml -K
 ```
 
+## Setup Big Buck Bunny
+
+Must be run after the git repository have been fetch, else it will fail or need the force option.
+
+```shell
+ansible-playbook playbooks/setupBigBuckbunny.yaml
+```
+
+After this the movie is accessible in `~/OnionRTC-experiment/client_scripts/BigBuckBunny.mp4`.
+
 ## Git pull
 
 To pull the latest code the ssh keys must be distributed first. Here after is it possible to pull the latest version of the main branch.
