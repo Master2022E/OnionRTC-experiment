@@ -93,9 +93,9 @@ ansible-playbook playbooks/setupBigBuckbunny.yaml
 
 After this the movie is accessible in `~/OnionRTC-experiment/client_scripts/BigBuckBunny.mp4`.
 
-## Git pull
+## Git pull and install Pip requirements
 
-To pull the latest code the ssh keys must be distributed first. Here after is it possible to pull the latest version of the main branch.
+To pull the latest code the ssh keys must be distributed first. Here after is it possible to pull the latest version of the main branch. The script will also install the pip requirements defined in the root requirements file.
 
 ```shell
 ansible-playbook playbooks/updateGit.yaml

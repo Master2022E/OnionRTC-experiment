@@ -11,3 +11,7 @@
         clone: yes
         update: yes
         accept_hostkey: true
+
+    - name: Install pip requirements
+      ansible.builtin.pip:
+        requirements: ~/OnionRTC-experiment/requirements.txt
