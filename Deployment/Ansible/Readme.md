@@ -75,6 +75,14 @@ When browsing the servers can it sometimes be hard to know with certainty which 
 ansible-playbook playbooks/setupHostname.yaml -K
 ```
 
+## Setup APT Package Dependencies
+
+Play which installs the required apt dependencies.
+
+```shell
+ansible-playbook playbooks/setupPackageDependencies.yaml -K
+```
+
 ## Setup Big Buck Bunny
 
 Must be run after the git repository have been fetch, else it will fail or need the force option.
