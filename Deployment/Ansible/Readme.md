@@ -34,6 +34,9 @@ Example commands for testing that ansible is working:
 ```shell
 # Check the ram usage of the the server A with
 ansible server-a -a "free -h"
+
+# Check the hostname of the server
+ansible server-c  -m ansible.builtin.setup -a "filter=ansible_hostname"
 ```
 
 ## SSH setup

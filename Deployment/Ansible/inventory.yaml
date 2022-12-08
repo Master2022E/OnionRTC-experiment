@@ -59,10 +59,11 @@ all:
               ansible_port: 22005
               hostname: c5-i2p
             c6:
-              ansible_host: c.thomsen-it.dk
+              ansible_host: 10.3.0.6
               ansible_user: agpbruger
-              ansible_port: 22006
+              ansible_port: 22022
               hostname: c6-loki
+              ansible_ssh_common_args: '-o ProxyCommand="ssh -p 22022 -W %h:%p -q agpbruger@c.thomsen-it.dk"'
         d_clients:
           hosts:
             d1:
@@ -91,7 +92,8 @@ all:
               ansible_port: 22005
               hostname: d5-i2p
             d6:
-              ansible_host: d.thomsen-it.dk
+              ansible_host: 10.4.0.6
               ansible_user: agpbruger
-              ansible_port: 22006
+              ansible_port: 22022
               hostname: d6-loki
+              ansible_ssh_common_args: '-o ProxyCommand="ssh -p 22022 -W %h:%p -q agpbruger@d.thomsen-it.dk"'
