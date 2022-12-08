@@ -3,10 +3,6 @@
 ######## Tor part
 # From their own guide: https://support.torproject.org/apt/tor-deb-repo/
 # but we can't seem to make it work. So we just use the one installed via apt
-On branch main
-Your branch is up to date with 'origin/main'.
-
-nothing to commit, working tree clean
 
 sudo apt update
 sudo apt install tor
