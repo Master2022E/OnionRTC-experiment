@@ -1,0 +1,28 @@
+---
+
+  - hosts: clients
+    gather_facts: false
+
+    # The list of packages:
+    # sudo apt -y install python3-pip jq curl git ffmpeg libcurl4-openssl-dev libssl-dev htop net-tools vim v4l2loopback-dkms v4l2loopback-utils linux-modules-extra-$(uname -r) pulseaudio pulseaudio-utils
+
+    tasks:
+    - name: Install a list of packages
+      become: true
+      ansible.builtin.apt:
+        pkg:
+        - python3-pip
+        - jq
+        - curl
+        - git
+        - ffmpeg
+        - libcurl4-openssl-dev
+        - libssl-dev
+        - htop
+        - net-tools
+        - vim
+        - v4l2loopback-dkms
+        - v4l2loopback-utils
+        - linux-modules-extra-5.15.0-56-generic # This is in place of linux-modules-extra-$(uname -r)
+        - pulseaudio
+        - pulseaudio-utils
