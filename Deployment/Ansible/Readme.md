@@ -41,7 +41,7 @@ ansible server-c  -m ansible.builtin.setup -a "filter=ansible_hostname"
 
 ## SSH setup
 
-The were accessible through password base authentication it can be disabled across all the clients with the following command.
+The client servers are by default accessible through password base authentication, but it can be disabled across all the clients with the following command.
 
 ```shell
 ansible-playbook playbooks/setupSecureSSH.yaml
@@ -67,7 +67,7 @@ ansible-playbook playbooks/setupSSHKeys.yaml
 
 ## Hostname setup
 
-When browsing the servers can it sometimes be hard to know with certainty which server one is using, Therefor have the hostname's of the servers been defined in the [inventory list](./inventory.yaml) and the hostname can be set for each server.
+When browsing the servers it can sometimes be hard to know with certainty which server one is using. Therefor we have the hostname's of the servers  defined in the [inventory list](./inventory.yaml) where the hostname can be set for each server.
 
 **Beware that it will reboot the host!**
 
@@ -85,7 +85,7 @@ ansible-playbook playbooks/setupPackageDependencies.yaml -K
 
 ## Setup Big Buck Bunny
 
-Must be run after the git repository have been fetch, else it will fail or need the force option.
+> NOTE: Must be run after the git repository have been fetch, else it will fail or need the force option.
 
 ```shell
 ansible-playbook playbooks/setupBigBuckbunny.yaml
@@ -95,7 +95,7 @@ After this the movie is accessible in `~/OnionRTC-experiment/client_scripts/BigB
 
 ## Git pull and install Pip requirements
 
-To pull the latest code the ssh keys must be distributed first. Here after is it possible to pull the latest version of the main branch. The script will also install the pip requirements defined in the root requirements file.
+To pull the latest code the ssh keys must be distributed first. Afterwards it is possible to pull the latest version of the main branch. The script will also install the pip requirements defined in the requirements file located in the root folder.
 
 ```shell
 ansible-playbook playbooks/updateGit.yaml
@@ -105,17 +105,17 @@ The code will be located in `/home/agpbruger/OnionRTC-experiment/`
 
 ## CPU status information
 
-The play will display top four cpu processes running and how much CPU it consumes.
+Play which will display top four cpu processes running and how much CPU it consumes.
 
 ```shell
 ansible-playbook playbooks/readCPU.yaml --limit c1
 ```
 
-> NOTE: The -l or --limit flag is currently required. and could be i.e. `clients`, `all`, `c1` or any other host/group.
+> NOTE: The -l or --limit flag is currently required and could be: `clients`, `all`, `c1` or any other host/group.
 
 ## Get client logs
 
-To allow the developers to more easily locate errors will the clients log to a file, which then can be reviewed either on the server or locally pulled with a playbook.
+To allow the developers to more easily locate errors the clients will output logging to a file, which then can be reviewed either on the server or locally pulled with a playbook.
 
 ```shell
 ansible-playbook playbooks/getLogs.yaml --limit "c2,d2"
