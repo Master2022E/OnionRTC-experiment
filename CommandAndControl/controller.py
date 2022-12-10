@@ -44,8 +44,20 @@ def getConnection(c: Client) -> Connection:
     if c == Client.d6:
         return Connection("agpbruger@10.4.0.6:22022", gateway=Connection('agpbruger@d.thomsen-it.dk:22022'))
     
-    return None
+    return None 
 
+def clientWebcam(client: Client) -> None:
+
+    name = str(client).split(".")[1]
+
+    connection = getConnection(client)
+
+    command = "./setup_fake_webcam.sh"
+
+    print("Starting the client " + name + " with the command: " + command )
+    with connection.cd("OnionRTC-experiment/client_scripts"):
+        result = connection.run(command, hide=True)
+        print(result)
 
 def clientSession(client: Client) -> None:
 
@@ -57,7 +69,7 @@ def clientSession(client: Client) -> None:
 
     print("Starting the client " + name + " with the command: " + command )
     with connection.cd("OnionRTC-experiment/Selenium"):
-        result = connection.run(command, hide=True)
+        result = connection.run(command, hide=False)
         print(result)
 
 def runSession(alice: Client, bob: Client) -> None:
@@ -67,16 +79,27 @@ def runSession(alice: Client, bob: Client) -> None:
     The clients know what type of service it uses, if any.
     '''
 
-    aliceProcess = Process(target=clientSession, args=(alice,))
-    BobProcess = Process(target=clientSession, args=(bob,))
+    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,))
+    BobWebcamProcess = Process(target=clientWebcam, args=(bob,))
+
+    print("Starting the webcams")
+    aliceWebcamProcess.start()
+    BobWebcamProcess.start()
+
+    aliceSessionProcess = Process(target=clientSession, args=(alice,))
+    BobSessionProcess = Process(target=clientSession, args=(bob,))
     
     print("Starting the session")
-    aliceProcess.start()
-    BobProcess.start()
+    aliceSessionProcess.start()
+    BobSessionProcess.start()
 
-    # Wait for the processes to finish
-    aliceProcess.join()
-    BobProcess.join()
+    # Wait for the session processes to finish
+    aliceSessionProcess.join()
+    BobSessionProcess.join()
+
+    # Kill the webcam processes
+    aliceWebcamProcess.terminate()
+    BobWebcamProcess.terminate()
 
     print("Session ended")
 
