@@ -44,7 +44,7 @@ groups | grep video >> /dev/null
 _RCODE=$?
 if [ $_RCODE -ne 0  ]
 then
-    echo "User is not added to the video group - please run 'sudo systemctl restart webcam.service && journalctl -u webcam.service -f'"
+    echo "User is not added to the video group - please run 'sudo usermod -a -G video ${USER}'"
 else
     echo "User is added to the video group"
 fi
