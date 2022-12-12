@@ -1,7 +1,7 @@
 ---
 # Copy the ssh key to the remote server
 
-- hosts: clients
+- hosts: all
   gather_facts: false
   tasks:
   
@@ -17,7 +17,7 @@
       dest: ~/.ssh/id_ecdsa.pub
       mode: '0644'
 
-- hosts: server-a
+- hosts: all
   gather_facts: false
   tasks:
 
