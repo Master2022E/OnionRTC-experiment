@@ -332,7 +332,7 @@ class OnionRTC():
                 raise IOError("Can't verify that the webcam works")
             elif "'kind': 'video', 'label': 'Dummy video device (0x0000)'" in video_info and "'enabled': True" in video_info:
                 logging.info("getUserMedia returned a video track, which is enabled. This means that the webcam works!")
-            
+
 
 
             audio_info = self.vars.driver.execute_script("a = navigator.mediaDevices.getUserMedia({ audio: true}).then(function (stream) { if (stream.getAudioTracks().length > 0){ return stream.getAudioTracks() } else { return 0 }}).catch(function (error) { return error}); return a")
@@ -364,7 +364,7 @@ class OnionRTC():
             ice_relay_only_str = "media.peerconnection.ice.relay_only"
             permission_disabled_str = "media.navigator.permission.disabled"
 
-            relay_only , permissions = None, None
+            relay_only , permissions = False, False
 
             if ice_relay_only_str in self.vars.driver.page_source:
                 relay_only = ice_relay_only_str+": true" in self.vars.driver.page_source
@@ -372,8 +372,8 @@ class OnionRTC():
             if permission_disabled_str in self.vars.driver.page_source:
                 permissions = permission_disabled_str+": true" in self.vars.driver.page_source
             
-            if not permissions and relay_only:
-                logging.info("Browser settings:"+ice_relay_only_str+":"+str(relay_only)+" - "+permission_disabled_str+":"+str(permissions))
+            if permissions and relay_only:
+                logging.info("Browser settings OK")
             else:
                 logging.warning("Browser settings should be 'True':"+ice_relay_only_str+":"+str(relay_only)+" - "+permission_disabled_str+":"+str(permissions))
         else:
