@@ -3,7 +3,8 @@ from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
-
+from starter import startSession
+import time
 class Client(Enum):
     c1 = "c1"
     c2 = "c2"
@@ -104,10 +105,15 @@ def runSession(alice: Client, bob: Client) -> None:
     print("Session ended")
 
 
-
 def main():
-   
-    runSession(Client.c1, Client.d1)
+
+    print("Waiting to start a new session.")
+    while(True):
+        
+        time.sleep(1)
+        if(startSession()):
+            print("Starting a new session")
+            runSession(Client.c1, Client.d1)
 
 
 # main method
