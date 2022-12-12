@@ -59,12 +59,21 @@ def getConnection(c: Client) -> Connection:
     return None 
 
 def process_clean(processes: list[Process]) -> None:
+    '''
+    Takes a list of processes and calls close() on them
+    '''
 
     # Cleanup the process objects
     for proces in processes:
         proces.close()
 
 def cleanup(alice: Client, bob: Client):
+    '''
+    Takes two clients and call the clientCleanup function.
+    This could propably be done without spawning extra processes,
+    but now we are using the "name" parameter to name the processes,
+    which makes it easier to follow which client is doing what.
+    '''
 
     aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,),name=f'{str(alice).replace(" ", "")}')
     bobCleanUpProcess = Process(target=clientCleanup, args=(bob,),name=f'{str(bob).replace(" ", "")}')
@@ -80,7 +89,12 @@ def cleanup(alice: Client, bob: Client):
         
 
 
-def stop_webcam(aliceWebcamProcess, bobWebcamProcess):
+def stop_webcam(aliceWebcamProcess: Process, bobWebcamProcess: Process):
+    '''
+    Takes two webcam processes, kills them and waits for them to finish.
+    Same as cleanup(..) this could propably be done without spawning extra processes.
+    '''
+
     aliceWebcamProcess.kill()
     bobWebcamProcess.kill()
     
@@ -88,6 +102,10 @@ def stop_webcam(aliceWebcamProcess, bobWebcamProcess):
     bobWebcamProcess.join()
 
 def clientCleanup(client: Client) -> None:
+    '''
+    Takes a client and kills any ffmpeg processes that might be running on the client.
+    This could also have be done without spawning a process, since we exit at once.
+    '''
 
     name = str(client)
 
@@ -104,6 +122,10 @@ def clientCleanup(client: Client) -> None:
         pass
 
 def clientWebcam(client: Client) -> None:
+    '''
+    Takes a client and does the procedure for starting up a webcam on the client.
+    This needs to run as a process, because we need to kill the process when we are done with the session.
+    '''
 
     name = str(client)
 
@@ -132,6 +154,10 @@ def clientWebcam(client: Client) -> None:
     #    logging.info(result)
 
 def clientSession(client: Client, test_id: str, room_id: str) -> None:
+    '''
+    Takes a client and runs the OnionRTC.py script on the client.
+    This needs to run as a process, so we can run multiple clients at the same time.
+    '''
 
     name = str(client)
 
@@ -190,6 +216,29 @@ def main():
         # One to one
         [Client.c1, Client.d1],
 
+    ]
+
+    testCases_All = [
+        # One to one
+        [Client.c1, Client.d1],
+        [Client.c2, Client.d2],
+        [Client.c3, Client.d3],
+        [Client.c4, Client.d4],
+        [Client.c5, Client.d5],
+        [Client.c6, Client.d6],
+
+        # Normal to Anonymized
+        [Client.c1, Client.d2],
+        [Client.c1, Client.d3],
+        [Client.c1, Client.d4],
+        [Client.c1, Client.d5],
+        [Client.c1, Client.d6],
+
+        # Tor to Tor
+        [Client.c1, Client.d2],
+        [Client.c2, Client.d3],
+        [Client.c2, Client.d4],
+        [Client.c3, Client.d4],
     ]
     
     logging.info("Waiting to start a new session.")
