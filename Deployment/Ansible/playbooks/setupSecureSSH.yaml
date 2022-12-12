@@ -1,0 +1,27 @@
+---
+
+  - hosts: all
+
+    gather_facts: false
+
+    tasks:
+
+    - name: Disable empty password login
+      become: true
+      lineinfile: 
+        dest: /etc/ssh/sshd_config
+        regexp: '^#?PermitEmptyPasswords' 
+        line: 'PermitEmptyPasswords no'
+
+
+    - name: Disable password login
+      become: true
+      lineinfile: 
+        dest: /etc/ssh/sshd_config
+        regexp: '^(#\s*)?PasswordAuthentication '
+        line: 'PasswordAuthentication no'
+
+    - name: Restart the ssh service
+      become: true
+      ansible.builtin.shell:
+        cmd: systemctl restart ssh.service
