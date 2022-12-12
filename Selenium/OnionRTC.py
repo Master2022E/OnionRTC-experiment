@@ -180,13 +180,13 @@ class OnionRTC():
         'PINK': '\033[44m'
         }
 
-        hostname = socket.gethostname()
+        
 
-        if "Tor" in hostname:
+        if "Tor" in client_config:
             color_code = color_codes["RED"]
-        elif "I2P" in hostname:
+        elif "I2P" in client_config:
             color_code = color_codes["BLUE"]
-        elif "Lokinet" in hostname:
+        elif "Lokinet" in client_config:
             color_code = color_codes["GREEN"]
         else:
             color_code = color_codes["PINK"]
