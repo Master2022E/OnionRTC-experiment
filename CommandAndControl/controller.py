@@ -6,6 +6,10 @@ from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
+from invoke import Responder
+from fabric import Connection
+import os
+from dotenv import load_dotenv
 from starter import startSession
 import time
 import mongo
@@ -54,15 +58,75 @@ def getConnection(c: Client) -> Connection:
     
     return None 
 
-def clientWebcam(client: Client) -> None:
+def process_clean(processes: list[Process]) -> None:
+
+    # Cleanup the process objects
+    for proces in processes:
+        proces.close()
+
+def cleanup(alice: Client, bob: Client):
+
+    aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,),name=f'{str(alice).replace(" ", "")}')
+    bobCleanUpProcess = Process(target=clientCleanup, args=(bob,),name=f'{str(bob).replace(" ", "")}')
+    
+    logging.info("Cleaning up")
+    try:
+        aliceCleanUpProcess.start()
+        bobCleanUpProcess.start()
+        aliceCleanUpProcess.join()
+        bobCleanUpProcess.join()
+    except Exception as e:
+        logging.error("Error while cleaning up: " + str(e))
+        
+
+
+def stop_webcam(aliceWebcamProcess, bobWebcamProcess):
+    aliceWebcamProcess.kill()
+    bobWebcamProcess.kill()
+    
+    aliceWebcamProcess.join()
+    bobWebcamProcess.join()
+
+def clientCleanup(client: Client) -> None:
 
     name = str(client)
 
     connection = getConnection(client)
 
+    # Find and kill any ffmpeg processes
+    command = "kill $(ps aux | grep '[f]fmpeg' | awk '{print $2}')"
+    try:
+        with connection as conn:
+            logging.info("Cleaning the client " + name + " with the command: " + command )
+            result = conn.run(command, hide=True)
+            #logging.info(result)
+    except:
+        pass
+
+def clientWebcam(client: Client) -> None:
+
+    name = str(client)
+
+    connection = getConnection(client)
+    load_dotenv()
+
+    passwd = os.environ.get("USER_SUDO_PASSWORD",None)
+    if passwd == None:
+        raise Exception("USER_SUDO_PASSWORD not set")
+
+    # Handle root password for running commands that require sudo
+    sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
+    command = "./setup_fake_webcam_permissions.sh"
+
+    logging.info("Configuring the client " + name + " webcam with the command: " + command )
+    with connection.cd("OnionRTC-experiment/client_scripts"):
+        result = connection.run(command, hide=True, pty=True, watchers=[sudopass])
+        #logging.info(result)
+
+
     command = "./setup_fake_webcam.sh"
 
-    logging.info("Starting the client " + name + " with the command: " + command )
+    logging.info("Starting the client " + name + " webcam with the command: " + command )
     #with connection.cd("OnionRTC-experiment/client_scripts"):
     #    result = connection.run(command, hide=True)
     #    logging.info(result)
@@ -91,56 +155,43 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     The clients know what type of service it uses, if any.
     '''
     
-    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,))
-    BobWebcamProcess = Process(target=clientWebcam, args=(bob,))
+    cleanup(alice, bob)
+
+    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'{str(alice).replace(" ", "")}')
+    bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'{str(bob).replace(" ", "")}')
 
     logging.info("Starting the webcams")
     aliceWebcamProcess.start()
-    BobWebcamProcess.start()
+    bobWebcamProcess.start()
 
     aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id))
-    BobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id))
+    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id))
     
     logging.info("Starting the session")
     aliceSessionProcess.start()
-    BobSessionProcess.start()
+    bobSessionProcess.start()
 
     # Wait for the session processes to finish
     aliceSessionProcess.join()
-    BobSessionProcess.join()
+    bobSessionProcess.join()
 
-    # Kill the webcam processes
-    aliceWebcamProcess.terminate()
-    BobWebcamProcess.terminate()
+    # Kill the webcam processes and wait for them to finish
+    stop_webcam(aliceWebcamProcess, bobWebcamProcess)
+
+    # Cleanup
+    process_clean([aliceSessionProcess, bobSessionProcess,aliceWebcamProcess,bobWebcamProcess])
+    cleanup(alice, bob)        
 
     logging.info("Session ended")
-
 
 def main():
 
     testCases = [
         # One to one
         [Client.c1, Client.d1],
-        [Client.c2, Client.d2],
-        [Client.c3, Client.d3],
-        [Client.c4, Client.d4],
-        [Client.c5, Client.d5],
-        [Client.c6, Client.d6],
-        
-        # Normal to Anonymized
-        [Client.c1, Client.d2],
-        [Client.c1, Client.d3],
-        [Client.c1, Client.d4],
-        [Client.c1, Client.d5],
-        [Client.c1, Client.d6],
 
-        # Tor to Tor
-        [Client.c1, Client.d2],
-        [Client.c2, Client.d3],
-        [Client.c2, Client.d4],
-        [Client.c3, Client.d4],
     ]
-
+    
     logging.info("Waiting to start a new session.")
     while(True):
         if(startSession([0, 1, 0])):
@@ -160,14 +211,16 @@ def main():
         time.sleep(1) 
 
 
+
 # main method
 if __name__ == "__main__":
 
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
 
+
     logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
+        format=f'%(asctime)s %(levelname)s %(processName)-12s %(message)s',
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S',
             handlers=[
@@ -175,6 +228,12 @@ if __name__ == "__main__":
             #logging.StreamHandler(), # Show everything on console
             console_handler # Only show INFO and above on console
         ])
+
+
+
                 
     print(figlet_format("Command & Controller", font="slant"))
-    main()
+    try:
+        main()
+    except KeyboardInterrupt as e:
+        print("KeyboardInterrupt")
