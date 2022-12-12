@@ -24,7 +24,6 @@ import logging
 import logging.handlers
 
 from misc.mongo_report_ssh import close_mongo_connection, create_client_report
-import uuid
 
 """
 Python script for running WebRTC session tests using Selenium and different anonymization services.
@@ -98,7 +97,7 @@ for type in logging_str:
     logging_types[type] = type
 
 # Annonimization network types
-network_types_str = ["None","Tor","I2P","Lokinet"]
+network_types_str = ["Tor","I2P","Lokinet"] # "None" 
 network_types = dict()
 for type in network_types_str:
     network_types[type] = type
@@ -129,8 +128,8 @@ class OnionRTC():
 
         # Optional arguments
         parser.add_argument('-p','--proxy', action='store_const',
-                            const=True, default=False,
-                            help='Whether the browser should use the onion routing proxy') #FIXME: set default proxy to False 
+                            const=True, default=True,
+                            help='Whether the browser should use the onion routing proxy [Default True]')
         parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
                             help='How many times the session setup should be retried before failing the test')
         parser.add_argument("-c", dest="client_config", help="Sets a client config string. Defaults to env var $CLIENT_CONFIG", default=client_config)
@@ -204,10 +203,11 @@ class OnionRTC():
                 self.vars.client_config += ":NoProxy"
         
 
+        data["state"] = states["setup_client"]
 
         # Setup Socks Proxy
         # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
-        if self.vars.proxy:
+        if self.vars.proxy and "None" not in self.vars.client_config :
 
             if network_types["Tor"] in self.vars.client_config:
 
@@ -219,7 +219,7 @@ class OnionRTC():
                         raise Exception("Tor proxy was not ready yet")
 
                 except Exception as e:
-                    data["state"] = states["setup_client"]
+                    
                     type = ""
                     if hasattr(e,"__module__"):
                         type = e.__module__ 
@@ -241,15 +241,11 @@ class OnionRTC():
                 # FIXME: Do I2P setup and checking here
                 pass
             else:
-                data["state"] = states["setup_client"]
-                e = "No valid annonymity network type was was found in the client_config string, but proxy flag was set?, failing prematurely"
+                e = f"No valid annonymity network type was was found in the client_config string: '{self.vars.client_config}'"
                 data["error"] = f"Exception: {e}"
                 create_client_report(data,logging)
                 raise Exception(e)
 
-        
-
-        data["state"] = states["setup_client"]
         
         try:
             browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
