@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+import sys
 from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
@@ -7,20 +9,25 @@ from invoke import Responder
 from fabric import Connection
 import os
 from dotenv import load_dotenv
+from starter import startSession
+import time
 
 class Client(Enum):
-    c1 = "c1"
-    c2 = "c2"
-    c3 = "c3"
-    c4 = "c4"
-    c5 = "c5"
-    c6 = "c6"
-    d1 = "d1"
-    d2 = "d2"
-    d3 = "d3"
-    d4 = "d4"
-    d5 = "d5"
-    d6 = "d6"
+    c1 = "c1 - Normal"
+    c2 = "c2 - Tor Normal"
+    c3 = "c3 - Tor Europe"
+    c4 = "c4 - Tor Scandinavia"
+    c5 = "c5 - I2P"
+    c6 = "c6 - Lokinet"
+    d1 = "d1 - Normal"
+    d2 = "d2 - Tor Normal"
+    d3 = "d3 - Tor Europe"
+    d4 = "d4 - Tor Scandinavia"
+    d5 = "d5 - I2P"
+    d6 = "d6 - Lokinet"
+
+    def __str__(self) -> str:
+        return self.value
 
 def getConnection(c: Client) -> Connection:
     if c == Client.c1:
@@ -56,16 +63,21 @@ def process_clean(processes: list[Process]) -> None:
     for proces in processes:
         proces.close()
 
-def cleanup(alice, bob):
-    aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,))
-    bobCleanUpProcess = Process(target=clientCleanup, args=(bob,))
-    
-    print("Cleaning up")
-    aliceCleanUpProcess.start()
-    bobCleanUpProcess.start()
+def cleanup(alice: Client, bob: Client):
 
-    aliceCleanUpProcess.join()
-    bobCleanUpProcess.join()
+    aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,),name=f'{str(alice).replace(" ", "")}')
+    bobCleanUpProcess = Process(target=clientCleanup, args=(bob,),name=f'{str(bob).replace(" ", "")}')
+    
+    logging.info("Cleaning up")
+    try:
+        aliceCleanUpProcess.start()
+        bobCleanUpProcess.start()
+        aliceCleanUpProcess.join()
+        bobCleanUpProcess.join()
+    except Exception as e:
+        logging.error("Error while cleaning up: " + str(e))
+        
+
 
 def stop_webcam(aliceWebcamProcess, bobWebcamProcess):
     aliceWebcamProcess.kill()
@@ -76,7 +88,7 @@ def stop_webcam(aliceWebcamProcess, bobWebcamProcess):
 
 def clientCleanup(client: Client) -> None:
 
-    name = str(client).split(".")[1]
+    name = str(client)
 
     connection = getConnection(client)
 
@@ -84,15 +96,15 @@ def clientCleanup(client: Client) -> None:
     command = "kill $(ps aux | grep '[f]fmpeg' | awk '{print $2}')"
     try:
         with connection as conn:
-            print("Cleaning the client " + name + " with the command: " + command )
+            logging.info("Cleaning the client " + name + " with the command: " + command )
             result = conn.run(command, hide=True)
-            print(result)
+            #logging.info(result)
     except:
         pass
 
 def clientWebcam(client: Client) -> None:
 
-    name = str(client).split(".")[1]
+    name = str(client)
 
     connection = getConnection(client)
     load_dotenv()
@@ -105,31 +117,31 @@ def clientWebcam(client: Client) -> None:
     sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
     command = "./setup_fake_webcam_permissions.sh"
 
-    print("Configuring the client " + name + " with the command: " + command )
+    logging.info("Configuring the client " + name + " webcam with the command: " + command )
     with connection.cd("OnionRTC-experiment/client_scripts"):
         result = connection.run(command, hide=True, pty=True, watchers=[sudopass])
-        print(result)
+        #logging.info(result)
 
 
     command = "./setup_fake_webcam.sh"
 
-    print("Starting the client " + name + " with the command: " + command )
+    logging.info("Starting the client " + name + " webcam with the command: " + command )
     with connection.cd("OnionRTC-experiment/client_scripts"):
         result = connection.run(command, hide=True)
-        print(result)
+        #logging.info(result)
 
 def clientSession(client: Client) -> None:
 
-    name = str(client).split(".")[1]
+    name = str(client)
 
     connection = getConnection(client)
 
-    command = "python3 OnionRTC.py " + name + " roomID1337 " + "10"
+    command = "python3 OnionRTC.py " + name.replace(" ", "") + " roomID1337 " + "10"
 
-    print("Starting the client " + name + " with the command: " + command )
+    logging.info("Starting the client " + name + " with the command: " + command )
     with connection.cd("OnionRTC-experiment/Selenium"):
         result = connection.run(command, hide=False)
-        print(result)
+        logging.info(result)
 
 def runSession(alice: Client, bob: Client) -> None:
     '''
@@ -140,17 +152,17 @@ def runSession(alice: Client, bob: Client) -> None:
 
     cleanup(alice, bob)
 
-    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,))
-    bobWebcamProcess = Process(target=clientWebcam, args=(bob,))
+    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'{str(alice).replace(" ", "")}')
+    bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'{str(bob).replace(" ", "")}')
 
-    print("Starting the webcams")
+    logging.info("Starting the webcams")
     aliceWebcamProcess.start()
     bobWebcamProcess.start()
 
-    aliceSessionProcess = Process(target=clientSession, args=(alice,))
-    bobSessionProcess = Process(target=clientSession, args=(bob,))
+    aliceSessionProcess = Process(target=clientSession, args=(alice,),name=f'{str(alice).replace(" ", "")}')
+    bobSessionProcess = Process(target=clientSession, args=(bob,),name=f'{str(bob).replace(" ", "")}')
     
-    print("Starting the session")
+    logging.info("Starting the session")
     aliceSessionProcess.start()
     bobSessionProcess.start()
 
@@ -165,15 +177,55 @@ def runSession(alice: Client, bob: Client) -> None:
     process_clean([aliceSessionProcess, bobSessionProcess,aliceWebcamProcess,bobWebcamProcess])
     cleanup(alice, bob)        
 
-    print("Session ended")
-
+    logging.info("Session ended")
 
 def main():
-   
-    runSession(Client.c1, Client.d1)
+
+    testCases = [
+        # One to one
+        [Client.c1, Client.d1],
+
+    ]
+    
+    logging.info("Waiting to start a new session.")
+    while(True):
+        if(startSession()):
+            logging.info("Starting a new run.")
+            for testCase in testCases:
+                logging.info(f'Starting a session between [{str(testCase[0])}] and [{str(testCase[1])}]')
+                runSession(testCase[0], testCase[1])
+                #runSession(Client.c1, Client.d1)
+
+            logging.info("Run completed.")
+
+        # NOTE: Makes sure that the application doesn't run too fast
+        #       and that the application is closeable with CTRL+C.
+        time.sleep(1) 
+
 
 
 # main method
 if __name__ == "__main__":
+
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.INFO)
+
+
+    logging.basicConfig(
+        format=f'%(asctime)s %(levelname)s %(processName)-12s %(message)s',
+        level=logging.INFO,
+        datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+            logging.FileHandler("debug.log"),
+            #logging.StreamHandler(), # Show everything on console
+            console_handler # Only show INFO and above on console
+        ])
+
+
+
+                
     print(figlet_format("Command & Controller", font="slant"))
-    main()
+    try:
+        main()
+    except KeyboardInterrupt as e:
+        print("KeyboardInterrupt")
