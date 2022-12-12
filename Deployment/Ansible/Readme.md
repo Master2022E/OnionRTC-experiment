@@ -37,6 +37,9 @@ ansible server-a -a "free -h"
 
 # Check the hostname of the server
 ansible server-c  -m ansible.builtin.setup -a "filter=ansible_hostname"
+
+# Reboot all clients
+ansible clients -a "reboot now" -K --become
 ```
 
 ## SSH setup
