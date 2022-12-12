@@ -13,6 +13,7 @@ from selenium.webdriver.firefox.service import Service
 
 from misc.Tor.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
 
+import socket
 from dotenv import load_dotenv
 import pyfiglet
 import sys
@@ -118,9 +119,10 @@ class OnionRTC():
 
         # Positional arguments, meaning they are not required but can be used.
         # If you want to set the last one, then you need to set the previous ones as well.
-        # Example: 'python3 OnionRTC.py "Torben" "Room42" 2'
-        # Results in: 'Namespace(client_username='Torben', room_id='Room42', session_length_seconds=2, proxy=False, headless=True, verbose=False)'
+        # Example: './OnionRTC.py "Torben" "bfe386e8-b93b-4f2b-874a-b9494481e45a" "Room42" 10'
+        # Results in: 'Namespace(client_username='Torben', test_id='bfe386e8-b93b-4f2b-874a-b9494481e45a', room_id='Room42', session_length_seconds=10, proxy=False, headless=True, verbose=False)'
         parser.add_argument('client_username', metavar="client_username", nargs='?', type=str, default="client_username", help='The username of the client')
+        parser.add_argument('test_id', metavar="test_id",nargs='?', type=str, default="test_id",  help='The test id that the client should use')
         parser.add_argument('room_id', metavar="room_id",nargs='?', type=str, default="room_id",  help='The room id that the client should join')
         parser.add_argument('session_length_seconds', metavar='N', type=int, nargs='?', default=60,
                             help='Sets the number of seconds a session should be running for')
@@ -172,7 +174,7 @@ class OnionRTC():
         console_handler.setLevel(logging.INFO)
 
         logging.basicConfig(
-                format='%(asctime)s %(levelname)-8s %(message)s',
+                format=f'%(asctime)s {socket.gethostname()} %(levelname)-8s %(message)s',
                 level=logging_level,
                 datefmt='%Y-%m-%d %H:%M:%S',
                     handlers=[
@@ -191,7 +193,7 @@ class OnionRTC():
         data = {'client_username':self.vars.client_username,
         "client_type": self.vars.client_config,
         "room_id": self.vars.room_id,
-        "test_id": str(uuid.uuid4()),
+        "test_id": self.vars.test_id, # str(uuid.uuid4())
         "logging_type": logging_types["CLIENT_ERROR"]}
 
         # Setup the client_config string by appending the proxy flag
@@ -287,7 +289,7 @@ class OnionRTC():
         "client_id": self.vars.client_id,
         "client_type": self.vars.client_config,
         "room_id": self.vars.room_id,
-        "test_id": str(uuid.uuid4()),
+        "test_id": self.vars.test_id, # str(uuid.uuid4())
         "logging_type": logging_types["NOT_SET"]}
 
         self.vars.state = states["check_media"]
