@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+import sys
 from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
@@ -58,10 +60,10 @@ def clientWebcam(client: Client) -> None:
 
     command = "./setup_fake_webcam.sh"
 
-    print("Starting the client " + name + " with the command: " + command )
+    logging.info("Starting the client " + name + " with the command: " + command )
     with connection.cd("OnionRTC-experiment/client_scripts"):
         result = connection.run(command, hide=True)
-        print(result)
+        logging.info(result)
 
 def clientSession(client: Client) -> None:
 
@@ -71,10 +73,10 @@ def clientSession(client: Client) -> None:
 
     command = "python3 OnionRTC.py " + name.replace(" ", "") + " roomID1337 " + "10"
 
-    print("Starting the client " + name + " with the command: " + command )
+    logging.info("Starting the client " + name + " with the command: " + command )
     with connection.cd("OnionRTC-experiment/Selenium"):
         result = connection.run(command, hide=False)
-        print(result)
+        logging.info(result)
 
 def runSession(alice: Client, bob: Client) -> None:
     '''
@@ -86,14 +88,14 @@ def runSession(alice: Client, bob: Client) -> None:
     aliceWebcamProcess = Process(target=clientWebcam, args=(alice,))
     BobWebcamProcess = Process(target=clientWebcam, args=(bob,))
 
-    print("Starting the webcams")
+    logging.info("Starting the webcams")
     aliceWebcamProcess.start()
     BobWebcamProcess.start()
 
     aliceSessionProcess = Process(target=clientSession, args=(alice,))
     BobSessionProcess = Process(target=clientSession, args=(bob,))
     
-    print("Starting the session")
+    logging.info("Starting the session")
     aliceSessionProcess.start()
     BobSessionProcess.start()
 
@@ -105,7 +107,7 @@ def runSession(alice: Client, bob: Client) -> None:
     aliceWebcamProcess.terminate()
     BobWebcamProcess.terminate()
 
-    print("Session ended")
+    logging.info("Session ended")
 
 
 def main():
@@ -133,16 +135,16 @@ def main():
         [Client.c3, Client.d4],
     ]
 
-    print("Waiting to start a new session.")
+    logging.info("Waiting to start a new session.")
     while(True):
         if(startSession()):
-            print("Starting a new run.")
+            logging.info("Starting a new run.")
             for testCase in testCases:
-                print(f'Starting a session between [{str(testCase[0])}] and [{str(testCase[1])}]')
+                logging.info(f'Starting a session between [{str(testCase[0])}] and [{str(testCase[1])}]')
                 #runSession(testCase[0], testCase[1])
                 #runSession(Client.c1, Client.d1)
 
-            print("Run completed.")
+            logging.info("Run completed.")
 
         # NOTE: Makes sure that the application doesn't run too fast
         #       and that the application is closeable with CTRL+C.
@@ -151,5 +153,19 @@ def main():
 
 # main method
 if __name__ == "__main__":
+
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.INFO)
+
+    logging.basicConfig(
+        format='%(asctime)s %(levelname)-8s %(message)s',
+        level=logging.INFO,
+        datefmt='%Y-%m-%d %H:%M:%S',
+            handlers=[
+            logging.FileHandler("debug.log"),
+            #logging.StreamHandler(), # Show everything on console
+            console_handler # Only show INFO and above on console
+        ])
+                
     print(figlet_format("Command & Controller", font="slant"))
     main()

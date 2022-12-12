@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+import logging
 
 
 def _saveSessionTime(time: datetime) -> None:
@@ -9,9 +9,8 @@ def _saveSessionTime(time: datetime) -> None:
 
     with open("session.txt", "w") as f:
         timeNow = time.strftime("%Y-%m-%d %H:%M:%S")
-
-        print("Session start saved to file: " + timeNow)
         f.write(timeNow)
+        logging.info("Session start saved to file: " + timeNow)
 
 def _readSessionTime() -> datetime:
     '''
@@ -28,7 +27,7 @@ def _readSessionTime() -> datetime:
             return time
             
     except:
-        print("Could not read session.txt, Creates a new file")
+        logging.info("Could not read session.txt, Creates a new file")
         now = datetime.now()
         try:
             _saveSessionTime(now)
@@ -50,12 +49,12 @@ def startSession(timeBetweenSessions = [0, 0, 10]) -> bool:
                           minutes = timeBetweenSessions[1],
                           seconds = timeBetweenSessions[2])
         if(time + delta < datetime.now()):
-            print("Last session was more than " + str(delta) + " ago, starting a new session")
+            logging.info("Last session was more than " + str(delta) + " ago, starting a new session")
             _saveSessionTime(datetime.now())
             return True
         else:
             return False
             
     except:
-        print("File exception error")
+        logging.error("File exception error")
         raise("Could not read/write session.txt")
