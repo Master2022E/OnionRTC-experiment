@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 import logging
 import sys
+import uuid
 from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
 from starter import startSession
 import time
+import mongo
 class Client(Enum):
     c1 = "c1 - Normal"
     c2 = "c2 - Tor Normal"
@@ -61,30 +63,34 @@ def clientWebcam(client: Client) -> None:
     command = "./setup_fake_webcam.sh"
 
     logging.info("Starting the client " + name + " with the command: " + command )
-    with connection.cd("OnionRTC-experiment/client_scripts"):
-        result = connection.run(command, hide=True)
-        logging.info(result)
+    #with connection.cd("OnionRTC-experiment/client_scripts"):
+    #    result = connection.run(command, hide=True)
+    #    logging.info(result)
 
-def clientSession(client: Client) -> None:
+def clientSession(client: Client, test_id: str, room_id: str) -> None:
 
     name = str(client)
 
     connection = getConnection(client)
-
-    command = "python3 OnionRTC.py " + name.replace(" ", "") + " roomID1337 " + "10"
+    timeout = 10
+    command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {timeout}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
-    with connection.cd("OnionRTC-experiment/Selenium"):
-        result = connection.run(command, hide=False)
-        logging.info(result)
+    mongo.log("COMMAND_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
+    #with connection.cd("OnionRTC-experiment/Selenium"):
+    #    result = connection.run(command, hide=False)
+    #    logging.info(result)
+    mongo.log("COMMAND_END", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
 
-def runSession(alice: Client, bob: Client) -> None:
+
+
+def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     '''
     Runs a session between two clients.
 
     The clients know what type of service it uses, if any.
     '''
-
+    
     aliceWebcamProcess = Process(target=clientWebcam, args=(alice,))
     BobWebcamProcess = Process(target=clientWebcam, args=(bob,))
 
@@ -92,8 +98,8 @@ def runSession(alice: Client, bob: Client) -> None:
     aliceWebcamProcess.start()
     BobWebcamProcess.start()
 
-    aliceSessionProcess = Process(target=clientSession, args=(alice,))
-    BobSessionProcess = Process(target=clientSession, args=(bob,))
+    aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id))
+    BobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id))
     
     logging.info("Starting the session")
     aliceSessionProcess.start()
@@ -137,12 +143,15 @@ def main():
 
     logging.info("Waiting to start a new session.")
     while(True):
-        if(startSession()):
-            logging.info("Starting a new run.")
+        if(startSession([0, 1, 0])):
+            test_id = str(uuid.uuid4())
+            mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
+            logging.info("Starting a new run, test_id: " + test_id)
             for testCase in testCases:
-                logging.info(f'Starting a session between [{str(testCase[0])}] and [{str(testCase[1])}]')
-                #runSession(testCase[0], testCase[1])
-                #runSession(Client.c1, Client.d1)
+                room_id = str(uuid.uuid4())
+                logging.info(f'Starting a test {test_id} in room {room_id} between [{str(testCase[0])}] and [{str(testCase[1])}]')
+                mongo.log(loggingType="COMMAND_START_TEST", test_id=test_id, room_id=room_id)
+                runSession(alice = testCase[0], bob = testCase[1], test_id=test_id, room_id=room_id)
 
             logging.info("Run completed.")
 
