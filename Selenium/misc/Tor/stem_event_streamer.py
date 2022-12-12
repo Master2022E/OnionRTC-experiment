@@ -129,6 +129,7 @@ def close_event_streamer():
   if controller and type(controller) == Controller:
     #logging_global(("Controller:",controller.is_alive(),"Socket:",controller.get_socket()._is_alive))
     controller.remove_event_listener(stream_event)
+    time.sleep(1)
     result = controller.close()
     #logging_global(("Controller:",controller.is_alive(),"Socket:",controller.get_socket()._is_alive))
     logging_global("Done closing the Tor controller")
