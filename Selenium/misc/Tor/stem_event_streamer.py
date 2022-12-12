@@ -71,8 +71,7 @@ def setup_event_streamer(vars=None,logging=None):
   global controller
   global vars_global
 
-  logging_global("Tracking requests for tor exits. Press 'enter' to end.")
-  logging_global("")
+  logging_global("Tracking requests for tor exits")
 
   setup_controller(logging)
 
@@ -128,9 +127,10 @@ def close_event_streamer():
   
   
   if controller and type(controller) == Controller:
-    logging_global(("Controller:",controller.is_alive(),"Socket:",controller.get_socket()._is_alive))
+    #logging_global(("Controller:",controller.is_alive(),"Socket:",controller.get_socket()._is_alive))
+    controller.remove_event_listener(stream_event)
     result = controller.close()
-    logging_global(("Controller:",controller.is_alive(),"Socket:",controller.get_socket()._is_alive))
+    #logging_global(("Controller:",controller.is_alive(),"Socket:",controller.get_socket()._is_alive))
     logging_global("Done closing the Tor controller")
     try:
       return vars_global.latest_circuit
