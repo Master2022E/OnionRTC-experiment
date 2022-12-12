@@ -13,6 +13,7 @@ from selenium.webdriver.firefox.service import Service
 
 from misc.Tor.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
 
+import socket
 from dotenv import load_dotenv
 import pyfiglet
 import sys
@@ -23,7 +24,6 @@ import logging
 import logging.handlers
 
 from misc.mongo_report_ssh import close_mongo_connection, create_client_report
-import uuid
 
 """
 Python script for running WebRTC session tests using Selenium and different anonymization services.
@@ -97,7 +97,7 @@ for type in logging_str:
     logging_types[type] = type
 
 # Annonimization network types
-network_types_str = ["None","Tor","I2P","Lokinet"]
+network_types_str = ["Tor","I2P","Lokinet"] # "None" 
 network_types = dict()
 for type in network_types_str:
     network_types[type] = type
@@ -118,17 +118,18 @@ class OnionRTC():
 
         # Positional arguments, meaning they are not required but can be used.
         # If you want to set the last one, then you need to set the previous ones as well.
-        # Example: 'python3 OnionRTC.py "Torben" "Room42" 2'
-        # Results in: 'Namespace(client_username='Torben', room_id='Room42', session_length_seconds=2, proxy=False, headless=True, verbose=False)'
+        # Example: './OnionRTC.py "Torben" "bfe386e8-b93b-4f2b-874a-b9494481e45a" "Room42" 10'
+        # Results in: 'Namespace(client_username='Torben', test_id='bfe386e8-b93b-4f2b-874a-b9494481e45a', room_id='Room42', session_length_seconds=10, proxy=False, headless=True, verbose=False)'
         parser.add_argument('client_username', metavar="client_username", nargs='?', type=str, default="client_username", help='The username of the client')
+        parser.add_argument('test_id', metavar="test_id",nargs='?', type=str, default="test_id",  help='The test id that the client should use')
         parser.add_argument('room_id', metavar="room_id",nargs='?', type=str, default="room_id",  help='The room id that the client should join')
         parser.add_argument('session_length_seconds', metavar='N', type=int, nargs='?', default=60,
                             help='Sets the number of seconds a session should be running for')
 
         # Optional arguments
         parser.add_argument('-p','--proxy', action='store_const',
-                            const=True, default=False,
-                            help='Whether the browser should use the onion routing proxy') #FIXME: set default proxy to False 
+                            const=True, default=True,
+                            help='Whether the browser should use the onion routing proxy [Default True]')
         parser.add_argument('-r',metavar="int", type=int, dest="session_setup_retries", default=4,
                             help='How many times the session setup should be retried before failing the test')
         parser.add_argument("-c", dest="client_config", help="Sets a client config string. Defaults to env var $CLIENT_CONFIG", default=client_config)
@@ -172,7 +173,7 @@ class OnionRTC():
         console_handler.setLevel(logging.INFO)
 
         logging.basicConfig(
-                format='%(asctime)s %(levelname)-8s %(message)s',
+                format=f'%(asctime)s {socket.gethostname()} %(levelname)-8s %(message)s',
                 level=logging_level,
                 datefmt='%Y-%m-%d %H:%M:%S',
                     handlers=[
@@ -191,7 +192,7 @@ class OnionRTC():
         data = {'client_username':self.vars.client_username,
         "client_type": self.vars.client_config,
         "room_id": self.vars.room_id,
-        "test_id": str(uuid.uuid4()),
+        "test_id": self.vars.test_id, # str(uuid.uuid4())
         "logging_type": logging_types["CLIENT_ERROR"]}
 
         # Setup the client_config string by appending the proxy flag
@@ -202,10 +203,11 @@ class OnionRTC():
                 self.vars.client_config += ":NoProxy"
         
 
+        data["state"] = states["setup_client"]
 
         # Setup Socks Proxy
         # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
-        if self.vars.proxy:
+        if self.vars.proxy and "None" not in self.vars.client_config :
 
             if network_types["Tor"] in self.vars.client_config:
 
@@ -217,7 +219,7 @@ class OnionRTC():
                         raise Exception("Tor proxy was not ready yet")
 
                 except Exception as e:
-                    data["state"] = states["setup_client"]
+                    
                     type = ""
                     if hasattr(e,"__module__"):
                         type = e.__module__ 
@@ -239,15 +241,11 @@ class OnionRTC():
                 # FIXME: Do I2P setup and checking here
                 pass
             else:
-                data["state"] = states["setup_client"]
-                e = "No valid annonymity network type was was found in the client_config string, but proxy flag was set?, failing prematurely"
+                e = f"No valid annonymity network type was was found in the client_config string: '{self.vars.client_config}'"
                 data["error"] = f"Exception: {e}"
                 create_client_report(data,logging)
                 raise Exception(e)
 
-        
-
-        data["state"] = states["setup_client"]
         
         try:
             browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
@@ -287,7 +285,7 @@ class OnionRTC():
         "client_id": self.vars.client_id,
         "client_type": self.vars.client_config,
         "room_id": self.vars.room_id,
-        "test_id": str(uuid.uuid4()),
+        "test_id": self.vars.test_id, # str(uuid.uuid4())
         "logging_type": logging_types["NOT_SET"]}
 
         self.vars.state = states["check_media"]
