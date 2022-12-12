@@ -50,24 +50,6 @@ else
 fi
 
 
-service_file='/etc/systemd/system/webcam_permission.service'
-
-if [ ! -f $service_file ]; then
-    echo "Service file '${service_file}' not found!"
-    exit 1
-fi
-systemctl is-enabled --quiet webcam_permission.service && echo webcam_permission.service is enabled || (echo webcam_permission.service is not enabled; exit 1)
-
-
-# Does the webcam seem to work?
-# If v4l2-ctl is installed
-if ls /dev/video0; then
-    echo "ls /dev/video0" returned true
-else
-    echo "ls /dev/video0" returned false
-    exit 1
-fi
-
 # Check that the correct firefox installation is installed
 if ! command -v firefox &> /dev/null
 then
