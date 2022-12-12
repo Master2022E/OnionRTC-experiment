@@ -172,8 +172,29 @@ class OnionRTC():
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(logging.INFO)
 
+
+        color_codes = {
+        'RED': '\033[41m',
+        'BLUE': '\033[42m',
+        'GREEN': '\033[45m',
+        'PINK': '\033[44m'
+        }
+
+        hostname = socket.gethostname()
+
+        if "Tor" in hostname:
+            color_code = color_codes["RED"]
+        elif "I2P" in hostname:
+            color_code = color_codes["BLUE"]
+        elif "Lokinet" in hostname:
+            color_code = color_codes["GREEN"]
+        else:
+            color_code = color_codes["PINK"]
+        
+        color_end = "\033[1;0m"
+
         logging.basicConfig(
-                format=f'%(asctime)s {socket.gethostname()} %(levelname)-8s %(message)s',
+                format=f'%(asctime)s {color_code}{socket.gethostname()}{color_end} %(levelname)-8s %(message)s ',
                 level=logging_level,
                 datefmt='%Y-%m-%d %H:%M:%S',
                     handlers=[
@@ -181,6 +202,9 @@ class OnionRTC():
                     #logging.StreamHandler(), # Show everything on console
                     console_handler # Only show INFO and above on console
                 ])
+        
+        logging.addLevelName( logging.WARNING, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
+        logging.addLevelName( logging.ERROR, "\033[1;41m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
 
 
         webdriverOptions = Options()
