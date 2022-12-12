@@ -58,16 +58,6 @@ if [ ! -f $service_file ]; then
 fi
 systemctl is-enabled --quiet webcam_permission.service && echo webcam_permission.service is enabled || (echo webcam_permission.service is not enabled; exit 1)
 
-service_file2='/etc/systemd/system/webcam.service'
-
-if [ ! -f $service_file2 ]; then
-    echo "Service file '${service_file2}' not found!"
-    exit 1
-fi
-
-systemctl is-enabled --quiet webcam.service && echo webcam.service is enabled || (echo webcam.service is not enabled; exit 1)
-systemctl is-active --quiet webcam.service && echo Service is running || (echo webcam.service is not running; exit 1)
-
 
 # Does the webcam seem to work?
 # If v4l2-ctl is installed
@@ -98,4 +88,3 @@ else
     fi
     exit 1
 fi
-sudo usermod -a -G video ${USER}
