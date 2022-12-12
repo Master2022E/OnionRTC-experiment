@@ -9,8 +9,8 @@ res1=$(date +%s.%N)
 # Disable authentication for PulseAudio, so we can run the pactl commands over ssh
 # Can be installed via "sudo apt install pulseaudio-utils"
 pax11publish -r
-pulseaudio --check -v
-#pulseaudio --kill
+#pulseaudio --check -v
+pulseaudio --kill
 pulseaudio -D -vvv
 
 cfg=${CLIENT_CONFIG:-NOT SET!}
@@ -21,7 +21,7 @@ cfg=${CLIENT_CONFIG:-NOT SET!}
 pactl load-module module-null-sink sink_name="virtual_speaker" sink_properties=device.description="virtual_speaker"
 pactl load-module module-remap-source master="virtual_speaker.monitor" source_name="virtual_mic" source_properties=device.description="virtual_mic"
 #ffmpeg -stream_loop -1 -nostdin -re -i output1.mp4 -f v4l2 /dev/video0 & PULSE_SINK=virtual_speaker ffmpeg -stream_loop -1 -i output1.mp4 -f pulse "stream name"
-ffmpeg -stream_loop -1 -nostdin -re -i /home/chris/Documents/OnionRTC-experiment/client_scripts/BigBuckBunny.mp4 -vf "drawtext=x=0:y=8:box=1:fontcolor=yellow:fontsize=50:boxcolor=black:expansion=strftime:basetime=$(date +%s -d'00:00:00')000000:text='$newline Start\:%Y-%m-%d %H\\:%M\\:%S Cfg\: $cfg $newline'"  -f v4l2 /dev/video0 & PULSE_SINK=virtual_speaker ffmpeg -stream_loop -1 -i /home/chris/Documents/OnionRTC-experiment/client_scripts/BigBuckBunny.mp4 -f pulse "stream name"
+ffmpeg -stream_loop -1 -nostdin -re -i /home/agpbruger/OnionRTC-experiment/client_scripts/BigBuckBunny.mp4 -vf "drawtext=x=0:y=8:box=1:fontcolor=yellow:fontsize=50:boxcolor=black:expansion=strftime:basetime=$(date +%s -d'00:00:00')000000:text='$newline Start\:%Y-%m-%d %H\\:%M\\:%S Cfg\: $cfg $newline'"  -f v4l2 /dev/video0 & PULSE_SINK=virtual_speaker ffmpeg -stream_loop -1 -i /home/agpbruger/OnionRTC-experiment/client_scripts/BigBuckBunny.mp4 -f pulse "stream name"
 kill $!
 
 echo -e "\n----------------------------------"
