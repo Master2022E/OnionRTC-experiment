@@ -156,7 +156,8 @@ def clientWebcam(client: Client) -> None:
             connection.run(command, hide=True)
         except(Exception) as e:
             pass
-        
+            
+        # Run the script twice, because the first time it does sometime fail.. #hack
         try:
             connection.run(command, hide=True)
         except(Exception) as e:
@@ -172,7 +173,7 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
     name = str(client)
 
     connection = getConnection(client)
-    timeout = 10
+    timeout = 60
     command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {timeout}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
@@ -233,7 +234,7 @@ def main():
 
     testCases = [
         # One to one
-        [Client.c1, Client.d1],
+        [Client.c3, Client.d1],
 
     ]
 
@@ -297,7 +298,8 @@ if __name__ == "__main__":
             console_handler # Only show INFO and above on console
         ])
 
-
+    logging.addLevelName( logging.WARNING, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
+    logging.addLevelName( logging.ERROR, "\033[1;41m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
 
                 
     print(figlet_format("Command & Controller", font="slant"))

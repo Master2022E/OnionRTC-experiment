@@ -92,33 +92,33 @@ def stream_event(controller, event):
   global vars_global
   if event.circ_id and (event.status == StreamStatus.SUCCEEDED ): # or event.status == StreamStatus.CLOSED):
     # if it is the TURN server that is the target
-    if event.target_address == "130.225.170.247" and "3000" != str(event.target_port):
-      logging_global("Found the TURN server!")
-      logging_global(f"event.target {event.target }")
+    #if event.target_address == "130.225.170.247" and "3000" != str(event.target_port):
+    #  logging_global("Found the TURN server!")
+    #  logging_global(f"event.target {event.target }")
 
 
     if "3478" == str(event.target_port) : # This is not the correct port. It should be the port, that the TURN server allocates for the client.
      
-      logging_global(f"{event.target_address},{event.target},{event}")
-      logging_global(f"Circuit id: {event.circ_id}")
+      if vars_global.verbose:
+        logging_global(f"{event.target_address},{event.target},{event}")
+        logging_global(f"Circuit id: {event.circ_id}")
       circ = controller.get_circuit(event.circ_id)
 
       exit_fingerprint = circ.path[-1][0]
       exit_relay = controller.get_network_status(exit_fingerprint)
 
-      logging_global("Exit relay for our connection to %s" % (event.target))
-      logging_global("  address: %s:%i" % (exit_relay.address, exit_relay.or_port))
-      logging_global("  fingerprint: %s" % exit_relay.fingerprint)
-      logging_global("  nickname: %s" % exit_relay.nickname)
       try:
-        logging_global("  locale: %s" % controller.get_info("ip-to-country/%s" % exit_relay.address, 'unknown'))
+        if vars_global.verbose:
+          logging_global("Exit relay for our connection to %s" % (event.target))
+          logging_global("  address: %s:%i" % (exit_relay.address, exit_relay.or_port))
+          logging_global("  fingerprint: %s" % exit_relay.fingerprint)
+          logging_global("  nickname: %s" % exit_relay.nickname)
+          logging_global("  locale: %s" % controller.get_info("ip-to-country/%s" % exit_relay.address, 'unknown'))
       except:
         pass
 
       if vars_global:
         vars_global.latest_circuit = return_circuit_status(exit_relay.address)
-
-      logging_global("")
     
 
 def close_event_streamer():

@@ -12,7 +12,7 @@ def _getCollection():
     """
     load_dotenv()
     address = f'mongodb://{os.getenv("MONGO_USER")}:{os.getenv("MONGO_PASSWORD")}@127.0.0.1:27017'
-    client = MongoClient(address)
+    client = MongoClient(address,serverSelectionTimeoutMS=10000)
     database = client["observertc-reports"]
     return database["calls"]
 
@@ -61,8 +61,11 @@ def log( loggingType: str, data = dict(), test_id = None, room_id = None, client
         logging.info(f'A {data.get("logging_type")} log was sent')
     except (errors.DuplicateKeyError):
         logging.error("Error while sending logging data, Key already exists?, data: {data}")
+    except errors.ServerSelectionTimeoutError as e:
+        logging.error(f"Connection to mongo server could not open")
+        #FIXME: SEND DISCORD MESSAGE!
     except (KeyboardInterrupt, Exception) as e:
-        logging.error("Error while sending logging data", e)
+        logging.error(f"Error while sending logging data {e}")
 
 
 if __name__ == "__main__":
