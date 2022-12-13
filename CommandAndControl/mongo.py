@@ -1,5 +1,5 @@
 
-from pymongo import MongoClient
+from pymongo import MongoClient, errors
 from datetime import datetime
 from dotenv import load_dotenv
 import logging
@@ -38,7 +38,7 @@ def log( loggingType: str, data = dict(), test_id = None, room_id = None, client
         The client username, by default None
     """
 
-    data['timestamp'] = str(datetime.now())
+    data["timestamp"] = str(datetime.now())
     data["logging_type"] = loggingType
     data["client_type"] = "CnC"
 
@@ -53,12 +53,14 @@ def log( loggingType: str, data = dict(), test_id = None, room_id = None, client
 
     # https://stackoverflow.com/questions/17529216/mongodb-insert-raises-duplicate-key-error
     if("_id" in data):
-        del data['_id'] 
+        del data["_id"] 
 
     try:
         collection = _getCollection()
         collection.insert_one(data)
         logging.info(f'A {data.get("logging_type")} log was sent')
+    except (errors.DuplicateKeyError):
+        logging.error("Error while sending logging data, Key already exists?, data: {data}")
     except (KeyboardInterrupt, Exception) as e:
         logging.error("Error while sending logging data", e)
 
