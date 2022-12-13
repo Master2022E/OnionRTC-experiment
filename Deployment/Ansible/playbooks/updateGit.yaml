@@ -1,6 +1,6 @@
 ---
 
-  - hosts: clients
+  - hosts: clients, server-a
     gather_facts: false
     tasks:
       
@@ -12,6 +12,20 @@
         update: yes
         accept_hostkey: true
 
+  - hosts: clients
+    gather_facts: false
+    tasks:
+
     - name: Install pip requirements
       ansible.builtin.pip:
         requirements: ~/OnionRTC-experiment/requirements.txt
+
+
+
+  - hosts: server-a
+    gather_facts: false
+    tasks:
+
+    - name: Install pip requirements
+      ansible.builtin.pip:
+        requirements: ~/OnionRTC-experiment/CommandAndControl/requirements.txt
