@@ -269,7 +269,7 @@ if __name__ == "__main__":
 
 
     logging.basicConfig(
-        format=f'%(asctime)s %(levelname)s %(processName)-12s %(message)s',
+        format=f'%(asctime)s %(levelname)s %(processName)-12s %(filename)s(%(lineno)d): %(message)s',
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S',
             handlers=[
