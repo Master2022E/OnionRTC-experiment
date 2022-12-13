@@ -22,7 +22,7 @@ def node_data(entry,controller):
 def printer(start_str,entry,controller,circuit_index):
   fingerprint, nickname, desc, address = node_data(entry,controller)
   IP = f"ip-to-country/{address}"
-  print(f"{start_str}: {fingerprint} ({nickname}, {address},{ controller.get_info(IP)})")
+  #print(f"{start_str}: {fingerprint} ({nickname}, {address},{ controller.get_info(IP)})")
   return_dict["Circuits"][circuit_index][start_str] = {"Fingerprint":fingerprint,"Nickname":nickname,"Address":address,"Country":controller.get_info(IP)}
 
 
@@ -38,7 +38,7 @@ def return_circuit_status(exit_IP):
     traffic_downloaded = size(int(bytes_read))
     traffic_uploaded = size(int(bytes_written))
 
-    print("The client has downloaded:",traffic_downloaded,"\nThe client has uploaded: ",traffic_uploaded)
+    #print("The client has downloaded:",traffic_downloaded,"\nThe client has uploaded: ",traffic_uploaded)
 
     for circ in sorted(controller.get_circuits()):
       if circ.status != CircStatus.BUILT:
@@ -54,12 +54,12 @@ def return_circuit_status(exit_IP):
         
         if exit_IP == address and i == len(circ.path) - 1:
           return_dict["Circuits"][circ.id] = {}
-          print("")
-          print("Circuit %s (%s)" % (circ.id, circ.purpose))
-          print("Found a matching IP address of the exit node!")
-          printer("Entry Node",entry_node,controller,circ.id)
-          printer("Middle Node",middle_node,controller,circ.id)
-          printer("Exit node",entry,controller,circ.id)
+          #print("")
+          #print("Circuit %s (%s)" % (circ.id, circ.purpose))
+          #print("Found a matching IP address of the exit node!")
+          #printer("Entry Node",entry_node,controller,circ.id)
+          #printer("Middle Node",middle_node,controller,circ.id)
+          #printer("Exit node",entry,controller,circ.id)
   
   return return_dict 
 
