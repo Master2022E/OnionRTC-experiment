@@ -234,7 +234,7 @@ def main():
 
     testCases = [
         # One to one
-        [Client.c3, Client.d1],
+        [Client.c1, Client.d1],
 
     ]
 
