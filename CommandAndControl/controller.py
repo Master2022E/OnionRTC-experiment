@@ -6,7 +6,7 @@ from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
-from invoke import Responder
+from invoke import Responder, UnexpectedExit
 from fabric import Connection
 import os
 from dotenv import load_dotenv
@@ -114,12 +114,14 @@ def clientCleanup(client: Client) -> None:
     # Find and kill any ffmpeg processes
     command = "kill $(ps aux | grep '[f]fmpeg' | awk '{print $2}')"
     try:
-        with connection as conn:
-            logging.info("Cleaning the client " + name + " with the command: " + command )
-            result = conn.run(command, hide=True)
-            #logging.info(result)
-    except:
+        logging.info("Killing the ffmpeg processes on " + name + " with the command: " + command )
+        connection.run(command, hide=True)
+        
+    except(UnexpectedExit):
         pass
+
+    logging.info("Target(s) neutralized")
+
 
 def clientWebcam(client: Client) -> None:
     '''
@@ -128,37 +130,38 @@ def clientWebcam(client: Client) -> None:
     '''
 
     name = str(client)
-
-    connection = getConnection(client)
     load_dotenv()
 
     passwd = os.environ.get("USER_SUDO_PASSWORD",None)
     if passwd == None:
         raise Exception("USER_SUDO_PASSWORD not set")
 
-    # Handle root password for running commands that require sudo
-    sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
-    command = "./setup_fake_webcam_permissions.sh"
-
-    logging.info("Configuring the client " + name + " webcam with the command: " + command )
+    
+    
+    connection = getConnection(client)
     with connection.cd("OnionRTC-experiment/client_scripts"):
-        result = connection.run(command, hide=True, pty=True, watchers=[sudopass])
-        #logging.info(result)
+        command = "./setup_fake_webcam_permissions.sh"
+        logging.info("Configuring the client " + name + " webcam permissions with the command: " + command )
+        try:
+            sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
+            connection.run(command, hide=True, pty=True, watchers=[sudopass])
+            logging.info(f"Webcam permissions on the client {name} configured")
+        except(UnexpectedExit) as e:
+            logging.info(f"Error command: {e.result.command} on {name} exited with {e.result.exited}")
+            pass
 
+        command = "./setup_fake_webcam.sh"
+        logging.info("Starting the client " + name + " webcam")
+        try:
+            connection.run(command, hide=True)
+        except(Exception) as e:
+            pass
+        
+        try:
+            connection.run(command, hide=True)
+        except(Exception) as e:
+            pass
 
-    command = "./setup_fake_webcam.sh"
-
-    logging.info("Starting the client " + name + " webcam with the command: " + command )
-    with connection.cd("OnionRTC-experiment/client_scripts"):
-        result = connection.run(command, hide=True)
-        # NOTE: The result is of this type:
-        #       https://docs.pyinvoke.org/en/latest/api/runners.html#invoke.runners.Result
-        if result.exited == 0:
-            logging.info(f"Webcam on the client {name} started")
-        else:
-            logging.error(f"Error while starting the webcam on the client {name} script exited with {result.exited}")
-            logging.info(result.stdout)
-            logging.info(result.stderr)
 
 def clientSession(client: Client, test_id: str, room_id: str) -> None:
     '''
