@@ -151,7 +151,14 @@ def clientWebcam(client: Client) -> None:
     logging.info("Starting the client " + name + " webcam with the command: " + command )
     with connection.cd("OnionRTC-experiment/client_scripts"):
         result = connection.run(command, hide=True)
-        logging.info(result)
+        # NOTE: The result is of this type:
+        #       https://docs.pyinvoke.org/en/latest/api/runners.html#invoke.runners.Result
+        if result.exited == 0:
+            logging.info(f"Webcam on the client {name} started")
+        else:
+            logging.error(f"Error while starting the webcam on the client {name} script exited with {result.exited}")
+            logging.info(result.stdout)
+            logging.info(result.stderr)
 
 def clientSession(client: Client, test_id: str, room_id: str) -> None:
     '''
@@ -168,8 +175,15 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
     logging.info("Starting the client " + name + " with the command: " + command )
     mongo.log("COMMAND_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
     with connection.cd("OnionRTC-experiment/Selenium"):
-        result = connection.run(command, hide=False)
-        logging.info(result)
+        result = connection.run(command, hide=True)
+        # NOTE: The result is of this type:
+        #       https://docs.pyinvoke.org/en/latest/api/runners.html#invoke.runners.Result
+        if result.exited == 0:
+            logging.info(f"Session on the client {name} successfully ended")
+        else:
+            logging.error(f"Session on the client {name} exited with {result.exited}")
+            logging.info(result.stdout)
+            logging.info(result.stderr)
     mongo.log("COMMAND_END", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
 
 
