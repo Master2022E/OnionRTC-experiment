@@ -207,7 +207,7 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     bobWebcamProcess.start()
 
     aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
-    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
+    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id),name=f'Session-{str(bob).replace(" ", "")}')
     
     logging.info("Starting the sessions")
     aliceSessionProcess.start()
