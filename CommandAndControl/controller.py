@@ -178,15 +178,14 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
     logging.info("Starting the client " + name + " with the command: " + command )
     mongo.log("COMMAND_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
     with connection.cd("OnionRTC-experiment/Selenium"):
-        result = connection.run(command, hide=True)
-        # NOTE: The result is of this type:
-        #       https://docs.pyinvoke.org/en/latest/api/runners.html#invoke.runners.Result
-        if result.exited == 0:
+        try:
+            connection.run(command, hide=True)
             logging.info(f"Session on the client {name} successfully ended")
-        else:
-            logging.error(f"Session on the client {name} exited with {result.exited}")
-            logging.info(result.stdout)
-            logging.info(result.stderr)
+        except(UnexpectedExit) as e:
+            logging.error(f"Session on the client {name} exited with {e.result.exited}")
+            logging.error(f"command: {e.result.command}")
+            logging.error(f"stdout:\n{e.result.stdout}")
+            logging.error(f"stderr:\n{e.result.stderr}")
     mongo.log("COMMAND_END", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
 
 
