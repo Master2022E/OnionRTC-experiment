@@ -57,9 +57,9 @@ def return_circuit_status(exit_IP):
           #print("")
           #print("Circuit %s (%s)" % (circ.id, circ.purpose))
           #print("Found a matching IP address of the exit node!")
-          #printer("Entry Node",entry_node,controller,circ.id)
-          #printer("Middle Node",middle_node,controller,circ.id)
-          #printer("Exit node",entry,controller,circ.id)
+          printer("Entry Node",entry_node,controller,circ.id)
+          printer("Middle Node",middle_node,controller,circ.id)
+          printer("Exit node",entry,controller,circ.id)
   
   return return_dict 
 
