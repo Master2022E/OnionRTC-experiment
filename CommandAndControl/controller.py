@@ -75,8 +75,8 @@ def cleanup(alice: Client, bob: Client):
     which makes it easier to follow which client is doing what.
     '''
 
-    aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,),name=f'{str(alice).replace(" ", "")}')
-    bobCleanUpProcess = Process(target=clientCleanup, args=(bob,),name=f'{str(bob).replace(" ", "")}')
+    aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,),name=f'Clean-{str(alice).replace(" ", "")}')
+    bobCleanUpProcess = Process(target=clientCleanup, args=(bob,),name=f'Clean-{str(bob).replace(" ", "")}')
     
     logging.info("Cleaning up")
     try:
@@ -92,7 +92,7 @@ def cleanup(alice: Client, bob: Client):
 def stop_webcam(aliceWebcamProcess: Process, bobWebcamProcess: Process):
     '''
     Takes two webcam processes, kills them and waits for them to finish.
-    Same as cleanup(..) this could propably be done without spawning extra processes.
+    Same as cleanup(..) this could probably be done without spawning extra processes.
     '''
 
     aliceWebcamProcess.kill()
