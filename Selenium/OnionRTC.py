@@ -511,7 +511,6 @@ class OnionRTC():
                     # FIXME: Should use "self.vars.driver.find_element(By.CSS_SELECTOR, ".Connection_state > .value").text" when
                     # it has been implemented in the webRTC application
                     if "<tr><td><p>Connection state:</p></td><td><p>failed</p></td></tr>" in self.vars.driver.page_source \
-                    or "<tr><td><p>Connection state:</p></td><td><p>disconnected</p></td></tr>" in self.vars.driver.page_source \
                     and self.vars.session_length_seconds > i+10: 
                         # If the session is less than 10 seconds from finishing, we don't fail the session, due to a non synchronized start of the call
 
