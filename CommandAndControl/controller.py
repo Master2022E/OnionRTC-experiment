@@ -6,7 +6,7 @@ from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
-from invoke import Responder
+from invoke import Responder, UnexpectedExit
 from fabric import Connection
 import os
 from dotenv import load_dotenv
@@ -75,8 +75,8 @@ def cleanup(alice: Client, bob: Client):
     which makes it easier to follow which client is doing what.
     '''
 
-    aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,),name=f'{str(alice).replace(" ", "")}')
-    bobCleanUpProcess = Process(target=clientCleanup, args=(bob,),name=f'{str(bob).replace(" ", "")}')
+    aliceCleanUpProcess = Process(target=clientCleanup, args=(alice,),name=f'Clean-{str(alice).replace(" ", "")}')
+    bobCleanUpProcess = Process(target=clientCleanup, args=(bob,),name=f'Clean-{str(bob).replace(" ", "")}')
     
     logging.info("Cleaning up")
     try:
@@ -92,7 +92,7 @@ def cleanup(alice: Client, bob: Client):
 def stop_webcam(aliceWebcamProcess: Process, bobWebcamProcess: Process):
     '''
     Takes two webcam processes, kills them and waits for them to finish.
-    Same as cleanup(..) this could propably be done without spawning extra processes.
+    Same as cleanup(..) this could probably be done without spawning extra processes.
     '''
 
     aliceWebcamProcess.kill()
@@ -114,12 +114,14 @@ def clientCleanup(client: Client) -> None:
     # Find and kill any ffmpeg processes
     command = "kill $(ps aux | grep '[f]fmpeg' | awk '{print $2}')"
     try:
-        with connection as conn:
-            logging.info("Cleaning the client " + name + " with the command: " + command )
-            result = conn.run(command, hide=True)
-            #logging.info(result)
-    except:
+        logging.info("Killing the ffmpeg processes on " + name + " with the command: " + command )
+        connection.run(command, hide=True)
+        
+    except(UnexpectedExit):
         pass
+
+    logging.info("Target(s) neutralized")
+
 
 def clientWebcam(client: Client) -> None:
     '''
@@ -128,34 +130,39 @@ def clientWebcam(client: Client) -> None:
     '''
 
     name = str(client)
-
-    connection = getConnection(client)
     load_dotenv()
 
     passwd = os.environ.get("USER_SUDO_PASSWORD",None)
     if passwd == None:
         raise Exception("USER_SUDO_PASSWORD not set")
 
-    # Handle root password for running commands that require sudo
-    sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
-    command = "./setup_fake_webcam_permissions.sh"
-
-    logging.info("Configuring the client " + name + " webcam with the command: " + command )
+    
+    
+    connection = getConnection(client)
     with connection.cd("OnionRTC-experiment/client_scripts"):
-        result = connection.run(command, hide=True, pty=True, watchers=[sudopass])
-        #logging.info(result)
+        command = "./setup_fake_webcam_permissions.sh"
+        logging.info("Configuring the client " + name + " webcam permissions with the command: " + command )
+        try:
+            sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
+            connection.run(command, hide=True, pty=True, watchers=[sudopass])
+            logging.info(f"Webcam permissions on the client {name} configured")
+        except(UnexpectedExit) as e:
+            logging.info(f"Error command: {e.result.command} on {name} exited with {e.result.exited}")
+            pass
 
+        command = "./setup_fake_webcam.sh"
+        logging.info("Starting the client " + name + " webcam")
+        try:
+            connection.run(command, hide=True)
+        except(Exception) as e:
+            pass
+            
+        # Run the script twice, because the first time it does sometime fail.. #hack
+        try:
+            connection.run(command, hide=True)
+        except(Exception) as e:
+            pass
 
-    command = "./setup_fake_webcam.sh"
-
-    logging.info("Starting the client " + name + " webcam with the command: " + command )
-    with connection.cd("OnionRTC-experiment/client_scripts"):
-        result = connection.run(command, hide=True)
-        #logging.info(result)
-
-    # Run the script twice, because the first time it does sometime fail.. #hack
-    with connection.cd("OnionRTC-experiment/client_scripts"):
-        result = connection.run(command, hide=True)
 
 def clientSession(client: Client, test_id: str, room_id: str) -> None:
     '''
@@ -171,9 +178,15 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
 
     logging.info("Starting the client " + name + " with the command: " + command )
     mongo.log("COMMAND_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
-    #with connection.cd("OnionRTC-experiment/Selenium"):
-    #    result = connection.run(command, hide=False)
-    #    logging.info(result)
+    with connection.cd("OnionRTC-experiment/Selenium"):
+        try:
+            connection.run(command, hide=True)
+            logging.info(f"Session on the client {name} successfully ended")
+        except(UnexpectedExit) as e:
+            logging.error(f"Session on the client {name} exited with {e.result.exited}")
+            logging.error(f"command: {e.result.command}")
+            logging.error(f"stdout:\n{e.result.stdout}")
+            logging.error(f"stderr:\n{e.result.stderr}")
     mongo.log("COMMAND_END", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
 
 
@@ -187,19 +200,20 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     
     cleanup(alice, bob)
 
-    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'{str(alice).replace(" ", "")}')
-    bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'{str(bob).replace(" ", "")}')
+    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'Camera-{str(alice).replace(" ", "")}')
+    bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'Camera-{str(bob).replace(" ", "")}')
 
     logging.info("Starting the webcams")
     aliceWebcamProcess.start()
     bobWebcamProcess.start()
 
-    time.sleep(1) # Wait for the webcams to start
+    logging.info("Giving the webcams a head start")
+    time.sleep(5)
 
-    aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id))
-    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id))
+    aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
+    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id),name=f'Session-{str(bob).replace(" ", "")}')
     
-    logging.info("Starting the session")
+    logging.info("Starting the sessions")
     aliceSessionProcess.start()
     bobSessionProcess.start()
 
@@ -211,7 +225,7 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     stop_webcam(aliceWebcamProcess, bobWebcamProcess)
 
     # Cleanup
-    process_clean([aliceSessionProcess, bobSessionProcess,aliceWebcamProcess,bobWebcamProcess])
+    process_clean([aliceSessionProcess, bobSessionProcess, aliceWebcamProcess, bobWebcamProcess])
     cleanup(alice, bob)        
 
     logging.info("Session ended")
@@ -220,7 +234,7 @@ def main():
 
     testCases = [
         # One to one
-        [Client.c3, Client.d1],
+        [Client.c1, Client.d1],
 
     ]
 
