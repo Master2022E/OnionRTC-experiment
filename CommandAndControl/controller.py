@@ -149,9 +149,13 @@ def clientWebcam(client: Client) -> None:
     command = "./setup_fake_webcam.sh"
 
     logging.info("Starting the client " + name + " webcam with the command: " + command )
-    #with connection.cd("OnionRTC-experiment/client_scripts"):
-    #    result = connection.run(command, hide=True)
-    #    logging.info(result)
+    with connection.cd("OnionRTC-experiment/client_scripts"):
+        result = connection.run(command, hide=True)
+        #logging.info(result)
+
+    # Run the script twice, because the first time it does sometime fail.. #hack
+    with connection.cd("OnionRTC-experiment/client_scripts"):
+        result = connection.run(command, hide=True)
 
 def clientSession(client: Client, test_id: str, room_id: str) -> None:
     '''
@@ -162,7 +166,7 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
     name = str(client)
 
     connection = getConnection(client)
-    timeout = 10
+    timeout = 60
     command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {timeout}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
@@ -190,6 +194,8 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     aliceWebcamProcess.start()
     bobWebcamProcess.start()
 
+    time.sleep(1) # Wait for the webcams to start
+
     aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id))
     bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id))
     
@@ -214,7 +220,7 @@ def main():
 
     testCases = [
         # One to one
-        [Client.c1, Client.d1],
+        [Client.c3, Client.d1],
 
     ]
 
