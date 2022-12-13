@@ -8,6 +8,7 @@
       ansible.builtin.git:
         repo: 'git@github.com:Master2022E/OnionRTC-experiment.git'
         dest: ./OnionRTC-experiment
+        version: main
         clone: yes
         update: yes
         accept_hostkey: true
