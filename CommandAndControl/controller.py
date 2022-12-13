@@ -224,7 +224,7 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     stop_webcam(aliceWebcamProcess, bobWebcamProcess)
 
     # Cleanup
-    process_clean([aliceSessionProcess, bobSessionProcess,aliceWebcamProcess,bobWebcamProcess])
+    process_clean([aliceSessionProcess, bobSessionProcess, aliceWebcamProcess, bobWebcamProcess])
     cleanup(alice, bob)        
 
     logging.info("Session ended")
