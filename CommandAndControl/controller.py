@@ -183,17 +183,17 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     
     cleanup(alice, bob)
 
-    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'{str(alice).replace(" ", "")}')
-    bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'{str(bob).replace(" ", "")}')
+    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'Camera-{str(alice).replace(" ", "")}')
+    bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'Camera-{str(bob).replace(" ", "")}')
 
     logging.info("Starting the webcams")
     aliceWebcamProcess.start()
     bobWebcamProcess.start()
 
-    aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id))
-    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id))
+    aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
+    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
     
-    logging.info("Starting the session")
+    logging.info("Starting the sessions")
     aliceSessionProcess.start()
     bobSessionProcess.start()
 
