@@ -149,9 +149,9 @@ def clientWebcam(client: Client) -> None:
     command = "./setup_fake_webcam.sh"
 
     logging.info("Starting the client " + name + " webcam with the command: " + command )
-    #with connection.cd("OnionRTC-experiment/client_scripts"):
-    #    result = connection.run(command, hide=True)
-    #    logging.info(result)
+    with connection.cd("OnionRTC-experiment/client_scripts"):
+        result = connection.run(command, hide=True)
+        logging.info(result)
 
 def clientSession(client: Client, test_id: str, room_id: str) -> None:
     '''
@@ -167,9 +167,9 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
 
     logging.info("Starting the client " + name + " with the command: " + command )
     mongo.log("COMMAND_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
-    #with connection.cd("OnionRTC-experiment/Selenium"):
-    #    result = connection.run(command, hide=False)
-    #    logging.info(result)
+    with connection.cd("OnionRTC-experiment/Selenium"):
+        result = connection.run(command, hide=False)
+        logging.info(result)
     mongo.log("COMMAND_END", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
 
 
