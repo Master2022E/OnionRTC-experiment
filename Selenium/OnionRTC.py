@@ -280,7 +280,7 @@ class OnionRTC():
             data["error"] = f"Exception: {e}"
             create_client_report(data,logging)
 
-            raise Exception("geckodriver not found!")
+            raise e
 
         
         return self.vars

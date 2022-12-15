@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import logging
 import sys
 import os
+import custom_discord as discord 
 
 def _getCollection():
     """
@@ -63,7 +64,7 @@ def log( loggingType: str, data = dict(), test_id = None, room_id = None, client
         logging.error("Error while sending logging data, Key already exists?, data: {data}")
     except errors.ServerSelectionTimeoutError as e:
         logging.error(f"Connection to mongo server could not open")
-        #FIXME: SEND DISCORD MESSAGE!
+        discord.notify(header="MongoDB Connection Error", errorMessage=str(e))
     except (KeyboardInterrupt, Exception) as e:
         logging.error(f"Error while sending logging data {e}")
 

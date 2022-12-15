@@ -16,7 +16,7 @@ To test the printing in discord, run this file directly.
 """
 
 
-def notify(message: str, header: str = None, test_id = None, room_id = None, client_id = None, dict = None):
+def notify(header: str = None, message: str = "", errorMessage: str = "" , test_id = None, room_id = None, client_id = None, dict = None):
     """
     Sends a notification to the discord webhook
 
@@ -51,22 +51,26 @@ def notify(message: str, header: str = None, test_id = None, room_id = None, cli
         return
 
     if(header is not None):
-        message = f"**{header}**\n{message}"
+        header = f"**{header}**\n"
 
+    basicInfo = ""
     if(test_id is not None or room_id is not None or client_id is not None):
-        message += "\n```shell\n"
+        basicInfo = "\n```shell\n"
         if(test_id is not None):
-            message += f"Test ID: {test_id}\n"
+            basicInfo += f"Test ID: {test_id}\n"
         if(room_id is not None):
-            message += f"Room ID: {room_id}\n"
+            basicInfo += f"Room ID: {room_id}\n"
         if(client_id is not None):
-            message += f"Client ID: {client_id}\n"
-        message += "```\n"
+            basicInfo += f"Client ID: {client_id}\n"
+        basicInfo += "```\n"
 
+    dictText = ""
     if(dict is not None):
-        message += "```json\n"
-        message += json.dumps(dict, indent=4)
-        message += "\n```"
+        dictText = "```json\n"
+        dictText += json.dumps(dict, indent=4)
+        dictText += "\n```"
+    
+    message = f"{header}{message}{basicInfo}{errorMessage}{dictText}"
 
     webhook = DiscordWebhook(url=discordHook, content=message)
     response = webhook.execute()
@@ -95,4 +99,6 @@ if __name__ == "__main__":
     #notify("Testcase 4", test_id="test_id", room_id="room_id",client_id="client_id")
     #notify("Testcase 5", test_id="test_id", room_id="room_id",client_id="client_id", dict={"test": "test", "test1": {"test2": "test2"}, "test3": [123, 321]})
     #notify("Testcase 6", dict={"test": "test", "test1": {"test2": "test2"}, "test3": [123, 321]})
-    notify("Testcase 7", header="Error")
+    #notify("Testcase 7", header="Error")
+
+    notify(header="Testcase 4", message="message here :)", errorMessage="Stack trace", test_id="test_id", room_id="room_id",client_id="client_id")
