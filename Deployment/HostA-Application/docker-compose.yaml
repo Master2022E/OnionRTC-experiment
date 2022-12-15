@@ -47,7 +47,7 @@ services:
     ports:
       - 127.0.0.1:27017:27017
     volumes:
-      - ./mongo/db:/data/db
+      - /media/storage/db:/data/db
     healthcheck:
       test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
       interval: 10s
