@@ -83,7 +83,7 @@ ALWAYS_RETRY_EXCEPTIONS = (
   )
 
 # Define a consistent state space for the test
-states_str = ["setup_client","setup_browser","check_media","check_webrtc_settings",
+states_str = ["setup_client","check_media","check_webrtc_settings",
               "starting_session","waiting_for_call","call_in_progress","call_ended",
               "teardown","done","error"]
 states = dict()
@@ -151,7 +151,7 @@ class OnionRTC():
         # Related to session_setup_retries, which is default 4 and is the amount of rounds
         self.waiting_counter_max = 8
 
-        self.vars.state = states["setup_browser"]  
+        self.vars.state = states["setup_client"]  
          
 
         logging_level = logging.INFO
@@ -217,7 +217,8 @@ class OnionRTC():
         "client_type": self.vars.client_config,
         "room_id": self.vars.room_id,
         "test_id": self.vars.test_id, # str(uuid.uuid4())
-        "logging_type": logging_types["CLIENT_ERROR"]}
+        "logging_type": logging_types["CLIENT_ERROR"],
+        "state" : states["setup_client"]}
 
         # Setup the client_config string by appending the proxy flag
         if any(net_type in self.vars.client_config for net_type in network_types_str):
@@ -227,7 +228,7 @@ class OnionRTC():
                 self.vars.client_config += ":NoProxy"
         
 
-        data["state"] = states["setup_client"]
+
 
         # Setup Socks Proxy
         # https://stackoverflow.com/questions/60000480/how-to-use-only-socks-proxy-in-firefox-using-selenium
@@ -298,10 +299,13 @@ class OnionRTC():
             # Wait a bit before we close the connection to the other client to account for different registered start times
             time.sleep(3)            
             self.vars.driver.quit()
+        
+        close_mongo_connection()
+        
         logging.info("Test clean up complete")
         self.vars.state = states["done"]
 
-        close_mongo_connection()
+        
 
     def run_session(self):
         self.vars.client_id = "client_id_not_set"
@@ -432,7 +436,7 @@ class OnionRTC():
                     By.CSS_SELECTOR, ".isp > .value").text
 
 
-                logging.info(self.vars.iplocation)
+                #logging.info(self.vars.iplocation)
             except Exception as e:
                 #logging.error(f"Exception: {e}")
                 data["logging_type"] = logging_types["CLIENT_ERROR"]
@@ -466,7 +470,7 @@ class OnionRTC():
                     
 
                     if "<tr><td><p>Connection state:</p></td><td><p>failed</p></td></tr>" in self.vars.driver.page_source:
-                        logging.error("Connection state is failed. This means that the connection failed to start. Refreshing the page and trying again")
+                        logging.warning("Connection state is failed. This means that the connection failed to start. Refreshing the page and trying again")
                         self.vars.driver.refresh()
                         waiting_counter = 0
 
