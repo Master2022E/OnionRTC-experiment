@@ -243,20 +243,20 @@ def main():
 
     ]
 
-    testCases_All = [
+    testCases = [
         # One to one
         [Client.c1, Client.d1],
         [Client.c2, Client.d2],
         [Client.c3, Client.d3],
         [Client.c4, Client.d4],
-        [Client.c5, Client.d5],
+        #[Client.c5, Client.d5], # I2P is not working
         [Client.c6, Client.d6],
 
         # Normal to Anonymized
         [Client.c1, Client.d2],
         [Client.c1, Client.d3],
         [Client.c1, Client.d4],
-        [Client.c1, Client.d5],
+        #[Client.c1, Client.d5], # I2P is not working
         [Client.c1, Client.d6],
 
         # Tor to Tor
