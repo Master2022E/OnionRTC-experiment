@@ -271,7 +271,7 @@ def main():
     logging.info("Waiting to start a new session.")
     while(True):
         try:
-            if(startSession([0, 1, 0])):
+            if(startSession([0, 30, 0])):
                 test_id = str(uuid.uuid4())
                 mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
                 logging.info("Starting a new run, test_id: " + test_id)
