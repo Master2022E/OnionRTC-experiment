@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import logging
 import sys
+import traceback
 import uuid
 from fabric import Connection
 from pyfiglet import figlet_format
@@ -13,6 +14,7 @@ from dotenv import load_dotenv
 from starter import startSession
 import time
 import mongo
+import custom_discord as discord
 class Client(Enum):
     c1 = "c1 - Normal"
     c2 = "c2 - Tor Normal"
@@ -177,17 +179,20 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
     command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {timeout}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
-    mongo.log("COMMAND_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
+    mongo.log("COMMAND_SESSION_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
     with connection.cd("OnionRTC-experiment/Selenium"):
         try:
             connection.run(command, hide=True)
             logging.info(f"Session on the client {name} successfully ended")
         except(UnexpectedExit) as e:
-            logging.error(f"Session on the client {name} exited with {e.result.exited}")
+            logging.error(f"Session failed on client {name}. Exited with {e.result.exited}")
             logging.error(f"command: {e.result.command}")
             logging.error(f"stdout:\n{e.result.stdout}")
             logging.error(f"stderr:\n{e.result.stderr}")
-    mongo.log("COMMAND_END", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+            discord.notify(header="Failed run!", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+            mongo.log("COMMAND_SESSION_FAILED", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+            return
+    mongo.log("COMMAND_SESSION_SUCCESS", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
 
 
 
@@ -260,25 +265,36 @@ def main():
         [Client.c2, Client.d4],
         [Client.c3, Client.d4],
     ]
+    test_id = str
+    room_id = str
     
     logging.info("Waiting to start a new session.")
     while(True):
-        if(startSession([0, 1, 0])):
-            test_id = str(uuid.uuid4())
-            mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
-            logging.info("Starting a new run, test_id: " + test_id)
-            for testCase in testCases:
-                room_id = str(uuid.uuid4())
-                logging.info(f'Starting a test {test_id} in room {room_id} between [{str(testCase[0])}] and [{str(testCase[1])}]')
-                mongo.log(loggingType="COMMAND_START_TEST", test_id=test_id, room_id=room_id)
-                runSession(alice = testCase[0], bob = testCase[1], test_id=test_id, room_id=room_id)
+        try:
+            if(startSession([0, 1, 0])):
+                test_id = str(uuid.uuid4())
+                mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
+                logging.info("Starting a new run, test_id: " + test_id)
+                for testCase in testCases:
+                    room_id = str(uuid.uuid4())
+                    logging.info(f'Starting a test {test_id} in room {room_id} between [{str(testCase[0])}] and [{str(testCase[1])}]')
+                    mongo.log(loggingType="COMMAND_START_TEST", test_id=test_id, room_id=room_id)
+                    runSession(alice = testCase[0], bob = testCase[1], test_id=test_id, room_id=room_id)
 
-            logging.info("Run completed.")
+                logging.info("Run completed, Waiting to start a new session")
 
-        # NOTE: Makes sure that the application doesn't run too fast
-        #       and that the application is closeable with CTRL+C.
-        time.sleep(1) 
-
+            # NOTE: Makes sure that the application doesn't run too fast
+            #       and that the application is closeable with CTRL+C.
+            time.sleep(1) 
+        except KeyboardInterrupt as e:
+            raise(e)
+        except Exception as e:
+            # Get string of exception
+            
+            just_the_string = traceback.format_exc()
+            logging.error(f"An error occurred: \nException: {e}\nTraceback: \n{just_the_string}")
+            discord.notify(header="Crash!", message=f"Exception: {e}\nTraceback: \n{just_the_string}", test_id=test_id, room_id=room_id)
+            pass
 
 
 # main method
@@ -301,9 +317,13 @@ if __name__ == "__main__":
     logging.addLevelName( logging.WARNING, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
     logging.addLevelName( logging.ERROR, "\033[1;41m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
 
+    discord.notify(header="Starting")
                 
     print(figlet_format("Command & Controller", font="slant"))
+
     try:
         main()
-    except KeyboardInterrupt as e:
-        print("KeyboardInterrupt")
+    except KeyboardInterrupt:
+        logging.info("Exiting the application")
+        exit(0)
+        
