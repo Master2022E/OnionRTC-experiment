@@ -521,7 +521,22 @@ class OnionRTC():
                         data["error"] = f"Connection state failed. This means that the connection failed after {i} seconds out of {self.vars.session_length_seconds} ({int(finished)}/100%) during the call."
                         logging.error(data["error"])
                         data["logging_type"] = logging_types["CLIENT_ERROR"]
-                        
+
+                        data.update(self.vars.__dict__)
+                        data.pop("driver") # Take out the driver object from selenium, since it can't be serialized
+
+                        # Remove irrelevant keys for the logging report
+                        entries_to_remove = ('client_config', 'headless','verbose','session_setup_retries','session_length_seconds','proxy')
+                        for k in entries_to_remove:
+                            data.pop(k, None)
+
+                        try:
+                            # Close the Tor event listener and save the data reported from the last session
+                            if self.vars.proxy and "Tor" in self.vars.client_config:
+                                self.vars.latest_circuit = close_event_streamer()                        
+                        except Exception as e:
+                            pass
+
                         create_client_report(data,logging)
                         raise Exception(data["error"])
                 
