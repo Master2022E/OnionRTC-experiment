@@ -1,0 +1,56 @@
+---
+
+# The general check for all hosts:
+- hosts: clients
+  gather_facts: false
+
+  tasks:
+  - name: Check client setup
+    ansible.builtin.shell:
+      chdir: ~/OnionRTC-experiment/client_scripts
+      cmd: ./check_client_setup.sh
+
+# Tor specific checks
+- hosts: c2, c3, c4, d2, d3, d4
+  gather_facts: false
+  tasks:
+
+  - name: Check Tor service is running
+    ansible.builtin.service:
+      name: tor
+      state: started
+      enabled: yes
+
+# Lokinet checks
+- hosts: c6, d6
+  gather_facts: false
+  tasks:
+
+  - name: Check Lokinet service is running
+    ansible.builtin.service:
+      name: Lokinet
+      state: started
+      enabled: yes
+
+
+
+#- hosts: clients
+#  gather_facts: false
+#  tasks:
+#
+#  - name: webcam service is enabled
+#    service:
+#      name=webcam
+#      state=started
+#      enabled=yes
+#
+#
+#
+#- hosts: clients
+#  gather_facts: false
+#  tasks:
+#
+#  - name: Check if the /dev/video0 exists
+#    ansible.builtin.script:
+#      cmd: ./checkForVideoDevice.sh
+#

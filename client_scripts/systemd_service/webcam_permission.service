@@ -1,0 +1,15 @@
+[Unit]
+Description=Webcam permission service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/agpbruger/OnionRTC-experiment/client_scripts/setup_fake_webcam_permissions.sh
+
+[Install]
+WantedBy=multi-user.target
+
+# sudo vim /etc/systemd/system/webcam_permission.service
+# Should only run once upon boot
