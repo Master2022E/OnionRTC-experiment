@@ -186,3 +186,5 @@ lib64
 pyvenv.cfg
 CommandAndControl/session.txt
 .vscode/
+Dataprocess/lastCallsQueryTime.txt
+Dataprocess/rawCallData.csv
