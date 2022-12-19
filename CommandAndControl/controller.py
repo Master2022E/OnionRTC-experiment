@@ -186,9 +186,37 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
             logging.info(f"Session on the client {name} successfully ended")
         except(UnexpectedExit) as e:
             logging.error(f"Session failed on client {name}. Exited with {e.result.exited}")
-            logging.error(f"command: {e.result.command}")
-            logging.error(f"stdout:\n{e.result.stdout}")
-            logging.error(f"stderr:\n{e.result.stderr}")
+            
+            if e.result.exited == 1:
+                # Generic keyboard or Exception
+                logging.error(f"command: {e.result.command}")
+                logging.error(f"stdout:\n{e.result.stdout}")
+                logging.error(f"stderr:\n{e.result.stderr}")
+            
+            elif e.result.exited == 2:
+                # SSH connection error, after 3 retries
+                # Could require a restart of the anonymization service on the client like Lokinet
+                if client == Client.c6 or client == Client.d6:
+                    # Policy: We restart the service and fail the session
+                    passwd = os.environ.get("USER_SUDO_PASSWORD",None)
+                    if passwd == None:
+                        raise Exception("USER_SUDO_PASSWORD not set")                    
+                    logging.error(f"Client {name} is having trouble connecting to the mongo server. Restarting the Lokinet service on the client")
+                    command = f'sudo systemctl restart lokinet.service'
+                    sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
+                    try:
+                        connection.run(command, hide=True, pty=True, watchers=[sudopass])
+                        logging.info(f"Lokinet service on the client {name} was successfully restarted")
+                    except(UnexpectedExit) as e:
+                        logging.error(f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'")       
+                else:
+                    logging.warning(f"No retry policy is defined for {name}!")
+            
+            else:
+                exception_str = e.result.stdout.split(", exception=")[1].split(") \n")[0]
+                logging.warning(f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}')
+
+
             discord.notify(header=f"Failed run! Scenario: {scenario_type}", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
             mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
             return
