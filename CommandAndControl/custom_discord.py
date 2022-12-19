@@ -16,7 +16,7 @@ To test the printing in discord, run this file directly.
 """
 
 
-def notify(header: str = None, message: str = "", errorMessage: str = "" , test_id = None, room_id = None, client_id = None, dict = None):
+def notify(header: str = None, message: str = "", errorMessage: str = "" , scenario_type = None, test_id = None, room_id = None, client_id = None, dict = None):
     """
     Sends a notification to the discord webhook
 
@@ -54,14 +54,16 @@ def notify(header: str = None, message: str = "", errorMessage: str = "" , test_
         header = f"**{header}**\n"
 
     basicInfo = ""
-    if(test_id is not None or room_id is not None or client_id is not None):
+    if(test_id is not None or room_id is not None or client_id is not None or scenario_type is not None):
         basicInfo = "\n```shell\n"
+        if(scenario_type is not None):
+            basicInfo += f"Scenario Type: {scenario_type}\n"
+        if(client_id is not None):
+            basicInfo += f"Client ID: {client_id}\n"
         if(test_id is not None):
             basicInfo += f"Test ID: {test_id}\n"
         if(room_id is not None):
             basicInfo += f"Room ID: {room_id}\n"
-        if(client_id is not None):
-            basicInfo += f"Client ID: {client_id}\n"
         basicInfo += "```\n"
 
     dictText = ""

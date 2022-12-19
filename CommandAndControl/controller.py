@@ -166,7 +166,7 @@ def clientWebcam(client: Client) -> None:
             pass
 
 
-def clientSession(client: Client, test_id: str, room_id: str) -> None:
+def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str) -> None:
     '''
     Takes a client and runs the OnionRTC.py script on the client.
     This needs to run as a process, so we can run multiple clients at the same time.
@@ -176,10 +176,10 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
 
     connection = getConnection(client)
     timeout = 60
-    command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {timeout}'
+    command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {scenario_type} {timeout}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
-    mongo.log("COMMAND_SESSION_START", test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
+    mongo.log("COMMAND_SESSION_START", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
     with connection.cd("OnionRTC-experiment/Selenium"):
         try:
             connection.run(command, hide=True)
@@ -189,14 +189,14 @@ def clientSession(client: Client, test_id: str, room_id: str) -> None:
             logging.error(f"command: {e.result.command}")
             logging.error(f"stdout:\n{e.result.stdout}")
             logging.error(f"stderr:\n{e.result.stderr}")
-            discord.notify(header="Failed run!", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
-            mongo.log("COMMAND_SESSION_FAILED", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+            discord.notify(header=f"Failed run! Scenario: {scenario_type}", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+            mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
             return
-    mongo.log("COMMAND_SESSION_SUCCESS", test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+    mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
 
 
 
-def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
+def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, room_id: str) -> None:
     '''
     Runs a session between two clients.
 
@@ -215,8 +215,8 @@ def runSession(alice: Client, bob: Client, test_id: str, room_id: str) -> None:
     logging.info("Giving the webcams a head start")
     time.sleep(5)
 
-    aliceSessionProcess = Process(target=clientSession, args=(alice, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
-    bobSessionProcess = Process(target=clientSession, args=(bob, test_id, room_id),name=f'Session-{str(bob).replace(" ", "")}')
+    aliceSessionProcess = Process(target=clientSession, args=(alice, scenario_type, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
+    bobSessionProcess = Process(target=clientSession, args=(bob, scenario_type, test_id, room_id),name=f'Session-{str(bob).replace(" ", "")}')
     
     logging.info("Starting the sessions")
     aliceSessionProcess.start()
@@ -239,32 +239,32 @@ def main():
 
     testCases = [
         # One to one
-        [Client.c1, Client.d1],
+        {"clientC": Client.c1, "clientD": Client.d1, "type": "1"},
 
     ]
 
     testCases = [
         # One to one
-        [Client.c1, Client.d1],
-        [Client.c2, Client.d2],
-        [Client.c3, Client.d3],
-        [Client.c4, Client.d4],
-        #[Client.c5, Client.d5], # I2P is not working
-        [Client.c6, Client.d6],
+        {"clientC": Client.c1, "clientD": Client.d1, "type": "1"},
+        {"clientC": Client.c2, "clientD": Client.d2, "type": "2"},
+        {"clientC": Client.c3, "clientD": Client.d3, "type": "3"},
+        {"clientC": Client.c4, "clientD": Client.d4, "type": "4"},
+        #{"clientC": Client.c5, "clientD": Client.d5, "type": "5"}, # I2P is not working
+        {"clientC": Client.c6, "clientD": Client.d6, "type": "6"},
 
         # Normal to Anonymized
-        [Client.c1, Client.d2],
-        [Client.c1, Client.d3],
-        [Client.c1, Client.d4],
-        #[Client.c1, Client.d5], # I2P is not working
-        [Client.c1, Client.d6],
+        {"clientC": Client.c1, "clientD": Client.d2, "type": "7"},
+        {"clientC": Client.c1, "clientD": Client.d3, "type": "8"},
+        {"clientC": Client.c1, "clientD": Client.d4, "type": "9"},
+        #{"clientC": Client.c1, "clientD": Client.d5, "type": "10"}, # I2P is not working
+        {"clientC": Client.c1, "clientD": Client.d6, "type": "11"},
 
         # Tor to Tor
-        [Client.c1, Client.d2],
-        [Client.c2, Client.d3],
-        [Client.c2, Client.d4],
-        [Client.c3, Client.d4],
+        {"clientC": Client.c2, "clientD": Client.d3, "type": "12"},
+        {"clientC": Client.c2, "clientD": Client.d4, "type": "13"},
+        {"clientC": Client.c3, "clientD": Client.d4, "type": "14"},
     ]
+
     test_id = str
     room_id = str
     
@@ -277,9 +277,9 @@ def main():
                 logging.info("Starting a new run, test_id: " + test_id)
                 for testCase in testCases:
                     room_id = str(uuid.uuid4())
-                    logging.info(f'Starting a test {test_id} in room {room_id} between [{str(testCase[0])}] and [{str(testCase[1])}]')
-                    mongo.log(loggingType="COMMAND_START_TEST", test_id=test_id, room_id=room_id)
-                    runSession(alice = testCase[0], bob = testCase[1], test_id=test_id, room_id=room_id)
+                    logging.info(f'Starting scenario: [{testCase["type"]}] between [{testCase["clientC"]}] and [{testCase["clientD"]}] in room: {room_id} with test id: {test_id}')
+                    mongo.log(loggingType="COMMAND_START_TEST", scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
+                    runSession(alice =testCase["clientC"], bob = testCase["clientD"], scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
 
                 logging.info("Run completed, Waiting to start a new session")
 
