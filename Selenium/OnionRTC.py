@@ -260,7 +260,7 @@ class OnionRTC():
                 webdriverOptions.set_preference("network.proxy.socks_port", 9050)
                 #webdriverOptions.update_preferences()
             elif network_types["Lokinet"] in self.vars.client_config:
-                logging.error("Lokinet is not supported yet!")
+                #logging.error("Lokinet is not supported yet!")
                 # FIXME: Do Lokinet setup and checking here
                 pass
             elif network_types["I2P"] in self.vars.client_config:
@@ -273,13 +273,13 @@ class OnionRTC():
                 create_client_report(data,logging)
                 raise Exception(e)
 
-        
         try:
             browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
             driver = selenium_wrapper(browser)
             self.vars.driver = driver
         except Exception as e:
             data["error"] = f"Exception: {e}"
+            logging.error(f"Exception: {e}")
             create_client_report(data,logging)
 
             raise e
@@ -591,18 +591,23 @@ if __name__ == "__main__":
     try:
         o.setup_session()
         o.run_session()    
-        o.clean_up()
-    except (Exception,KeyboardInterrupt) as e:
+    
+    except (ConnectionError) as e:
         logging.error(f"Exception {o.vars.state}: {e}")
         o.vars.state = states["error"]
         o.vars.exception = e
-        
+        exit(2)
+    except (Exception,KeyboardInterrupt) as e:
+        logging.error(f"Exception {o.vars.state}: {traceback.format_exc()}")
+        o.vars.state = states["error"]
+        o.vars.exception = e
+        exit(1)
+    finally:
         try:
             o.clean_up()
         except:
             pass
         logging.info(f"Printing variables: {o.vars}")
-        exit(1)
 
     logging.info(f"Printing variables: {o.vars}")
     exit(0)
