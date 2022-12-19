@@ -184,3 +184,5 @@ bin/python3.10
 bin/tqdm
 lib64
 pyvenv.cfg
+CommandAndControl/session.txt
+.vscode/

@@ -1,0 +1,11 @@
+---
+
+  - hosts: clients
+    gather_facts: false
+    tasks:
+      # wget the file http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+
+    - name: Download BigBuckBunny
+      ansible.builtin.get_url:
+        url: http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+        dest: ~/OnionRTC-experiment/client_scripts
