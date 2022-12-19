@@ -123,6 +123,7 @@ class OnionRTC():
         parser.add_argument('client_username', metavar="client_username", nargs='?', type=str, default="client_username", help='The username of the client')
         parser.add_argument('test_id', metavar="test_id",nargs='?', type=str, default="test_id",  help='The test id that the client should use')
         parser.add_argument('room_id', metavar="room_id",nargs='?', type=str, default="room_id",  help='The room id that the client should join')
+        parser.add_argument('scenario_type', metavar="scenario_type",nargs='?', type=str, default="scenario_type",  help='The session scenario type that the run is a part of.')
         parser.add_argument('session_length_seconds', metavar='N', type=int, nargs='?', default=60,
                             help='Sets the number of seconds a session should be running for')
 
@@ -217,6 +218,7 @@ class OnionRTC():
         "client_type": self.vars.client_config,
         "room_id": self.vars.room_id,
         "test_id": self.vars.test_id, # str(uuid.uuid4())
+        "scenario_type": self.vars.scenario_type,
         "logging_type": logging_types["CLIENT_ERROR"],
         "state" : states["setup_client"]}
 
