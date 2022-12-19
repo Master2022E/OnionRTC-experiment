@@ -19,7 +19,7 @@ def _getCollection():
 
 
 
-def log( loggingType: str, data = dict(), test_id = None, room_id = None, client_id = None, client_username = None):
+def log( loggingType: str, data = dict(), scenario_type = None, test_id = None, room_id = None, client_id = None, client_username = None):
     """
     Sends a log to the mongo database
 
@@ -51,6 +51,8 @@ def log( loggingType: str, data = dict(), test_id = None, room_id = None, client
         data["client_id"] = client_id
     if(client_username is not None):
         data["client_username"] = client_username
+    if(scenario_type is not None):
+        data["scenario_type"] = scenario_type
 
     # https://stackoverflow.com/questions/17529216/mongodb-insert-raises-duplicate-key-error
     if("_id" in data):
