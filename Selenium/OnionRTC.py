@@ -316,6 +316,7 @@ class OnionRTC():
         "client_type": self.vars.client_config,
         "room_id": self.vars.room_id,
         "test_id": self.vars.test_id, # str(uuid.uuid4())
+        "scenario_type": self.vars.scenario_type,
         "logging_type": logging_types["NOT_SET"]}
 
         self.vars.state = states["check_media"]
