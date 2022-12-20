@@ -467,12 +467,12 @@ class OnionRTC():
                 
             # Waiting for the call to start by checking if the video element is visible
             try:
-                while "<tr><td><p>Connection state:</p></td><td><p>connected</p></td></tr>" not in self.vars.driver.page_source:
+                while "connected" not in self.vars.driver.find_element(By.CSS_SELECTOR, ".connectionState").text:
                     logging.info(f"Waiting for the call to start.. #{waiting_counter} out of {self.waiting_counter_max}")
                     time.sleep(5)
                     
 
-                    if "<tr><td><p>Connection state:</p></td><td><p>failed</p></td></tr>" in self.vars.driver.page_source:
+                    if "failed" in self.vars.driver.find_element(By.CSS_SELECTOR, ".connectionState").text:
                         logging.warning("Connection state is failed. This means that the connection failed to start. Refreshing the page and trying again")
                         self.vars.driver.refresh()
                         waiting_counter = 0
@@ -515,9 +515,7 @@ class OnionRTC():
                         logging.info(f'Finished waiting {i} seconds out of {self.vars.session_length_seconds} seconds\t({int(finished)}%)')                    
                     
                     # Explanation of the states: https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionstatechange_event
-                    # FIXME: Should use "self.vars.driver.find_element(By.CSS_SELECTOR, ".Connection_state > .value").text" when
-                    # it has been implemented in the webRTC application
-                    if "<tr><td><p>Connection state:</p></td><td><p>failed</p></td></tr>" in self.vars.driver.page_source \
+                    if "failed" in self.vars.driver.find_element(By.CSS_SELECTOR, ".connectionState").text \
                     and self.vars.session_length_seconds > i+10: 
                         # If the session is less than 10 seconds from finishing, we don't fail the session, due to a non synchronized start of the call
 
