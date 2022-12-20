@@ -10,6 +10,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
+import subprocess
 
 from misc.Tor.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
 
@@ -261,7 +262,37 @@ class OnionRTC():
                 #webdriverOptions.update_preferences()
             elif network_types["Lokinet"] in self.vars.client_config:
                 #logging.error("Lokinet is not supported yet!")
-                # FIXME: Do Lokinet setup and checking here
+                # The Lokinet client is like a VPN and does not need a proxy to be setup
+                # Run the command "systemctl show lokinet.service --property=StatusText"
+
+                try:
+                    #Example: 'active' or 'inactive'
+                    is_active = subprocess.run(["systemctl","is-active","lokinet"], stdout=subprocess.PIPE)
+                    if is_active.stdout.decode("utf-8").strip() != "active":
+                        # Not active
+                        raise ConnectionRefusedError("Lokinet was not active")
+                except Exception as e:
+                    data["error"] = f"Exception: {e}"
+                    create_client_report(data,logging)
+                    raise e
+
+                try:
+                    #Example: 'StatusText=v0.9.11 client | known/connected: 1750/4 | paths/endpoints 21/1'
+                    # or
+                    status_text = subprocess.run(["systemctl","show","lokinet","--property=StatusText"], stdout=subprocess.PIPE)
+                    if status_text.stdout.decode("utf-8").strip() != "StatusText=\n":
+                        # Could not parse the status text
+                        pass
+                    else:
+                        data["LokiNetStatusText"] = status_text.stdout.decode("utf-8").strip().split("=")[1]
+
+                except Exception as e:
+                    # Example: FileNotFoundError: [Errno 2] No such file or directory: 'systemctl' if the command is not found
+
+                    data["error"] = f"Exception: {e}"
+                    create_client_report(data,logging)
+                    raise e                
+            
                 pass
             elif network_types["I2P"] in self.vars.client_config:
                 logging.error("I2P is not supported yet!")
