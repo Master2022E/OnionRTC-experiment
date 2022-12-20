@@ -177,9 +177,9 @@ class OnionRTC():
 
         color_codes = {
         'RED': '\033[41m',
-        'BLUE': '\033[42m',
-        'GREEN': '\033[45m',
-        'PINK': '\033[44m'
+        'GREEN': '\033[42m',
+        'PINK': '\033[45m',
+        'BLUE': '\033[44m'
         }
 
         
