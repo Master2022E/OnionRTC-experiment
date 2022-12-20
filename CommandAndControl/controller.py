@@ -254,15 +254,18 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
                     try:
                         connection.run(command, hide=True, pty=True, watchers=[sudopass])
                         logging.info(f"Lokinet service on the client {name} was successfully restarted")
+                        discord.notify(header=f"Lokinet service on the client {name} was successfully restarted", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
                     except(UnexpectedExit) as e:
-                        logging.error(f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'")       
+                        logging.error(f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'")   
+                        discord.notify(header=f"Lokinet service on the client {name} was not restarted", message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
                 else:
                     logging.warning(f"No retry policy is defined for {name}!")
+                    discord.notify(header=f"No retry policy is defined for {name}", message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
             else:
                 exception_str = e.result.stdout.split(", exception=")[1].split(") \n")[0]
                 logging.warning(f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}')
-
-
+                discord.notify(header=f"No retry policy is defined for exit-code", message=f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}', scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                
             discord.notify(header=f"Failed run! Scenario: {scenario_type}", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
             #mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
             return # From Error
@@ -379,7 +382,7 @@ def main():
     logging.info("Waiting to start a new session.")
     while(True):
         try:
-            if(startSession([0, 30, 0])):
+            if(startSession([0, 0, 1])):
                 test_id = str(uuid.uuid4())
                 mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
                 logging.info("Starting a new run, test_id: " + test_id)
