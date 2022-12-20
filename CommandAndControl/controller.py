@@ -292,7 +292,7 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     
     cleanup(alice, bob)
 
-    aliceWebcamProcess = Process(target=clientWebcam, args=(alictern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')e,),name=f'Camera-{str(alice).replace(" ", "")}')
+    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'Camera-{str(alice).replace(" ", "")}')
     bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'Camera-{str(bob).replace(" ", "")}')
 
     logging.info("Starting the webcams")
@@ -317,7 +317,7 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     bob.return_code = bob_variable.value
 
     # Classify the session based on their exit codes
-    classify_session(alice, bob, scenario_type, test_id, room_idtern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n'))
+    classify_session(alice, bob, scenario_type, test_id, room_id)
 
     # Kill the webcam processes and wait for them to finish
     stop_webcam(aliceWebcamProcess, bobWebcamProcess)
