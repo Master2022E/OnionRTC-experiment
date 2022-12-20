@@ -398,7 +398,7 @@ def main():
                 logging.info("Starting a new run, test_id: " + test_id)
                 for index,testCase in enumerate(testCases):
                     room_id = str(uuid.uuid4())
-                    logging.info(f'Starting scenario: [{testCase["type"]}] [{index} of {len(testCases)} cases] between [{testCase["clientC"]}] and [{testCase["clientD"]}] in room: {room_id} with test id: {test_id}')
+                    logging.info(f'Starting scenario: [{testCase["type"]}] [{index+1} of {len(testCases)} cases] between [{testCase["clientC"]}] and [{testCase["clientD"]}] in room: {room_id} with test id: {test_id}')
                     mongo.log(loggingType="COMMAND_START_TEST", scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
                     runSession(alice =testCase["clientC"], bob = testCase["clientD"], scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
 
