@@ -435,5 +435,6 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         logging.info("Exiting the application")
+        discord.notify(header="Turning off", message=f"Caused by a keyboard interrupt!")
         exit(0)
         
