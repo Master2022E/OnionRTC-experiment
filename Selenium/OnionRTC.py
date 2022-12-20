@@ -307,6 +307,7 @@ class OnionRTC():
         try:
             browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
             driver = selenium_wrapper(browser)
+            driver.implicitly_wait(30)
             self.vars.driver = driver
         except Exception as e:
             data["error"] = f"Exception: {e}"
