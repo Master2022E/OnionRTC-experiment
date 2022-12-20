@@ -11,4 +11,9 @@ db.calls.find({scenario_type: {$exists: true}}, )
 # Find all the latest calls
 db.calls.find({scenario_type: {$exists: true, $ne: "scenario_type"}}, )
         .sort({timestamp: -1})
+
+# Find a call from room id
+db.calls
+    .find({room_id: {$eq: "f0faddfb-71b2-4777-8ac2-fef6b6df53b0"}})
+    .sort({timestamp: -1})
 ```
