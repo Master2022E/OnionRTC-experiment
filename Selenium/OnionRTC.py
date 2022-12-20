@@ -150,7 +150,7 @@ class OnionRTC():
 
         # How many ticks are there in rounds of waiting before reloading the page to do a new session setup
         # Related to session_setup_retries, which is default 4 and is the amount of rounds
-        self.waiting_counter_max = 8
+        self.waiting_counter_max = 4
 
         self.vars.state = states["setup_client"]  
          

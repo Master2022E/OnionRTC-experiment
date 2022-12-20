@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+import socket
 import sys
 import traceback
 import uuid
@@ -7,6 +8,7 @@ from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
+from multiprocessing import Value
 from invoke import Responder, UnexpectedExit
 from fabric import Connection
 import os
@@ -118,11 +120,14 @@ def clientCleanup(client: Client) -> None:
     try:
         logging.info("Killing the ffmpeg processes on " + name + " with the command: " + command )
         connection.run(command, hide=True)
-        
-    except(UnexpectedExit):
-        pass
+        logging.info("Target(s) neutralized")
+    except(UnexpectedExit) as e:
+        # If the command fails, it is probably because there are no ffmpeg processes running
+        logging.info("Target(s) neutralized")
+    except socket.gaierror:
+        logging.warning("Could not connect to " + name + " to kill the ffmpeg processes, continuing anyway..")
 
-    logging.info("Target(s) neutralized")
+
 
 
 def clientWebcam(client: Client) -> None:
@@ -150,7 +155,7 @@ def clientWebcam(client: Client) -> None:
             logging.info(f"Webcam permissions on the client {name} configured")
         except(UnexpectedExit) as e:
             logging.info(f"Error command: {e.result.command} on {name} exited with {e.result.exited}")
-            pass
+            
 
         command = "./setup_fake_webcam.sh"
         logging.info("Starting the client " + name + " webcam")
@@ -166,7 +171,7 @@ def clientWebcam(client: Client) -> None:
             pass
 
 
-def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str) -> None:
+def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str,variable) -> None:
     '''
     Takes a client and runs the OnionRTC.py script on the client.
     This needs to run as a process, so we can run multiple clients at the same time.
@@ -179,13 +184,14 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
     command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {scenario_type} {timeout}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
-    mongo.log("COMMAND_SESSION_START", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
     with connection.cd("OnionRTC-experiment/Selenium"):
         try:
             connection.run(command, hide=True)
             logging.info(f"Session on the client {name} successfully ended")
+            variable.value = 0
         except(UnexpectedExit) as e:
             logging.error(f"Session failed on client {name}. Exited with {e.result.exited}")
+            variable.value = e.result.exited
             
             if e.result.exited == 1:
                 # Generic keyboard or Exception
@@ -217,8 +223,8 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
 
                 # If Tor
                 if client == Client.c2 or client == Client.d2 or \
-                   client == Client.c3 or client == Client.d3 or \
-                   client == Client.c4 or client == Client.d4:
+                    client == Client.c3 or client == Client.d3 or \
+                    client == Client.c4 or client == Client.d4:
                     # Policy: We restart the service and fail the session
                     passwd = os.environ.get("USER_SUDO_PASSWORD",None)
                     if passwd == None:
@@ -258,11 +264,24 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
 
 
             discord.notify(header=f"Failed run! Scenario: {scenario_type}", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
-            mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
-            return
-    mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+            #mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+            return # From Error
+
+    #mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+    return # From Success
+    
+def classify_session(alice, bob, scenario_type, test_id, room_id):
+    '''
+    Classifies the session based on the shared variable.
+    '''
 
 
+    if alice.return_code == 0 and bob.return_code == 0:
+        mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
+    else:
+        mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
+        
+        
 
 def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, room_id: str) -> None:
     '''
@@ -273,7 +292,7 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     
     cleanup(alice, bob)
 
-    aliceWebcamProcess = Process(target=clientWebcam, args=(alice,),name=f'Camera-{str(alice).replace(" ", "")}')
+    aliceWebcamProcess = Process(target=clientWebcam, args=(alictern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')e,),name=f'Camera-{str(alice).replace(" ", "")}')
     bobWebcamProcess = Process(target=clientWebcam, args=(bob,),name=f'Camera-{str(bob).replace(" ", "")}')
 
     logging.info("Starting the webcams")
@@ -283,16 +302,22 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     logging.info("Giving the webcams a head start")
     time.sleep(5)
 
-    aliceSessionProcess = Process(target=clientSession, args=(alice, scenario_type, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
-    bobSessionProcess = Process(target=clientSession, args=(bob, scenario_type, test_id, room_id),name=f'Session-{str(bob).replace(" ", "")}')
-    
-    logging.info("Starting the sessions")
-    aliceSessionProcess.start()
-    bobSessionProcess.start()
+    # create shared variable
+    alice_variable = Value('f', -1)
+    bob_variable = Value('f', -1)
 
-    # Wait for the session processes to finish
-    aliceSessionProcess.join()
-    bobSessionProcess.join()
+    aliceSessionProcess = Process(target=clientSession, args=(alice, scenario_type, test_id, room_id,alice_variable,),name=f'Session-{str(alice).replace(" ", "")}')
+    bobSessionProcess = Process(target=clientSession, args=(bob, scenario_type, test_id, room_id,bob_variable,),name=f'Session-{str(bob).replace(" ", "")}')
+    
+    
+    run_session(scenario_type, test_id, room_id, aliceSessionProcess, bobSessionProcess)
+
+    # Give client object the return code
+    alice.return_code = alice_variable.value
+    bob.return_code = bob_variable.value
+
+    # Classify the session based on their exit codes
+    classify_session(alice, bob, scenario_type, test_id, room_idtern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n'))
 
     # Kill the webcam processes and wait for them to finish
     stop_webcam(aliceWebcamProcess, bobWebcamProcess)
@@ -302,6 +327,21 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     cleanup(alice, bob)        
 
     logging.info("Session ended")
+
+def run_session(scenario_type, test_id, room_id, aliceSessionProcess, bobSessionProcess):
+    '''
+    Runs the session processes and waits for them to finish.
+    '''
+
+    logging.info("Starting the sessions")
+    mongo.log("COMMAND_SESSION_START", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
+    aliceSessionProcess.start()
+    bobSessionProcess.start()
+
+    # Wait for the session processes to finish
+    aliceSessionProcess.join()
+    bobSessionProcess.join()
+    
 
 def main():
 
@@ -362,7 +402,6 @@ def main():
             just_the_string = traceback.format_exc()
             logging.error(f"An error occurred: \nException: {e}\nTraceback: \n{just_the_string}")
             discord.notify(header="Crash!", message=f"Exception: {e}\nTraceback: \n{just_the_string}", test_id=test_id, room_id=room_id)
-            pass
 
 
 # main method
