@@ -243,7 +243,7 @@ class OnionRTC():
                 try:
                     setup_controller(logging)
                     if not is_tor_ready():
-                        raise Exception("Tor proxy was not ready yet")
+                        raise ConnectionRefusedError("Tor proxy was not ready yet")
 
                 except Exception as e:
                     
@@ -592,7 +592,14 @@ if __name__ == "__main__":
         o.setup_session()
         o.run_session()    
     
-    except (ConnectionError) as e:
+    except ConnectionRefusedError as e:
+        # Anonymity network is not running/ready
+        logging.error(f"Exception {o.vars.state}: {e}")
+        o.vars.state = states["error"]
+        o.vars.exception = e
+        exit(3)    
+    except ConnectionError as e:
+        # SSH connection error
         logging.error(f"Exception {o.vars.state}: {e}")
         o.vars.state = states["error"]
         o.vars.exception = e
