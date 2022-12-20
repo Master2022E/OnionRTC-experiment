@@ -17,6 +17,16 @@ from starter import startSession
 import time
 import mongo
 import custom_discord as discord
+import os
+
+def is_docker():
+    path = '/proc/self/cgroup'
+    return (
+        os.path.exists('/.dockerenv') or
+        os.path.isfile(path) and any('docker' in line for line in open(path))
+    )
+
+
 class Client(Enum):
     c1 = "c1 - Normal"
     c2 = "c2 - Tor Normal"
@@ -386,9 +396,9 @@ def main():
                 test_id = str(uuid.uuid4())
                 mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
                 logging.info("Starting a new run, test_id: " + test_id)
-                for testCase in testCases:
+                for index,testCase in enumerate(testCases):
                     room_id = str(uuid.uuid4())
-                    logging.info(f'Starting scenario: [{testCase["type"]}] between [{testCase["clientC"]}] and [{testCase["clientD"]}] in room: {room_id} with test id: {test_id}')
+                    logging.info(f'Starting scenario: [{testCase["type"]}] [{index} of {len(testCases)} cases] between [{testCase["clientC"]}] and [{testCase["clientD"]}] in room: {room_id} with test id: {test_id}')
                     mongo.log(loggingType="COMMAND_START_TEST", scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
                     runSession(alice =testCase["clientC"], bob = testCase["clientD"], scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
 
@@ -426,8 +436,7 @@ if __name__ == "__main__":
 
     logging.addLevelName( logging.WARNING, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
     logging.addLevelName( logging.ERROR, "\033[1;41m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
-
-    discord.notify(header="Starting")
+    discord.notify(header="Starting",message=f'Running from docker container: {is_docker()}')
                 
     print(figlet_format("Command & Controller", font="slant"))
 
