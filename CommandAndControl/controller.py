@@ -339,7 +339,7 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     process_clean([aliceSessionProcess, bobSessionProcess, aliceWebcamProcess, bobWebcamProcess])
     cleanup(alice, bob)        
 
-    logging.info("Session ended")
+    logging.info("Session ended\n\n")
 
 def run_session(scenario_type, test_id, room_id, aliceSessionProcess, bobSessionProcess):
     '''
