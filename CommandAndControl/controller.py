@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+import socket
 import sys
 import traceback
 import uuid
@@ -7,6 +8,7 @@ from fabric import Connection
 from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
+from multiprocessing import Value
 from invoke import Responder, UnexpectedExit
 from fabric import Connection
 import os
@@ -15,6 +17,16 @@ from starter import startSession
 import time
 import mongo
 import custom_discord as discord
+import os
+
+def is_docker():
+    path = '/proc/self/cgroup'
+    return (
+        os.path.exists('/.dockerenv') or
+        os.path.isfile(path) and any('docker' in line for line in open(path))
+    )
+
+
 class Client(Enum):
     c1 = "c1 - Normal"
     c2 = "c2 - Tor Normal"
@@ -118,11 +130,14 @@ def clientCleanup(client: Client) -> None:
     try:
         logging.info("Killing the ffmpeg processes on " + name + " with the command: " + command )
         connection.run(command, hide=True)
-        
-    except(UnexpectedExit):
-        pass
+        logging.info("Target(s) neutralized")
+    except(UnexpectedExit) as e:
+        # If the command fails, it is probably because there are no ffmpeg processes running
+        logging.info("Target(s) neutralized")
+    except socket.gaierror:
+        logging.warning("Could not connect to " + name + " to kill the ffmpeg processes, continuing anyway..")
 
-    logging.info("Target(s) neutralized")
+
 
 
 def clientWebcam(client: Client) -> None:
@@ -150,7 +165,7 @@ def clientWebcam(client: Client) -> None:
             logging.info(f"Webcam permissions on the client {name} configured")
         except(UnexpectedExit) as e:
             logging.info(f"Error command: {e.result.command} on {name} exited with {e.result.exited}")
-            pass
+            
 
         command = "./setup_fake_webcam.sh"
         logging.info("Starting the client " + name + " webcam")
@@ -166,7 +181,7 @@ def clientWebcam(client: Client) -> None:
             pass
 
 
-def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str) -> None:
+def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str,variable) -> None:
     '''
     Takes a client and runs the OnionRTC.py script on the client.
     This needs to run as a process, so we can run multiple clients at the same time.
@@ -179,22 +194,107 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
     command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {scenario_type} {timeout}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
-    mongo.log("COMMAND_SESSION_START", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=name.replace(" ", ""))
     with connection.cd("OnionRTC-experiment/Selenium"):
         try:
             connection.run(command, hide=True)
             logging.info(f"Session on the client {name} successfully ended")
+            variable.value = 0
         except(UnexpectedExit) as e:
             logging.error(f"Session failed on client {name}. Exited with {e.result.exited}")
-            logging.error(f"command: {e.result.command}")
-            logging.error(f"stdout:\n{e.result.stdout}")
-            logging.error(f"stderr:\n{e.result.stderr}")
+            variable.value = e.result.exited
+            
+            if e.result.exited == 1:
+                # Generic keyboard or Exception
+                logging.error(f"command: {e.result.command}")
+                logging.error(f"stdout:\n{e.result.stdout}")
+                logging.error(f"stderr:\n{e.result.stderr}")
+            
+            elif e.result.exited == 2:
+                # SSH connection error, after 3 retries
+                # Could require a restart of the anonymization service on the client like Lokinet
+                if client == Client.c6 or client == Client.d6:
+                    # Policy: We restart the service and fail the session
+                    passwd = os.environ.get("USER_SUDO_PASSWORD",None)
+                    if passwd == None:
+                        raise Exception("USER_SUDO_PASSWORD not set")                    
+                    logging.error(f"Client {name} is having trouble connecting to the mongo server. Restarting the Lokinet service on the client")
+                    command = f'sudo systemctl restart lokinet.service'
+                    sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
+                    try:
+                        connection.run(command, hide=True, pty=True, watchers=[sudopass])
+                        logging.info(f"Lokinet service on the client {name} was successfully restarted")
+                    except(UnexpectedExit) as e:
+                        logging.error(f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'")       
+                else:
+                    logging.warning(f"No retry policy is defined for {name}!")
+            elif e.result.exited == 3:
+                # Anonymization service not running/ready, so we require a restart of the service
+                # Could require a restart of the anonymization service on the client 
+
+                # If Tor
+                if client == Client.c2 or client == Client.d2 or \
+                    client == Client.c3 or client == Client.d3 or \
+                    client == Client.c4 or client == Client.d4:
+                    # Policy: We restart the service and fail the session
+                    passwd = os.environ.get("USER_SUDO_PASSWORD",None)
+                    if passwd == None:
+                        raise Exception("USER_SUDO_PASSWORD not set")                    
+                    logging.error(f"Client {name} is having trouble connecting to the mongo server. Restarting the Tor service on the client")
+                    command = f'sudo systemctl restart tor.service'
+                    sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
+                    try:
+                        connection.run(command, hide=True, pty=True, watchers=[sudopass])
+                        logging.info(f"Tor service on the client {name} was successfully restarted")
+                    except(UnexpectedExit) as e:
+                        logging.error(f"Tor service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'")
+
+                # If I2p
+                #elif client == Client.c5 or client == Client.d5:
+                # FIXME: Implement I2p restart policy and service check.
+
+                # If Lokinet
+                elif client == Client.c6 or client == Client.d6:
+                    # Policy: We restart the service and fail the session
+                    passwd = os.environ.get("USER_SUDO_PASSWORD",None)
+                    if passwd == None:
+                        raise Exception("USER_SUDO_PASSWORD not set")                    
+                    logging.error(f"Client {name} is having trouble connecting to the mongo server. Restarting the Lokinet service on the client")
+                    command = f'sudo systemctl restart lokinet.service'
+                    sudopass = Responder(pattern=r'\[sudo\] password for agpbruger:', response=f'{passwd}\n')
+                    try:
+                        connection.run(command, hide=True, pty=True, watchers=[sudopass])
+                        logging.info(f"Lokinet service on the client {name} was successfully restarted")
+                        discord.notify(header=f"Lokinet service on the client {name} was successfully restarted", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                    except(UnexpectedExit) as e:
+                        logging.error(f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'")   
+                        discord.notify(header=f"Lokinet service on the client {name} was not restarted", message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                else:
+                    logging.warning(f"No retry policy is defined for {name}!")
+                    discord.notify(header=f"No retry policy is defined for {name}", message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+            else:
+                exception_str = e.result.stdout.split(", exception=")[1].split(") \n")[0]
+                logging.warning(f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}')
+                discord.notify(header=f"No retry policy is defined for exit-code", message=f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}', scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                
             discord.notify(header=f"Failed run! Scenario: {scenario_type}", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
-            mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
-            return
-    mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+            #mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+            return # From Error
+
+    #mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
+    return # From Success
+    
+def classify_session(alice, bob, scenario_type, test_id, room_id):
+    '''
+    Classifies the session based on the shared variable.
+    '''
 
 
+    if alice.return_code == 0 and bob.return_code == 0:
+        mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
+    else:
+        mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
+        
+        
 
 def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, room_id: str) -> None:
     '''
@@ -215,16 +315,22 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     logging.info("Giving the webcams a head start")
     time.sleep(5)
 
-    aliceSessionProcess = Process(target=clientSession, args=(alice, scenario_type, test_id, room_id),name=f'Session-{str(alice).replace(" ", "")}')
-    bobSessionProcess = Process(target=clientSession, args=(bob, scenario_type, test_id, room_id),name=f'Session-{str(bob).replace(" ", "")}')
-    
-    logging.info("Starting the sessions")
-    aliceSessionProcess.start()
-    bobSessionProcess.start()
+    # create shared variable
+    alice_variable = Value('f', -1)
+    bob_variable = Value('f', -1)
 
-    # Wait for the session processes to finish
-    aliceSessionProcess.join()
-    bobSessionProcess.join()
+    aliceSessionProcess = Process(target=clientSession, args=(alice, scenario_type, test_id, room_id,alice_variable,),name=f'Session-{str(alice).replace(" ", "")}')
+    bobSessionProcess = Process(target=clientSession, args=(bob, scenario_type, test_id, room_id,bob_variable,),name=f'Session-{str(bob).replace(" ", "")}')
+    
+    
+    run_session(scenario_type, test_id, room_id, aliceSessionProcess, bobSessionProcess)
+
+    # Give client object the return code
+    alice.return_code = alice_variable.value
+    bob.return_code = bob_variable.value
+
+    # Classify the session based on their exit codes
+    classify_session(alice, bob, scenario_type, test_id, room_id)
 
     # Kill the webcam processes and wait for them to finish
     stop_webcam(aliceWebcamProcess, bobWebcamProcess)
@@ -233,7 +339,22 @@ def runSession(alice: Client, bob: Client, scenario_type: str, test_id: str, roo
     process_clean([aliceSessionProcess, bobSessionProcess, aliceWebcamProcess, bobWebcamProcess])
     cleanup(alice, bob)        
 
-    logging.info("Session ended")
+    logging.info("Session ended\n\n")
+
+def run_session(scenario_type, test_id, room_id, aliceSessionProcess, bobSessionProcess):
+    '''
+    Runs the session processes and waits for them to finish.
+    '''
+
+    logging.info("Starting the sessions")
+    mongo.log("COMMAND_SESSION_START", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
+    aliceSessionProcess.start()
+    bobSessionProcess.start()
+
+    # Wait for the session processes to finish
+    aliceSessionProcess.join()
+    bobSessionProcess.join()
+    
 
 def main():
 
@@ -271,13 +392,13 @@ def main():
     logging.info("Waiting to start a new session.")
     while(True):
         try:
-            if(startSession([0, 30, 0])):
+            if(startSession([0, 0, 1])):
                 test_id = str(uuid.uuid4())
                 mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
                 logging.info("Starting a new run, test_id: " + test_id)
-                for testCase in testCases:
+                for index,testCase in enumerate(testCases):
                     room_id = str(uuid.uuid4())
-                    logging.info(f'Starting scenario: [{testCase["type"]}] between [{testCase["clientC"]}] and [{testCase["clientD"]}] in room: {room_id} with test id: {test_id}')
+                    logging.info(f'Starting scenario: [{testCase["type"]}] [{index+1} of {len(testCases)} cases] between [{testCase["clientC"]}] and [{testCase["clientD"]}] in room: {room_id} with test id: {test_id}')
                     mongo.log(loggingType="COMMAND_START_TEST", scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
                     runSession(alice =testCase["clientC"], bob = testCase["clientD"], scenario_type=testCase["type"], test_id=test_id, room_id=room_id)
 
@@ -294,7 +415,6 @@ def main():
             just_the_string = traceback.format_exc()
             logging.error(f"An error occurred: \nException: {e}\nTraceback: \n{just_the_string}")
             discord.notify(header="Crash!", message=f"Exception: {e}\nTraceback: \n{just_the_string}", test_id=test_id, room_id=room_id)
-            pass
 
 
 # main method
@@ -316,8 +436,7 @@ if __name__ == "__main__":
 
     logging.addLevelName( logging.WARNING, "\033[1;31m%s\033[1;0m" % logging.getLevelName(logging.WARNING))
     logging.addLevelName( logging.ERROR, "\033[1;41m%s\033[1;0m" % logging.getLevelName(logging.ERROR))
-
-    discord.notify(header="Starting")
+    discord.notify(header="Starting",message=f'Running from docker container: {is_docker()}')
                 
     print(figlet_format("Command & Controller", font="slant"))
 
@@ -325,5 +444,6 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         logging.info("Exiting the application")
+        discord.notify(header="Turning off", message=f"Caused by a keyboard interrupt!")
         exit(0)
         
