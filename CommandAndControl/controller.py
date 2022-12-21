@@ -231,7 +231,6 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
             discord.notify(header=f"Fabric run connection timed out",
              message=f"Session failed on client {name}. Timed out after {session_timeout} seconds",
               scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
-            connection.run("pkill -f OnionRTC.py", hide=True) # Kill the process
             return # From Error
         except(UnexpectedExit) as e:
             logging.error(f"Session failed on client {name}. Exited with {e.result.exited}")
@@ -310,6 +309,16 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
                     discord.notify(header=f"No retry policy is defined for {name}",
                      message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'",
                       scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+            elif e.result.exited == 5:
+                # The "TimeoutException" was raised and exit code was 5
+                # It means that the http call for the WebRTC page took too long to finish.
+                # One retry was done, but it failed.
+                # So the session failed while setting up the session!
+                discord.notify(header=f"The HTTP call took too long to finish: {scenario_type}",
+                 message=f"Nothing to do, just a notification",
+                  errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}",
+                   scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))                
+            
             else:
                 exception_str = e.result.stdout.split(", exception=")[1].split(") \n")[0]
                 logging.warning(f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}')
@@ -336,6 +345,8 @@ def classify_session(alice, bob, scenario_type, test_id, room_id):
 
     if alice.return_code == 0 and bob.return_code == 0:
         mongo.log("COMMAND_SESSION_SUCCESS", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
+    elif alice.return_code == 5 or bob.return_code == 5:
+        mongo.log("COMMAND_SESSION_FAILED_SETUP", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
     else:
         mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id)
         

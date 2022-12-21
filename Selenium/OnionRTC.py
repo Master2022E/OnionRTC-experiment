@@ -307,8 +307,8 @@ class OnionRTC():
         try:
             browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
             driver = selenium_wrapper(browser)
-            driver.implicitly_wait(40)
-            driver.set_page_load_timeout(40)
+            driver.implicitly_wait(60)
+            driver.set_page_load_timeout(60)
             self.vars.driver = driver
         except Exception as e:
             data["error"] = f"Exception: {e}"
@@ -621,7 +621,15 @@ if __name__ == "__main__":
 
     try:
         o.setup_session()
-        o.run_session()    
+        o.run_session()
+
+    except TimeoutException as e:
+        # TimeoutException is raised when the http call for the WebRTC page took too long and after one retry
+        logging.error(f"Exception {o.vars.state}: {e}")
+        o.vars.state = states["error"]
+        o.vars.exception = e
+        exit(5)
+        
     
     except ConnectionRefusedError as e:
         # Anonymity network is not running/ready
