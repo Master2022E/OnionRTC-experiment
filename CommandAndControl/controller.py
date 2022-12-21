@@ -72,6 +72,16 @@ def getConnection(c: Client) -> Connection:
     
     return None 
 
+def kill_on_client(name, connection, command):
+    try:
+        connection.run(command, hide=True)
+    except(UnexpectedExit) as e:
+        # If the command fails, it is probably because there are no processes of that name running
+        pass
+    except socket.gaierror:
+        logging.warning(f"Could not connect to " + name + " to run the command {command}, continuing anyway..")
+    
+
 def process_clean(processes: list[Process]) -> None:
     '''
     Takes a list of processes and calls close() on them
@@ -117,49 +127,34 @@ def stop_webcam(aliceWebcamProcess: Process, bobWebcamProcess: Process):
 
 def clientCleanup(client: Client) -> None:
     '''
-    Takes a client and kills any ffmpeg processes that might be running on the client.
-    This could also have be done without spawning a process, since we exit at once.
+    Takes a client and kills any processes that we might have started and should be running on the client.
+    This could also have be done without spawning a process for running this function, since we exit at once.
     '''
 
     name = str(client)
 
     connection = getConnection(client)
 
-    # Find and kill any ffmpeg processes
-    command = "kill $(ps aux | grep '[f]fmpeg' | awk '{print $2}')"
-    try:
-        logging.info("Killing the ffmpeg processes on " + name + " with the command: " + command )
-        connection.run(command, hide=True)
-        logging.info("Target(s) neutralized")
-    except(UnexpectedExit) as e:
-        # If the command fails, it is probably because there are no ffmpeg processes running
-        logging.info("Target(s) neutralized")
-    except socket.gaierror:
-        logging.warning("Could not connect to " + name + " to kill the ffmpeg processes, continuing anyway..")
+    """
+    # The commands to run on the client for cleanup
+    "pkill -f "ffmpeg"" # Find and kill any ffmpeg processes
+    "pkill -f geckodriver" # Find and kill any geckodriver processes
+    "pkill -f firefox" # Find and kill any firefox processes
+    'pkill -f "ssh -MfN -S /tmp/"' # Find and kill any ssh port forwarding processes
+    'pkill -f "python3 OnionRTC.py"' # Find and kill any OnionRTC processes
+    """
 
-
-    # Find and kill any geckodriver processes
-    command = "pkill -f geckodriver"
-    try:
-        logging.info("Killing the geckodriver processes on " + name + " with the command: " + command )
-        connection.run(command, hide=True)
-    except(UnexpectedExit) as e:
-        # If the command fails, it is probably because there are no geckodriver processes running
-        pass
-    except socket.gaierror:
-        logging.warning("Could not connect to " + name + " to kill the geckodriver processes, continuing anyway..")
+    commands = [
+    'pkill -f "ffmpeg"',
+    'pkill -f "geckodriver"',
+    'pkill -f "firefox"',
+    'pkill -f "ssh -MfN -S /tmp/"',
+    'pkill -f "python3 OnionRTC.py"']
     
-
-    # Find and kill any firefox processes
-    command = "pkill -f firefox"
-    try:
-        logging.info("Killing the firefox processes on " + name + " with the command: " + command )
-        connection.run(command, hide=True)
-    except(UnexpectedExit) as e:
-        # If the command fails, it is probably because there are no firefox processes running
-        pass
-    except socket.gaierror:
-        logging.warning("Could not connect to " + name + " to kill the firefox processes, continuing anyway..")
+    logging.info("Killing the processes on " + name)
+    for cmd in commands:
+        kill_on_client(name, connection, cmd)
+    logging.info(f"Target(s) neutralized, done cleaning up on {name}!")
 
     try:
         connection.close()
