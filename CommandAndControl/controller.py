@@ -9,7 +9,7 @@ from pyfiglet import figlet_format
 from enum import Enum
 from multiprocessing import Process
 from multiprocessing import Value
-from invoke import Responder, UnexpectedExit
+from invoke import Responder, UnexpectedExit,CommandTimedOut
 from fabric import Connection
 import os
 from dotenv import load_dotenv
@@ -138,6 +138,33 @@ def clientCleanup(client: Client) -> None:
         logging.warning("Could not connect to " + name + " to kill the ffmpeg processes, continuing anyway..")
 
 
+    # Find and kill any geckodriver processes
+    command = "pkill -f geckodriver"
+    try:
+        logging.info("Killing the geckodriver processes on " + name + " with the command: " + command )
+        connection.run(command, hide=True)
+    except(UnexpectedExit) as e:
+        # If the command fails, it is probably because there are no geckodriver processes running
+        pass
+    except socket.gaierror:
+        logging.warning("Could not connect to " + name + " to kill the geckodriver processes, continuing anyway..")
+    
+
+    # Find and kill any firefox processes
+    command = "pkill -f firefox"
+    try:
+        logging.info("Killing the firefox processes on " + name + " with the command: " + command )
+        connection.run(command, hide=True)
+    except(UnexpectedExit) as e:
+        # If the command fails, it is probably because there are no firefox processes running
+        pass
+    except socket.gaierror:
+        logging.warning("Could not connect to " + name + " to kill the firefox processes, continuing anyway..")
+
+    try:
+        connection.close()
+    except Exception as e:
+        logging.error("Error while closing the connection to " + name + ": " + str(e))
 
 
 def clientWebcam(client: Client) -> None:
@@ -181,24 +208,36 @@ def clientWebcam(client: Client) -> None:
             pass
 
 
-def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str,variable) -> None:
+def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str,variable: Value) -> None:
     '''
     Takes a client and runs the OnionRTC.py script on the client.
     This needs to run as a process, so we can run multiple clients at the same time.
+
+    variable is a multiprocessing.Value object, which is used to communicate with the main process about the result code.
     '''
 
     name = str(client)
 
     connection = getConnection(client)
-    timeout = 60
-    command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {scenario_type} {timeout}'
+    session_length = 60
+    session_timeout = session_length*2
+
+    command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {scenario_type} {session_length}'
 
     logging.info("Starting the client " + name + " with the command: " + command )
     with connection.cd("OnionRTC-experiment/Selenium"):
         try:
-            connection.run(command, hide=True)
+            connection.run(command, hide=True,timeout=session_timeout)
             logging.info(f"Session on the client {name} successfully ended")
             variable.value = 0
+        except CommandTimedOut as e:
+            logging.error(f"Session failed on client {name}. Timed out after {session_timeout} seconds")
+            variable.value = 4
+            discord.notify(header=f"Fabric run connection timed out",
+             message=f"Session failed on client {name}. Timed out after {session_timeout} seconds",
+              scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+            connection.run("pkill -f OnionRTC.py", hide=True) # Kill the process
+            return # From Error
         except(UnexpectedExit) as e:
             logging.error(f"Session failed on client {name}. Exited with {e.result.exited}")
             variable.value = e.result.exited
@@ -264,19 +303,30 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
                     try:
                         connection.run(command, hide=True, pty=True, watchers=[sudopass])
                         logging.info(f"Lokinet service on the client {name} was successfully restarted")
-                        discord.notify(header=f"Lokinet service on the client {name} was successfully restarted", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                        discord.notify(header=f"Lokinet service on the client {name} was successfully restarted",
+                         scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
                     except(UnexpectedExit) as e:
                         logging.error(f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'")   
-                        discord.notify(header=f"Lokinet service on the client {name} was not restarted", message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                        discord.notify(header=f"Lokinet service on the client {name} was not restarted",
+                         message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'",
+                          scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
                 else:
                     logging.warning(f"No retry policy is defined for {name}!")
-                    discord.notify(header=f"No retry policy is defined for {name}", message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                    discord.notify(header=f"No retry policy is defined for {name}",
+                     message=f"Lokinet service on the client {name}. Exited with {e.result.exited} and error: \'{e.result.stdout}\'",
+                      scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
             else:
                 exception_str = e.result.stdout.split(", exception=")[1].split(") \n")[0]
                 logging.warning(f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}')
-                discord.notify(header=f"No retry policy is defined for exit-code", message=f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}', scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+                discord.notify(header=f"No retry policy is defined for exit-code",
+                 message=f'No retry policy is defined for exit-code: \'{e.result.exited}\'! Exception was: {exception_str}',
+                  scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
                 
-            discord.notify(header=f"Failed run! Scenario: {scenario_type}", message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}", errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+            discord.notify(header=f"Failed run! Scenario: {scenario_type}",
+             message=f"Error in OnionRTC on client: {name}, Exit code: {e.result.exited}",
+              errorMessage=f"Traceback: \n{e.result.stdout[max(-(len(e.result.stdout)),-1000):]}",
+               scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_id=name.replace(" ", ""))
+
             #mongo.log("COMMAND_SESSION_FAILED", scenario_type=scenario_type, test_id=test_id, room_id=room_id, client_username=str(name).replace(" ", ""))
             return # From Error
 
