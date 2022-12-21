@@ -215,7 +215,7 @@ def clientSession(client: Client, scenario_type: str, test_id: str, room_id: str
 
     connection = getConnection(client)
     session_length = 60
-    session_timeout = int(session_length*3)
+    session_timeout = int(session_length*6)
 
     command = f'python3 OnionRTC.py {name.replace(" ", "")} {test_id} {room_id} {scenario_type} {session_length}'
 
