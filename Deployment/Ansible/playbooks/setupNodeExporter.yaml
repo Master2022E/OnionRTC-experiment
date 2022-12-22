@@ -1,0 +1,53 @@
+---
+# Find the system architecture: dpkg --print-architecture -> amd64
+
+# Create a folder for node exporter
+# mkdir nodeExporter
+# cd nodeExporter
+
+# Get the file from the github release page:
+# wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
+
+# Extract the package Tape ARchive file
+# tar -xf node_exporter-1.5.0.linux-amd64.tar.gz
+
+# Create the service file
+
+# Start the service
+
+
+
+
+######
+
+# Installs the node exporter, Adds it to systemctl and starts it.
+
+- hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: /bin/nodeExporter
+      state: directory
+      mode: '0755'
+  
+
+  - name: Extract node exporter
+    ansible.builtin.unarchive:
+      src: https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
+      dest: /bin/nodeExporter/
+      remote_src: yes
+
+  - name: Copy the service file
+    ansible.builtin.copy:
+      src: ./node-exporter.service
+      dest: /etc/systemd/system/node-exporter.service
+      mode: '0600'
+
+  - name: Make sure that the service is started
+    ansible.builtin.systemd:
+      name: node-exporter
+      state: started
+
