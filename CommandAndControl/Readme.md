@@ -25,3 +25,11 @@ docker-compose build
 ```shell
 docker-compose up -d
 ``` 
+
+## Release
+
+To release the image it is possible to publish to docker hub with the following command and it will update the tag of latest image and the verison number.
+
+```shell
+make publish username=foo version=v0.0.0
+```
