@@ -28,7 +28,8 @@ def _readSessionTime() -> datetime:
             
     except:
         logging.info("Could not read session.txt, Creates a new file")
-        now = datetime.now()
+        # create date from year 1970
+        now = datetime.fromtimestamp(0)
         try:
             _saveSessionTime(now)
         except:
