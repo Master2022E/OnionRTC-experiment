@@ -159,6 +159,10 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 client_scripts/BigBuckBunny.mp4
+
+Dataprocess/rawData.csv
+Dataprocess/timeOfLastQuery.txt
+.idea/
 .idea/
 .ssh/
 Deployment/HostB-Turn/coturn/turnserver.conf
@@ -182,3 +186,5 @@ lib64
 pyvenv.cfg
 CommandAndControl/session.txt
 .vscode/
+Dataprocess/lastCallsQueryTime.txt
+Dataprocess/rawCallData.csv
