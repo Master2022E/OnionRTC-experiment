@@ -284,10 +284,10 @@ class OnionRTC():
                     # or
                     status_text = subprocess.run(["systemctl","show","lokinet","--property=StatusText"], stdout=subprocess.PIPE)
                     if status_text.stdout.decode("utf-8").strip() != "StatusText=\n":
-                        # Could not parse the status text
-                        pass
+                        self.vars.LokiNetStatusText = status_text.stdout.decode("utf-8").strip().split("=")[1]
                     else:
-                        data["LokiNetStatusText"] = status_text.stdout.decode("utf-8").strip().split("=")[1]
+                        # Nothing to parse
+                        pass
 
                 except Exception as e:
                     # Example: FileNotFoundError: [Errno 2] No such file or directory: 'systemctl' if the command is not found
@@ -296,7 +296,6 @@ class OnionRTC():
                     create_client_report(data,logging)
                     raise e                
             
-                pass
             elif network_types["I2P"] in self.vars.client_config:
                 logging.error("I2P is not supported yet!")
                 # FIXME: Do I2P setup and checking here
@@ -591,7 +590,7 @@ class OnionRTC():
             data.pop("driver") # Take out the driver object from selenium, since it can't be serialized
 
             # Remove irrelevant keys for the logging report
-            entries_to_remove = ('client_config', 'headless','verbose','session_setup_retries','session_length_seconds','proxy')
+            entries_to_remove = ('client_config', 'headless','verbose','session_setup_retries','session_length_seconds','proxy','LokiNetStatusText')
             for k in entries_to_remove:
                 data.pop(k, None)
 
@@ -604,10 +603,17 @@ class OnionRTC():
             # Close the Tor event listener and save the data reported from the last session
             if self.vars.proxy and "Tor" in self.vars.client_config:
                 self.vars.latest_circuit = close_event_streamer()
+            elif self.vars.proxy and "Lokinet" in self.vars.client_config:
+                try:
+                    data["latest_circuit"] = {"Circuit_type": "Lokinet", "Circuits": {"0": self.vars.LokiNetStatusText}}
+                except Exception as e:
+                    pass
+
         except (Exception) as e:
             logging.error(f"Exception close_event_streamer: {e}")
             data["logging_type"] = logging_types["CLIENT_ERROR"]
             data["error"] = f"Exception: {e}"
+
 
         data["state"] = self.vars.state
         create_client_report(data,logging)
@@ -659,6 +665,5 @@ if __name__ == "__main__":
             pass
         
 
-    logging.info(f"Printing variables: {o.vars}")
     exit(0)
     
