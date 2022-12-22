@@ -23,6 +23,7 @@ import argparse
 import os
 import logging
 import logging.handlers
+from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
 
 from misc.mongo_report_ssh import close_mongo_connection, create_client_report
 
@@ -200,7 +201,9 @@ class OnionRTC():
                 level=logging_level,
                 datefmt='%Y-%m-%d %H:%M:%S',
                     handlers=[
-                    logging.FileHandler("debug.log"),
+                    TimedRotatingFileHandler('./debug.log', when="midnight", backupCount=60), # Rotate every midnight and keep 60 days worth of logs
+                    # RotatingFileHandler('./debug.log', maxBytes=268435456, backupCount=10), # 256MB max bytes
+                    # logging.FileHandler("debug.log"), # Without rotation
                     #logging.StreamHandler(), # Show everything on console
                     console_handler # Only show INFO and above on console
                 ])
@@ -651,9 +654,10 @@ if __name__ == "__main__":
     finally:
         try:
             o.clean_up()
+            logging.info(f"Printing variables: {o.vars}")
         except:
             pass
-        logging.info(f"Printing variables: {o.vars}")
+        
 
     logging.info(f"Printing variables: {o.vars}")
     exit(0)
