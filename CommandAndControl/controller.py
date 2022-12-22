@@ -426,20 +426,33 @@ def main():
         {"clientC": Client.c2, "clientD": Client.d2, "type": "2"},
         {"clientC": Client.c3, "clientD": Client.d3, "type": "3"},
         {"clientC": Client.c4, "clientD": Client.d4, "type": "4"},
-        #{"clientC": Client.c5, "clientD": Client.d5, "type": "5"}, # I2P is not working
-        {"clientC": Client.c6, "clientD": Client.d6, "type": "6"},
+        {"clientC": Client.c6, "clientD": Client.d6, "type": "5"},
 
         # Normal to Anonymized
-        {"clientC": Client.c1, "clientD": Client.d2, "type": "7"},
+        {"clientC": Client.c1, "clientD": Client.d2, "type": "6"},
+        {"clientC": Client.c2, "clientD": Client.d1, "type": "7"},
+
         {"clientC": Client.c1, "clientD": Client.d3, "type": "8"},
-        {"clientC": Client.c1, "clientD": Client.d4, "type": "9"},
-        #{"clientC": Client.c1, "clientD": Client.d5, "type": "10"}, # I2P is not working
-        {"clientC": Client.c1, "clientD": Client.d6, "type": "11"},
+        {"clientC": Client.c3, "clientD": Client.d1, "type": "9"},
+
+        {"clientC": Client.c1, "clientD": Client.d4, "type": "10"},
+        {"clientC": Client.c4, "clientD": Client.d1, "type": "11"},
+
+
+        {"clientC": Client.c1, "clientD": Client.d6, "type": "12"},
+        {"clientC": Client.c6, "clientD": Client.d1, "type": "13"},
 
         # Tor to Tor
-        {"clientC": Client.c2, "clientD": Client.d3, "type": "12"},
-        {"clientC": Client.c2, "clientD": Client.d4, "type": "13"},
-        {"clientC": Client.c3, "clientD": Client.d4, "type": "14"},
+        {"clientC": Client.c2, "clientD": Client.d3, "type": "14"},
+        {"clientC": Client.c3, "clientD": Client.d2, "type": "15"},
+
+        {"clientC": Client.c2, "clientD": Client.d4, "type": "16"},
+        {"clientC": Client.c4, "clientD": Client.d2, "type": "17"},
+
+        {"clientC": Client.c3, "clientD": Client.d4, "type": "18"},
+        {"clientC": Client.c4, "clientD": Client.d3, "type": "19"},
+
+
     ]
 
     test_id = str
@@ -448,7 +461,7 @@ def main():
     logging.info("Waiting to start a new session.")
     while(True):
         try:
-            if(startSession([0, 0, 1])):
+            if(startSession([0, 0, 1])): # Set to one second, so we run as fast a possible.
                 test_id = str(uuid.uuid4())
                 mongo.log(loggingType="COMMAND_START_RUN", test_id=test_id)
                 logging.info("Starting a new run, test_id: " + test_id)

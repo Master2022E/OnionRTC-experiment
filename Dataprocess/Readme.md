@@ -21,22 +21,28 @@ One to one.
 2. `Alice` &rarr; `Tor (World)` &rarr; `Turn` &larr; `Tor (World)` &larr; `Bob`
 3. `Alice` &rarr; `Tor (Europe)` &rarr; `Turn` &larr; `Tor (Europe)` &larr; `Bob`
 4. `Alice` &rarr; `Tor (Scandinavia)` &rarr; `Turn` &larr; `Tor (Scandinavia)` &larr; `Bob`
-5. `Alice` &rarr; `I2P` &rarr; `Turn` &larr; `I2P` &larr; `Bob`
-6. `Alice` &rarr; `Lokinet` &rarr; `Turn` &larr; `Lokinet` &larr; `Bob`
+5. `Alice` &rarr; `Lokinet` &rarr; `Turn` &larr; `Lokinet` &larr; `Bob`
 
-Normal to Anonymized
+Normal to Anonymized in pairs
 
-7. `Alice` &rarr; `Turn` &larr; `Tor (World)` &larr; `Bob`
+6. `Alice` &rarr; `Turn` &larr; `Tor (World)` &larr; `Bob`
+7. `Alice` &rarr; `Tor (World)` &rarr; `Turn` &larr; `Bob`
 8. `Alice` &rarr; `Turn` &larr; `Tor (Europe)` &larr; `Bob`
-9. `Alice` &rarr; `Turn` &larr; `Tor (Scandinavia)` &larr; `Bob`
-10. `Alice` &rarr; `Turn` &larr; `I2P` &larr; `Bob`
-11. `Alice` &rarr; `Turn` &larr; `Lokinet` &larr; `Bob`
+9. `Alice` &rarr;  `Tor (Europe)` &rarr; `Turn` &larr; `Bob`
+10. `Alice` &rarr; `Turn` &larr; `Tor (Scandinavia)` &larr; `Bob`
+11. `Alice` &rarr; `Tor (Scandinavia)` &rarr; `Turn` &larr; `Bob`
+12. `Alice` &rarr; `Turn` &larr; `Lokinet` &larr; `Bob`
+13. `Alice` &rarr; `Lokinet` &rarr; `Turn` &larr; `Bob`
 
-Tor to Tor
 
-12. `Alice` &rarr; `Tor (World)` &rarr; `Turn` &larr; `Tor (Europe)` &larr;`Bob`
-13. `Alice` &rarr; `Tor (World)` &rarr; `Turn` &larr; `Tor (Scandinavia)` &larr;`Bob`
-14. `Alice` &rarr; `Tor (Europe)` &rarr; `Turn` &larr; `Tor (Scandinavia)` &larr;`Bob`
+Tor to Tor in pairs
+
+14. `Alice` &rarr; `Tor (World)` &rarr; `Turn` &larr; `Tor (Europe)` &larr;`Bob`
+15. `Alice` &rarr; `Tor (Europe)`  &rarr; `Turn` &larr; `Tor (World)` &larr;`Bob`
+16. `Alice` &rarr; `Tor (World)`  &rarr; `Turn` &larr; `Tor (Scandinavia)` &larr;`Bob`
+17. `Alice` &rarr; `Tor (Scandinavia)` &rarr; `Turn` &larr; `Tor (World)` &larr;`Bob`
+18. `Alice` &rarr; `Tor (Europe)` &rarr; `Turn` &larr; `Tor (Scandinavia)` &larr;`Bob`
+19. `Alice` &rarr; `Tor (Scandinavia)` &rarr; `Turn` &larr; `Tor (Europe)` &larr;`Bob`
 
 For each test call will there be added logs to MongoDb for what setup was started and each client will log what setup it is configured to use.
 
