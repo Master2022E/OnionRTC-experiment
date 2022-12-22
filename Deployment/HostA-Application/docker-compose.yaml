@@ -59,8 +59,8 @@ services:
     image: thomsen96/controller:latest
     hostname: controller
     restart: always
-    env_file: 
+    env_file:
       - ./controller/.env
     volumes:
       - ~/.ssh/:/root/.ssh/
-      - ./controller/debug.log:/app/debug.log
+      - ./controller/log/:/app/log/
