@@ -1,0 +1,82 @@
+---
+
+# Copies all the ssh forwarding services to the host
+
+# Starts all the services.
+
+- hosts: server-a
+  gather_facts: false
+  become: true
+  tasks:
+
+  - name: Copy the service file
+    ansible.builtin.copy:
+      src: ./sshPortForwardServices/
+      dest: /etc/systemd/system/
+      mode: '0600'
+
+
+## C Clients
+
+  - name: Make sure that the service c1 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingc1
+      state: started
+
+  - name: Make sure that the service c2 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingc2
+      state: started
+
+  - name: Make sure that the service c3 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingc3
+      state: started
+
+  - name: Make sure that the service c4 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingc4
+      state: started
+  
+  - name: Make sure that the service c5 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingc5
+      state: started
+  
+  - name: Make sure that the service c6 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingc6
+      state: started
+  
+## D Clients
+
+  - name: Make sure that the service d1 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingd1
+      state: started
+  
+  - name: Make sure that the service d2 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingd2
+      state: started
+  
+  - name: Make sure that the service d3 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingd3
+      state: started
+  
+  - name: Make sure that the service d4 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingd4
+      state: started
+  
+  - name: Make sure that the service d5 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingd5
+      state: started
+  
+  - name: Make sure that the service d6 is started
+    ansible.builtin.systemd:
+      name: ssh_forwardingd6
+      state: started
+  
