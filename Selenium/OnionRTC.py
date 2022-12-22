@@ -10,6 +10,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
+import subprocess
 
 from misc.Tor.stem_event_streamer import setup_event_streamer, close_event_streamer, is_tor_ready, setup_controller
 
@@ -150,7 +151,7 @@ class OnionRTC():
 
         # How many ticks are there in rounds of waiting before reloading the page to do a new session setup
         # Related to session_setup_retries, which is default 4 and is the amount of rounds
-        self.waiting_counter_max = 8
+        self.waiting_counter_max = 4
 
         self.vars.state = states["setup_client"]  
          
@@ -176,9 +177,9 @@ class OnionRTC():
 
         color_codes = {
         'RED': '\033[41m',
-        'BLUE': '\033[42m',
-        'GREEN': '\033[45m',
-        'PINK': '\033[44m'
+        'GREEN': '\033[42m',
+        'PINK': '\033[45m',
+        'BLUE': '\033[44m'
         }
 
         
@@ -243,7 +244,7 @@ class OnionRTC():
                 try:
                     setup_controller(logging)
                     if not is_tor_ready():
-                        raise Exception("Tor proxy was not ready yet")
+                        raise ConnectionRefusedError("Tor proxy was not ready yet")
 
                 except Exception as e:
                     
@@ -260,8 +261,38 @@ class OnionRTC():
                 webdriverOptions.set_preference("network.proxy.socks_port", 9050)
                 #webdriverOptions.update_preferences()
             elif network_types["Lokinet"] in self.vars.client_config:
-                logging.error("Lokinet is not supported yet!")
-                # FIXME: Do Lokinet setup and checking here
+                #logging.error("Lokinet is not supported yet!")
+                # The Lokinet client is like a VPN and does not need a proxy to be setup
+                # Run the command "systemctl show lokinet.service --property=StatusText"
+
+                try:
+                    #Example: 'active' or 'inactive'
+                    is_active = subprocess.run(["systemctl","is-active","lokinet"], stdout=subprocess.PIPE)
+                    if is_active.stdout.decode("utf-8").strip() != "active":
+                        # Not active
+                        raise ConnectionRefusedError("Lokinet was not active")
+                except Exception as e:
+                    data["error"] = f"Exception: {e}"
+                    create_client_report(data,logging)
+                    raise e
+
+                try:
+                    #Example: 'StatusText=v0.9.11 client | known/connected: 1750/4 | paths/endpoints 21/1'
+                    # or
+                    status_text = subprocess.run(["systemctl","show","lokinet","--property=StatusText"], stdout=subprocess.PIPE)
+                    if status_text.stdout.decode("utf-8").strip() != "StatusText=\n":
+                        # Could not parse the status text
+                        pass
+                    else:
+                        data["LokiNetStatusText"] = status_text.stdout.decode("utf-8").strip().split("=")[1]
+
+                except Exception as e:
+                    # Example: FileNotFoundError: [Errno 2] No such file or directory: 'systemctl' if the command is not found
+
+                    data["error"] = f"Exception: {e}"
+                    create_client_report(data,logging)
+                    raise e                
+            
                 pass
             elif network_types["I2P"] in self.vars.client_config:
                 logging.error("I2P is not supported yet!")
@@ -273,13 +304,15 @@ class OnionRTC():
                 create_client_report(data,logging)
                 raise Exception(e)
 
-        
         try:
             browser = webdriver.Firefox(service=Service("/usr/bin/geckodriver"),options=webdriverOptions)
             driver = selenium_wrapper(browser)
+            driver.implicitly_wait(60)
+            driver.set_page_load_timeout(60)
             self.vars.driver = driver
         except Exception as e:
             data["error"] = f"Exception: {e}"
+            logging.error(f"Exception: {e}")
             create_client_report(data,logging)
 
             raise e
@@ -467,12 +500,12 @@ class OnionRTC():
                 
             # Waiting for the call to start by checking if the video element is visible
             try:
-                while "<tr><td><p>Connection state:</p></td><td><p>connected</p></td></tr>" not in self.vars.driver.page_source:
+                while "connected" not in self.vars.driver.find_element(By.CSS_SELECTOR, ".connectionState").text:
                     logging.info(f"Waiting for the call to start.. #{waiting_counter} out of {self.waiting_counter_max}")
                     time.sleep(5)
                     
 
-                    if "<tr><td><p>Connection state:</p></td><td><p>failed</p></td></tr>" in self.vars.driver.page_source:
+                    if "failed" in self.vars.driver.find_element(By.CSS_SELECTOR, ".connectionState").text:
                         logging.warning("Connection state is failed. This means that the connection failed to start. Refreshing the page and trying again")
                         self.vars.driver.refresh()
                         waiting_counter = 0
@@ -515,9 +548,7 @@ class OnionRTC():
                         logging.info(f'Finished waiting {i} seconds out of {self.vars.session_length_seconds} seconds\t({int(finished)}%)')                    
                     
                     # Explanation of the states: https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionstatechange_event
-                    # FIXME: Should use "self.vars.driver.find_element(By.CSS_SELECTOR, ".Connection_state > .value").text" when
-                    # it has been implemented in the webRTC application
-                    if "<tr><td><p>Connection state:</p></td><td><p>failed</p></td></tr>" in self.vars.driver.page_source \
+                    if "failed" in self.vars.driver.find_element(By.CSS_SELECTOR, ".connectionState").text \
                     and self.vars.session_length_seconds > i+10: 
                         # If the session is less than 10 seconds from finishing, we don't fail the session, due to a non synchronized start of the call
 
@@ -590,19 +621,39 @@ if __name__ == "__main__":
 
     try:
         o.setup_session()
-        o.run_session()    
-        o.clean_up()
-    except (Exception,KeyboardInterrupt) as e:
+        o.run_session()
+
+    except TimeoutException as e:
+        # TimeoutException is raised when the http call for the WebRTC page took too long and after one retry
         logging.error(f"Exception {o.vars.state}: {e}")
         o.vars.state = states["error"]
         o.vars.exception = e
+        exit(5)
         
+    
+    except ConnectionRefusedError as e:
+        # Anonymity network is not running/ready
+        logging.error(f"Exception {o.vars.state}: {e}")
+        o.vars.state = states["error"]
+        o.vars.exception = e
+        exit(3)    
+    except ConnectionError as e:
+        # SSH connection error
+        logging.error(f"Exception {o.vars.state}: {e}")
+        o.vars.state = states["error"]
+        o.vars.exception = e
+        exit(2)
+    except (Exception,KeyboardInterrupt) as e:
+        logging.error(f"Exception {o.vars.state}: {traceback.format_exc()}")
+        o.vars.state = states["error"]
+        o.vars.exception = e
+        exit(1)
+    finally:
         try:
             o.clean_up()
         except:
             pass
         logging.info(f"Printing variables: {o.vars}")
-        exit(1)
 
     logging.info(f"Printing variables: {o.vars}")
     exit(0)

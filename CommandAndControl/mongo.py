@@ -61,7 +61,14 @@ def log( loggingType: str, data = dict(), scenario_type = None, test_id = None, 
     try:
         collection = _getCollection()
         collection.insert_one(data)
-        logging.info(f'A {data.get("logging_type")} log was sent')
+        color_end = ''
+        if loggingType == "COMMAND_SESSION_SUCCESS":
+            color_end = '    \033[42mSUCCESS\033[1;0m'
+        elif loggingType == "COMMAND_SESSION_FAILED":
+            color_end = '    \033[1;41mFAILED\033[1;0m'
+
+
+        logging.info(f'A {data.get("logging_type")} log was sent {color_end}')
     except (errors.DuplicateKeyError):
         logging.error("Error while sending logging data, Key already exists?, data: {data}")
     except errors.ServerSelectionTimeoutError as e:
