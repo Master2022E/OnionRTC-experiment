@@ -36,9 +36,10 @@ class SSHTunnel:
             '-o', 'StrictHostKeyChecking=accept-new',
             self.host,
             '-p', '22022'
-        ])
+        ],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
+
         if exit_status != 0:
-            raise Exception('SSH tunnel failed with status: {}'.format(exit_status))
+            raise ConnectionError('SSH tunnel failed after 3 tries with 5 seconds pause in between with status: {}'.format(exit_status))
         if self.send_control_command('check') != 0:
             raise Exception('SSH tunnel failed to check')
         self.open = True
@@ -86,8 +87,37 @@ def setup_mongo_connection(logging=None):
 
     my_local_port = random.randint(10000, 65535)
 
+    if os.getenv("SSH_TUNNEL_USER") is None:
+        raise Exception("SSH_TUNNEL_USER is not set")
+    elif os.getenv("SSH_TUNNEL_PORT") is None:
+        raise Exception("SSH_TUNNEL_PORT is not set")
+    elif os.getenv("SSH_KEY_PATH") is None:
+        raise Exception("SSH_KEY_PATH is not set")
+    elif os.getenv("MONGO_PORT") is None:
+        raise Exception("MONGO_PORT is not set")
+    elif os.getenv("MONGO_HOST") is None:
+        raise Exception("MONGO_HOST is not set")
+
+
     conn = SSHTunnel(os.getenv("MONGO_HOST"), os.getenv("SSH_TUNNEL_USER"), os.getenv("SSH_TUNNEL_PORT"), os.getenv("SSH_KEY_PATH"), os.getenv("MONGO_PORT"),my_local_port)
-    conn.start()
+    
+    try:
+        conn.start()
+    except ConnectionError as e:
+        # First retry
+        time.sleep(1)
+        try:
+            conn.start()
+        except ConnectionError as e:
+            # Second retry
+            time.sleep(1)
+            try:
+                conn.start()
+            except ConnectionError as e:
+                # Third retry, we raise error
+                time.sleep(1)
+                raise e
+
     ssh_conn = conn
 
     #logging_global("Connected on port {} at {}".format(conn.local_port, conn.local_host))
