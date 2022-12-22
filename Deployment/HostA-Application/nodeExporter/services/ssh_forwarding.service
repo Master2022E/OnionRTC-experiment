@@ -1,0 +1,12 @@
+[Unit]
+Description=Setup a local tunnel to client 
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/ssh -i /home/agpbruger/.ssh/id_ecdsa -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -nNT -L 91:127.0.0.1:9100 agpbruger@c.thomsen-it.dk -p 2200
+RestartSec=15
+Restart=always
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
