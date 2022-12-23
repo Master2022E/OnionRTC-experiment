@@ -16,3 +16,8 @@ The deployment of host A, B, C and D can be seen in the sub folders:
 The [Deployment](./Deployment.drawio.svg) diagram describes the server deployment structure that we expect to deploy and run the tests with.
 
 ![Deployment](Deployment.drawio.svg)
+
+
+## Node Exporter
+
+All hosts runs a node exporter on port 9100. The server A will create connection to the hosts via a ssh port forward, to all the clients in service files. See the setup in the playbooks[setupNodeExporter](./Ansible/playbooks/setupNodeExporter.yaml) and [setupNodeExporterPortForward](./Ansible/playbooks/setupNodeExporterPortForward.yaml)

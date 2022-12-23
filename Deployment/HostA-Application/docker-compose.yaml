@@ -64,3 +64,28 @@ services:
     volumes:
       - ~/.ssh/:/root/.ssh/
       - ./controller/log/:/app/log/
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.41.0
+    hostname: prometheus
+    network_mode: host
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - /media/storage/prometheus:/prometheus
+    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yaml
+    user: "0"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:9.3.2
+    hostname: grafana
+    network_mode: host
+    env_file:
+      - ./grafana/.env
+    volumes:
+      - ./grafana/internal/:/var/lib/grafana/
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/dashboards/:/etc/grafana/dashboards/
+    user: "0"
+  
