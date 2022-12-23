@@ -15,6 +15,13 @@
       dest: /etc/systemd/system/
       mode: '0600'
 
+  - name: Copy ssh key to root because reason unknown
+          # No it makes the ssh session able to connect since it is root that does the ssh.
+    ansible.builtin.copy:
+      src: ./.ssh/id_ecdsa
+      dest: /root/.ssh/id_ecdsa
+      mode: '0600'
+      remote_src: true
 
 ## C Clients
 
