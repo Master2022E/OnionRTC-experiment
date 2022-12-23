@@ -4,7 +4,13 @@ global:
 
 
 scrape_configs:
-  - job_name: nodes
+  - job_name: prometheus
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - 'localhost:9090' 
+
+  - job_name: node
     metrics_path: /metrics
     static_configs:
       - targets:
@@ -21,5 +27,5 @@ scrape_configs:
           - 'localhost:9114'
           - 'localhost:9115'
           - 'localhost:9116'
-
-          
+        labels:
+            group: 'production'
