@@ -3,7 +3,7 @@ DIR=deployment
 USER=agpbruger
 PORT=22022
 
-FILES=caddy mongo observer webrtc controller docker-compose.yaml
+FILES=caddy mongo observer webrtc controller prometheus docker-compose.yaml
 
 all:
 	@echo "Options include:"
