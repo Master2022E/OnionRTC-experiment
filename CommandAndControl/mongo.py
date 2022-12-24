@@ -12,7 +12,7 @@ def _getCollection():
     Returns the collection of calls in the mongo database
     """
     load_dotenv()
-    address = f'mongodb://{os.getenv("MONGO_USER")}:{os.getenv("MONGO_PASSWORD")}@127.0.0.1:27017'
+    address = f'mongodb://{os.getenv("MONGO_USER")}:{os.getenv("MONGO_PASSWORD")}@{os.getenv("MONGO_HOST")}:{os.getenv("MONGO_PORT")}'
     client = MongoClient(address,serverSelectionTimeoutMS=10000)
     database = client["observertc-reports"]
     return database["calls"]

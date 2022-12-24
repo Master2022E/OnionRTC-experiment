@@ -498,7 +498,7 @@ if __name__ == "__main__":
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S',
             handlers=[
-            logging.FileHandler("debug.log"),
+            logging.FileHandler("log/debug.log"),
             #logging.StreamHandler(), # Show everything on console
             console_handler # Only show INFO and above on console
         ])
