@@ -49,3 +49,12 @@ For each test call will there be added logs to MongoDb for what setup was starte
 ---
 
 > WARN The docker image have not been tested yet.
+
+## Results
+
+The total success and failure rate of the calls can be seen in the [SuccessOrFail](./SuccessOrFail.ipynb) notebook.
+
+And currently provides the following graph:
+
+![Success or fail](./output_folder/SuccessOrFail.svg)
+
