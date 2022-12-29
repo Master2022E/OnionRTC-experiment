@@ -58,3 +58,8 @@ And currently provides the following graph:
 
 ![Success or fail](./output_folder/SuccessOrFail.svg)
 
+The success rate over time can be seen in the [SuccessRateOverTime](./SuccessRateOverTime.ipynb) notebook.
+
+And currently provides the following graph:
+
+![Success rate over time](./output_folder/SuccessRateOverTime.svg)
