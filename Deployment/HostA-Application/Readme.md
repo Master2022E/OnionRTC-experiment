@@ -45,14 +45,21 @@ The [MonogDB](https://www.mongodb.com/) database will stores the records saved b
 To access the database from a developer machine one needs to make a local ssh port forward to the server.
 
 ```shell
-ssh -L 27017:127.0.0.1:27017 agpbruger@db.thomsen-it.dk -p 22022
+ssh -TNL 27017:127.0.0.1:27017 agpbruger@db.thomsen-it.dk -p 22022
 ```
 
 ### Grafana
 
-> TODO and might not happen. Will maybe be a weekend project.
-
 [Grafana](https://grafana.com/) in combination with [Prometheus](https://prometheus.io/) and [Node Exporter](https://github.com/prometheus/node_exporter) could give some easy insights to the load of the server.
+
+![NodeExporterView](./NodeExporterView.png)
+
+To access Grafana run a shell with the command below and then access it on [localhost:4000](http://localhost:4000)
+```shell
+ssh -TNL 4000:127.0.0.1:4000 agpbruger@a.thomsen-it.dk -p 22022
+```
+
+
 
 ## Initial setup
 
