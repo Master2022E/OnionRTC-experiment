@@ -37,13 +37,13 @@ One to one.
 Normal to Anonymized in pairs
 
 6.  `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `TorN` &larr; `Bob`
-7.  `Alice` &rarr; `Norm` &rarr; `TorN` &rarr; `Turn` &larr; `Bob`
+7.  `Alice` &rarr; `TorN` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
 8.  `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `TorE` &larr; `Bob`
-9.  `Alice` &rarr; `Norm` &rarr; `TorE` &rarr; `Turn` &larr; `Bob`
+9.  `Alice` &rarr; `TorE` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
 10. `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `TorS` &larr; `Bob`
-11. `Alice` &rarr; `Norm` &rarr; `TorS` &rarr; `Turn` &larr; `Bob`
+11. `Alice` &rarr; `TorS` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
 12. `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `Loki` &larr; `Bob`
-13. `Alice` &rarr; `Norm` &rarr; `Loki` &rarr; `Turn` &larr; `Bob`
+13. `Alice` &rarr; `Loki` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
 
 
 Tor to Tor in pairs
