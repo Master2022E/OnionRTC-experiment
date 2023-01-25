@@ -73,7 +73,11 @@ services:
     volumes:
       - ./prometheus/config:/etc/prometheus
       - /media/storage/prometheus:/prometheus
-    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yaml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.retention.time=1y'
+      - '--storage.tsdb.retention.size=100GB'
+      - '--web.enable-lifecycle'
     user: "0"
 
   grafana:
