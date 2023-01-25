@@ -175,3 +175,5 @@ Dataprocess/rawCallData.csv
 bin/*
 
 book
+Dataprocess\database
+Dataprocess/database/
