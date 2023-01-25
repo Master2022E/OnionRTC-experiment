@@ -54,16 +54,16 @@ services:
       timeout: 10s
       retries: 5
 
-#  controller:
-#    container_name: controller
-#    image: thomsen96/controller:latest
-#    hostname: controller
-#    restart: always
-#    env_file:
-#      - ./controller/.env
-#    volumes:
-#      - ~/.ssh/:/root/.ssh/
-#      - ./controller/log/:/app/log/
+  controller:
+    container_name: controller
+    image: thomsen96/controller:latest
+    hostname: controller
+    restart: always
+    env_file:
+      - ./controller/.env
+    volumes:
+      - ~/.ssh/:/root/.ssh/
+      - ./controller/log/:/app/log/
 
   prometheus:
     container_name: prometheus
@@ -73,7 +73,11 @@ services:
     volumes:
       - ./prometheus/config:/etc/prometheus
       - /media/storage/prometheus:/prometheus
-    command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yaml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.retention.time=1y'
+      - '--storage.tsdb.retention.size=100GB'
+      - '--web.enable-lifecycle'
     user: "0"
 
   grafana:
