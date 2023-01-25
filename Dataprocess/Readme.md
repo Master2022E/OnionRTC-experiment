@@ -1,7 +1,8 @@
 # Data processing
 
-> NOTE: To access the Mongo database locally, it's a requirement to create a local port forward though ssh. Like: `ssh -L 27017:127.0.0.1:27017 agpbruger@db.thomsen-it.dk -p 22022
-`
+> NOTE: To access the Mongo database locally, it's a requirement to create a local port forward though ssh. Like: `ssh -L 27017:127.0.0.1:27017 agpbruger@db.thomsen-it.dk -p 22022`
+
+More mongo database access is noted in the [Mongo.md](./Mongo.md) file.
 
 To get data ready for processing, run the [ExtractRawData.ipynb](./ExtractRawData.ipynb) notebook. This will connect to the MongoDB instance and gather the call stats, do som basic data transformation and save it to a CSV file which will be appended to each time the script is called.
 
