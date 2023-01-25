@@ -54,16 +54,16 @@ services:
       timeout: 10s
       retries: 5
 
-#  controller:
-#    container_name: controller
-#    image: thomsen96/controller:latest
-#    hostname: controller
-#    restart: always
-#    env_file:
-#      - ./controller/.env
-#    volumes:
-#      - ~/.ssh/:/root/.ssh/
-#      - ./controller/log/:/app/log/
+  controller:
+    container_name: controller
+    image: thomsen96/controller:latest
+    hostname: controller
+    restart: always
+    env_file:
+      - ./controller/.env
+    volumes:
+      - ~/.ssh/:/root/.ssh/
+      - ./controller/log/:/app/log/
 
   prometheus:
     container_name: prometheus
