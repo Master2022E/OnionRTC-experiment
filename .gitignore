@@ -179,3 +179,4 @@ Dataprocess\database
 Dataprocess/database/
 mdbook.exe
 Dataprocess/output_folder/rawReport/
+Dataprocess/output_folder/plotDf.csv
