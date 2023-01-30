@@ -86,3 +86,11 @@ Plot for RTT of video and audio on successful calls. Created in the [RoundTripTi
 ![RTT for video in successful calls](./output_folder/BoxPlotRttVideo.svg)
 
 ![RTT for audio in successful calls](./output_folder/BoxPlotRttAudio.svg)
+
+### Jitter in successful calls
+
+Plot for Jitter of video and audio on successful calls. Created in the [JitterBoxPlot](./JitterBoxPlot.ipynb) notebook
+
+![Jitter for video in successful calls](./output_folder/BoxPlotJitterVideo.svg)
+
+![Jitter for audio in successful calls](./output_folder/BoxPlotJitterAudio.svg)
