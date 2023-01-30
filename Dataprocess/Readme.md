@@ -63,14 +63,26 @@ For each test call will there be added logs to MongoDb for what setup was starte
 
 ## Results
 
+### Success or fail
+
 The total success and failure rate of the calls can be seen in the [SuccessOrFail](./SuccessOrFail.ipynb) notebook.
 
 And currently provides the following graph:
 
 ![Success or fail](./output_folder/SuccessOrFail.svg)
 
+### Success rate over time
+
 The success rate over time can be seen in the [SuccessRateOverTime](./SuccessRateOverTime.ipynb) notebook.
 
 And currently provides the following graph:
 
 ![Success rate over time](./output_folder/SuccessRateOverTime.svg)
+
+### RTT in successful calls
+
+Plot for RTT of video and audio on successful calls. Created in the [RoundTripTimeBoxPlot](./RoundTripTimeBoxPlot.ipynb) notebook
+
+![RTT for video in successful calls](./output_folder/BoxPlotRttVideo.svg)
+
+![RTT for audio in successful calls](./output_folder/BoxPlotRttAudio.svg)
