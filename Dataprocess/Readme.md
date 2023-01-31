@@ -79,6 +79,10 @@ And currently provides the following graph:
 
 ![Success rate over time](./output_folder/SuccessRateOverTime.svg)
 
+![High performing Success rate over time](./output_folder/SuccessRateOverTimeHigh.svg)
+
+![Low performing Success rate over time](./output_folder/SuccessRateOverTimeLow.svg)
+
 ### RTT in successful calls
 
 Plot for RTT of video and audio on successful calls. Created in the [RoundTripTimeBoxPlot](./RoundTripTimeBoxPlot.ipynb) notebook

@@ -1,4 +1,29 @@
+import sys
 import logging
+import os
+import json
+from dotenv import load_dotenv
+from datetime import datetime
+
+
+def setup():
+  load_dotenv()
+
+  logging.basicConfig(
+    format=f'%(asctime)s %(levelname)-8s %(message)s ',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+    logging.StreamHandler(sys.stdout)
+    ])
+    
+def getConnectionString() -> str:
+  return 'mongodb://{user}:{password}@{host}:{port}'.format(
+    user= os.getenv('MONGO_USER'),
+    password= os.getenv('MONGO_PASSWORD'),
+    host= "localhost",
+    port= os.getenv('MONGO_PORT'))
+
 
 def translateNumToScenario(number):
     if  ( number == "1" or number == 1):
@@ -50,8 +75,6 @@ def getScenarioLabels(order) -> list[str]:
         labels.append(translateNumToScenario(str(i)))
     return labels
 
-
-
 c1 = "c1-Normal"
 c2 = "c2-TorNormal"
 c3 = "c3-TorEurope"
@@ -65,7 +88,20 @@ d4 = "d4-TorScandinavia"
 d5 = "d5-I2P"
 d6 = "d6-Lokinet"
 
-
+userIds = [
+  c1,
+  c2,
+  c3,
+  c4,
+  c5,
+  c6,
+  d1,
+  d2,
+  d3,
+  d4,
+  d5,
+  d6,
+]
 
 scenarios = [
   {
