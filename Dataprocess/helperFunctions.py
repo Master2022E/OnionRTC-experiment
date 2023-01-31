@@ -1,4 +1,24 @@
+import sys
 import logging
+import os
+import json
+from dotenv import load_dotenv
+from datetime import datetime
+
+
+def setup():
+  load_dotenv()
+
+  logging.basicConfig(
+    format=f'%(asctime)s %(levelname)-8s %(message)s ',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S',
+    handlers=[
+    logging.StreamHandler(sys.stdout)
+    ])
+    
+
+
 
 def translateNumToScenario(number):
     if  ( number == "1" or number == 1):
