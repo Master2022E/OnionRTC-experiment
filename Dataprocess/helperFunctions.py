@@ -17,7 +17,12 @@ def setup():
     logging.StreamHandler(sys.stdout)
     ])
     
-
+def getConnectionString() -> str:
+  return 'mongodb://{user}:{password}@{host}:{port}'.format(
+    user= os.getenv('MONGO_USER'),
+    password= os.getenv('MONGO_PASSWORD'),
+    host= "localhost",
+    port= os.getenv('MONGO_PORT'))
 
 
 def translateNumToScenario(number):
@@ -70,8 +75,6 @@ def getScenarioLabels(order) -> list[str]:
         labels.append(translateNumToScenario(str(i)))
     return labels
 
-
-
 c1 = "c1-Normal"
 c2 = "c2-TorNormal"
 c3 = "c3-TorEurope"
@@ -85,7 +88,20 @@ d4 = "d4-TorScandinavia"
 d5 = "d5-I2P"
 d6 = "d6-Lokinet"
 
-
+userIds = [
+  c1,
+  c2,
+  c3,
+  c4,
+  c5,
+  c6,
+  d1,
+  d2,
+  d3,
+  d4,
+  d5,
+  d6,
+]
 
 scenarios = [
   {
