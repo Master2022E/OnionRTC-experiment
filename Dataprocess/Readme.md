@@ -89,7 +89,11 @@ Plot for RTT of video and audio on successful calls. Created in the [RoundTripTi
 
 ![RTT for video in successful calls](./output_folder/BoxPlotRttVideo.svg)
 
+![RTT for video in successful calls on a logarithmic scale](./output_folder/BoxPlotRttVideoLogScale.svg)
+
 ![RTT for audio in successful calls](./output_folder/BoxPlotRttAudio.svg)
+
+![RTT for audio in successful calls on a logarithmic scale](./output_folder/BoxPlotRttAudioLogScale.svg)
 
 ### Jitter in successful calls
 
@@ -98,3 +102,11 @@ Plot for Jitter of video and audio on successful calls. Created in the [JitterBo
 ![Jitter for video in successful calls](./output_folder/BoxPlotJitterVideo.svg)
 
 ![Jitter for audio in successful calls](./output_folder/BoxPlotJitterAudio.svg)
+
+### Average jitter buffer delay
+
+Plot for Average jitter of video and audio on successful calls. Created in the [JitterBufferDelayBoxPlot](./JitterBufferDelayBoxPlot.ipynb) notebook
+
+![Average video jitter buffer delay](./output_folder/BoxPlotAvgJitterBufferDelayVideo.svg)
+
+![Average audio jitter buffer delay](./output_folder/BoxPlotAvgJitterBufferDelayAudio.svg)
