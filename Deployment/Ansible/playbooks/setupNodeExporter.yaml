@@ -50,4 +50,5 @@
     ansible.builtin.systemd:
       name: node-exporter
       state: started
+      enabled: true
 
