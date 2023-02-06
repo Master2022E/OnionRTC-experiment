@@ -55,11 +55,10 @@ ssh -TNL 27017:127.0.0.1:27017 agpbruger@db.thomsen-it.dk -p 22022
 ![NodeExporterView](./NodeExporterView.png)
 
 To access Grafana run a shell with the command below and then access it on [localhost:4000](http://localhost:4000)
+
 ```shell
 ssh -TNL 4000:127.0.0.1:4000 agpbruger@a.thomsen-it.dk -p 22022
 ```
-
-
 
 ## Initial setup
 
