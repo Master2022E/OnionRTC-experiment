@@ -110,3 +110,13 @@ Plot for Average jitter of video and audio on successful calls. Created in the [
 ![Average video jitter buffer delay](./output_folder/BoxPlotAvgJitterBufferDelayVideo.svg)
 
 ![Average audio jitter buffer delay](./output_folder/BoxPlotAvgJitterBufferDelayAudio.svg)
+
+### Bandwidth used
+
+Plot for the total used bandwidth during successful calls. Created in the [](./BandwidthUsedPlots.ipynb) and builded upon the notebooks [BandwidthDataExtractionReceive](./BandwidthDataExtractionReceive.ipynb), [BandwidthDataExtractionTransmit](./BandwidthDataExtractionTransmit.ipynb) and [SuccessfulCallsStartAndEnd](./SuccessfulCallsStartAndEnd.ipynb)
+
+![Average bandwidth transmit during successful calls](./output_folder/BoxPlotUsedBandwidthTransmit.svg)
+
+![Average bandwidth receive during successful calls](./output_folder/BoxPlotUsedBandwidthReceive.svg)
+
+![Average bandwidth used during successful calls](./output_folder/BoxPlotUsedBandwidth.svg)
