@@ -186,3 +186,35 @@ scenarios = [
     "bob": d3
   }
 ]
+
+
+def getInstance(client: str):
+  '''
+  Translates a client string into a client instance used in prometheus queries
+  '''
+  if(client == "c1-Normal"):
+    return "localhost:9101"
+  elif(client == "c2-TorNormal"):
+    return "localhost:9102"
+  elif(client == "c3-TorEurope"):
+    return "localhost:9103"
+  elif(client == "c4-TorScandinavia"):
+    return "localhost:9104"
+  elif(client == "c5-I2P"):
+    return "localhost:9105"
+  elif(client == "c6-Lokinet"):
+    return "localhost:9106"
+  elif(client == "d1-Normal"):
+    return "localhost:9111"
+  elif(client == "d2-TorNormal"):
+    return "localhost:9112"
+  elif(client == "d3-TorEurope"):
+    return "localhost:9113"
+  elif(client == "d4-TorScandinavia"):
+    return "localhost:9114"
+  elif(client == "d5-I2P"):
+    return "localhost:9115"
+  elif(client == "d6-Lokinet"):
+    return "localhost:9116"
+  else:
+    return None
