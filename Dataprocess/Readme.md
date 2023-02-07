@@ -20,32 +20,32 @@ Lokinet           | Loki
 
 One to one.
 
-1.  `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `Norm` &larr; `Bob`
-2.  `Alice` &rarr; `TorN` &rarr; `Turn` &larr; `TorN` &larr; `Bob`
-3.  `Alice` &rarr; `TorE` &rarr; `Turn` &larr; `TorE` &larr; `Bob`
-4.  `Alice` &rarr; `TorS` &rarr; `Turn` &larr; `TorS` &larr; `Bob`
-5.  `Alice` &rarr; `Loki` &rarr; `Turn` &larr; `Loki` &larr; `Bob`
+1.  [`Alice, Norm(c1)` &rarr; `Turn` &larr; `Norm(d1), Bob`] &rArr; 01 Norm-Norm
+2.  [`Alice, TorN(c2)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 02 TorN-TorN
+3.  [`Alice, TorE(c3)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 03 TorE-TorE
+4.  [`Alice, TorS(c4)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 04 TorS-TorS
+5.  [`Alice, Loki(c6)` &rarr; `Turn` &larr; `Loki(d6), Bob`] &rArr; 05 Loki-Loki
 
 Normal to Anonymized in pairs
 
-6.  `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `TorN` &larr; `Bob`
-7.  `Alice` &rarr; `TorN` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
-8.  `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `TorE` &larr; `Bob`
-9.  `Alice` &rarr; `TorE` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
-10. `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `TorS` &larr; `Bob`
-11. `Alice` &rarr; `TorS` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
-12. `Alice` &rarr; `Norm` &rarr; `Turn` &larr; `Loki` &larr; `Bob`
-13. `Alice` &rarr; `Loki` &rarr; `Turn` &rarr; `Norm` &larr; `Bob`
+6.  [`Alice, Norm(c1)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 06 Norm-TorN
+7.  [`Alice, TorN(c2)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 07 TorN-Norm
+8.  [`Alice, Norm(c1)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 08 Norm-TorE
+9.  [`Alice, TorE(c3)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 09 TorE-Norm
+10. [`Alice, Norm(c1)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 10 Norm-TorS
+11. [`Alice, TorS(c4)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 11 TorS-Norm
+12. [`Alice, Norm(c1)` &rarr; `Turn` &larr; `Loki(d6), Bob`] &rArr; 12 Norm-Loki
+13. [`Alice, Loki(c6)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 13 Loki-Norm
 
 
 Tor to Tor in pairs
 
-14. `Alice` &rarr; `TorN` &rarr; `Turn` &larr; `TorE` &larr; `Bob`
-15. `Alice` &rarr; `TorE` &rarr; `Turn` &larr; `TorN` &larr; `Bob`
-16. `Alice` &rarr; `TorN` &rarr; `Turn` &larr; `TorS` &larr; `Bob`
-17. `Alice` &rarr; `TorS` &rarr; `Turn` &larr; `TorN` &larr; `Bob`
-18. `Alice` &rarr; `TorE` &rarr; `Turn` &larr; `TorS` &larr; `Bob`
-19. `Alice` &rarr; `TorS` &rarr; `Turn` &larr; `TorE` &larr; `Bob`
+14. [`Alice, TorN(c2)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 14 TorN-TorE
+15. [`Alice, TorE(c3)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 15 TorE-TorN
+16. [`Alice, TorN(c2)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 16 TorN-TorS
+17. [`Alice, TorS(c4)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 17 TorS-TorN
+18. [`Alice, TorE(c3)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 18 TorE-TorS
+19. [`Alice, TorS(c4)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 19 TorS-TorE
 
 For each test call, will there be added logs to Mongo database in the `calls` document which scenario is started and their outcome and when each client detected the session started and ended. In the `reports` document will the ObserveRTC log to, here will the WebRTC specific data be located.
 
