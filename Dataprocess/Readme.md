@@ -1,20 +1,12 @@
 # Data processing
 
-> NOTE: To access the Mongo database locally, it's a requirement to create a local port forward though ssh. Like: `ssh -L 27017:127.0.0.1:27017 agpbruger@db.thomsen-it.dk -p 22022`
+This Readme describes how to get started doing the data processing and shows the results of the experiment.
 
-More mongo database access is noted in the [Mongo.md](./Mongo.md) file.
+## Data Access
 
-To get data ready for processing, run the [ExtractRawData.ipynb](./ExtractRawData.ipynb) notebook. This will connect to the MongoDB instance and gather the call stats, do som basic data transformation and save it to a CSV file which will be appended to each time the script is called.
+To get access to the data please read the [DataAccess](./DataAccess.md) document.
 
-## Single call statistics
-
-The notebook [SingleCallStatistics](./SingleCallStatistics.ipynb) can from a `roomId` give detailed statistics of the calls in the given room.
-
-## Call Statistics
-
-This is TODO. But will point to a notebook where all calls measured will be summarized by different scenarios and their call quality.
-
-### Scenario list
+## Scenario list
 
 The client will be configured to use one of the following setups:
 
@@ -55,19 +47,50 @@ Tor to Tor in pairs
 18. `Alice` &rarr; `TorE` &rarr; `Turn` &larr; `TorS` &larr; `Bob`
 19. `Alice` &rarr; `TorS` &rarr; `Turn` &larr; `TorE` &larr; `Bob`
 
-For each test call will there be added logs to MongoDb for what setup was started and each client will log what setup it is configured to use.
+For each test call, will there be added logs to Mongo database in the `calls` document which scenario is started and their outcome and when each client detected the session started and ended. In the `reports` document will the ObserveRTC log to, here will the WebRTC specific data be located.
 
 ---
 
-> WARN The docker image have not been tested yet.
+## Preprocessing
+
+To get data ready for processing, run the [ExtractRawData](./ExtractRawData.ipynb) notebook. This will connect to the MongoDB and gather the call stats, do som basic data transformation and save it to CSV files which will be overwritten each time the script is called. The outcome will be the following files:
+
+- `output_folder/uniqueCallsAndOutcomes.csv`
+- `output_folder/rawReport/c1-Normal.csv`
+- `output_folder/rawReport/c2-TorNormal.csv`
+- `output_folder/rawReport/c3-TorEurope.csv`
+- `output_folder/rawReport/c4-TorScandinavia.csv`
+- `output_folder/rawReport/c6-Lokinet.csv`
+- `output_folder/rawReport/d1-Normal.csv`
+- `output_folder/rawReport/d2-TorNormal.csv`
+- `output_folder/rawReport/d3-TorEurope.csv`
+- `output_folder/rawReport/d4-TorScandinavia.csv`
+- `output_folder/rawReport/d6-Lokinet.csv`
+
+Next run the [SuccessfulCallsStartAndEnd](./SuccessfulCallsStartAndEnd.ipynb) notebook this will for the scenarios `1, 8, 9, 10` and `11` find the start and end times for all the calls in this period. The outcome will be the file:
+
+- `output_folder/SuccessfulCallsStartAndEnd.csv`.
+
+Next to get the bandwidth usage data run the [BandwidthDataExtractionTransmit](./BandwidthDataExtractionTransmit.ipynb) and the [BandwidthDataExtractionReceive](./BandwidthDataExtractionReceive.ipynb) notebooks. the outcome will be the files:
+
+- `output_folder/SuccessfulCallsUsedTransmitBandwidth.csv`
+- `output_folder/SuccessfulCallsUsedTransmitBandwidthValues.csv`
+- `output_folder/SuccessfulCallsUsedReceiveBandwidth.csv`
+- `output_folder/SuccessfulCallsUsedReceiveBandwidthValues.csv`
+
+Now all preprocessing is complete.
+
+---
 
 ## Results
 
-### Success or fail
+This section will show the results of the experiment. Also each sub section will describe which notebooks have been used to generate the specific plots.
+
+### Success or fail overview
 
 The total success and failure rate of the calls can be seen in the [SuccessOrFail](./SuccessOrFail.ipynb) notebook.
 
-And currently provides the following graph:
+And provides the following graph:
 
 ![Success or fail](./output_folder/SuccessOrFail.svg)
 
@@ -75,7 +98,7 @@ And currently provides the following graph:
 
 The success rate over time can be seen in the [SuccessRateOverTime](./SuccessRateOverTime.ipynb) notebook.
 
-And currently provides the following graph:
+And provides the following graph:
 
 ![Success rate over time](./output_folder/SuccessRateOverTime.svg)
 
@@ -83,9 +106,11 @@ And currently provides the following graph:
 
 ![Low performing Success rate over time](./output_folder/SuccessRateOverTimeLow.svg)
 
+Note: Client C4 started to have a technical error from the 2023-01-15. That is the reason for 4 scenarios completely failing from that time and forward.
+
 ### RTT in successful calls
 
-Plot for RTT of video and audio on successful calls. Created in the [RoundTripTimeBoxPlot](./RoundTripTimeBoxPlot.ipynb) notebook
+Plot for RTT of video and audio on successful calls. Created in the [RoundTripTimeBoxPlot](./RoundTripTimeBoxPlot.ipynb) notebook.
 
 ![RTT for video in successful calls](./output_folder/BoxPlotRttVideo.svg)
 
@@ -97,7 +122,7 @@ Plot for RTT of video and audio on successful calls. Created in the [RoundTripTi
 
 ### Jitter in successful calls
 
-Plot for Jitter of video and audio on successful calls. Created in the [JitterBoxPlot](./JitterBoxPlot.ipynb) notebook
+Plot for Jitter of video and audio on successful calls. Created in the [JitterBoxPlot](./JitterBoxPlot.ipynb) notebook.
 
 ![Jitter for video in successful calls](./output_folder/BoxPlotJitterVideo.svg)
 
@@ -113,7 +138,7 @@ Plot for Average jitter of video and audio on successful calls. Created in the [
 
 ### Bandwidth used
 
-Plot for the total used bandwidth during successful calls. Created in the [](./BandwidthUsedPlots.ipynb) and builded upon the notebooks [BandwidthDataExtractionReceive](./BandwidthDataExtractionReceive.ipynb), [BandwidthDataExtractionTransmit](./BandwidthDataExtractionTransmit.ipynb) and [SuccessfulCallsStartAndEnd](./SuccessfulCallsStartAndEnd.ipynb)
+Plot for the total bandwidth used during successful calls. Created in the [BandwidthUsedPlots](./BandwidthUsedPlots.ipynb) notebook.
 
 ![Average bandwidth transmit during successful calls](./output_folder/BoxPlotUsedBandwidthTransmit.svg)
 
