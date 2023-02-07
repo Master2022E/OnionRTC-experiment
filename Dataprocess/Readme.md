@@ -8,7 +8,8 @@ To get access to the data please read the [DataAccess](./DataAccess.md) document
 
 ## Scenario list
 
-The client will be configured to use one of the following setups:
+To shorten some of the naming the plots follow the abbreviation scheme the individual clients (c1-c6 and d1-d6) is configured to the specific setup.
+
 
 Networking type   | abbreviation
 ---               | ---
@@ -18,34 +19,42 @@ Tor (Europe)      | TorE
 Tor (Scandinavia) | TorS
 Lokinet           | Loki
 
-One to one.
+The following tabels is the different scenarios which is being tested. Here i.e. c1 referees to the client c1 which can be seen in the [Deployment](../Deployment/Readme.md) documentation.
 
-1.  [`Alice, Norm(c1)` &rarr; `Turn` &larr; `Norm(d1), Bob`] &rArr; 01 Norm-Norm
-2.  [`Alice, TorN(c2)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 02 TorN-TorN
-3.  [`Alice, TorE(c3)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 03 TorE-TorE
-4.  [`Alice, TorS(c4)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 04 TorS-TorS
-5.  [`Alice, Loki(c6)` &rarr; `Turn` &larr; `Loki(d6), Bob`] &rArr; 05 Loki-Loki
+One to one
+
+Name              |  Setup
+---               | ---
+01 Norm-Norm      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `Norm(d1), Bob`
+02 TorN-TorN      | `Alice, TorN(c2)` &rarr; `Turn` &larr; `TorN(d2), Bob`
+03 TorE-TorE      | `Alice, TorE(c3)` &rarr; `Turn` &larr; `TorE(d3), Bob`
+04 TorS-TorS      | `Alice, TorS(c4)` &rarr; `Turn` &larr; `TorS(d4), Bob`
+05 Loki-Loki      | `Alice, Loki(c6)` &rarr; `Turn` &larr; `Loki(d6), Bob`
 
 Normal to Anonymized in pairs
 
-6.  [`Alice, Norm(c1)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 06 Norm-TorN
-7.  [`Alice, TorN(c2)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 07 TorN-Norm
-8.  [`Alice, Norm(c1)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 08 Norm-TorE
-9.  [`Alice, TorE(c3)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 09 TorE-Norm
-10. [`Alice, Norm(c1)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 10 Norm-TorS
-11. [`Alice, TorS(c4)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 11 TorS-Norm
-12. [`Alice, Norm(c1)` &rarr; `Turn` &larr; `Loki(d6), Bob`] &rArr; 12 Norm-Loki
-13. [`Alice, Loki(c6)` &rarr; `Turn` &rarr; `Norm(d1), Bob`] &rArr; 13 Loki-Norm
-
+Name              |  Setup
+---               | ---
+06 Norm-TorN      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `TorN(d2), Bob`
+07 TorN-Norm      | `Alice, TorN(c2)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
+08 Norm-TorE      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `TorE(d3), Bob`
+09 TorE-Norm      | `Alice, TorE(c3)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
+10 Norm-TorS      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `TorS(d4), Bob`
+11 TorS-Norm      | `Alice, TorS(c4)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
+12 Norm-Loki      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `Loki(d6), Bob`
+13 Loki-Norm      | `Alice, Loki(c6)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
 
 Tor to Tor in pairs
 
-14. [`Alice, TorN(c2)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 14 TorN-TorE
-15. [`Alice, TorE(c3)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 15 TorE-TorN
-16. [`Alice, TorN(c2)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 16 TorN-TorS
-17. [`Alice, TorS(c4)` &rarr; `Turn` &larr; `TorN(d2), Bob`] &rArr; 17 TorS-TorN
-18. [`Alice, TorE(c3)` &rarr; `Turn` &larr; `TorS(d4), Bob`] &rArr; 18 TorE-TorS
-19. [`Alice, TorS(c4)` &rarr; `Turn` &larr; `TorE(d3), Bob`] &rArr; 19 TorS-TorE
+Name              |  Setup
+---               | ---
+14 TorN-TorE      | `Alice, TorN(c2)` &rarr; `Turn` &larr; `TorE(d3), Bob`
+15 TorE-TorN      | `Alice, TorE(c3)` &rarr; `Turn` &larr; `TorN(d2), Bob`
+16 TorN-TorS      | `Alice, TorN(c2)` &rarr; `Turn` &larr; `TorS(d4), Bob`
+17 TorS-TorN      | `Alice, TorS(c4)` &rarr; `Turn` &larr; `TorN(d2), Bob`
+18 TorE-TorS      | `Alice, TorE(c3)` &rarr; `Turn` &larr; `TorS(d4), Bob`
+19 TorS-TorE      | `Alice, TorS(c4)` &rarr; `Turn` &larr; `TorE(d3), Bob`
+
 
 For each test call, will there be added logs to Mongo database in the `calls` document which scenario is started and their outcome and when each client detected the session started and ended. In the `reports` document will the ObserveRTC log to, here will the WebRTC specific data be located.
 
