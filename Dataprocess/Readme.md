@@ -1,6 +1,6 @@
 # Data processing
 
-This Readme describes how to get started doing the data processing and shows the results of the experiment.
+This Readme describes how to get started with the data processing and shows the results of the experiment.
 
 ## Data Access
 
@@ -8,7 +8,7 @@ To get access to the data please read the [DataAccess](./DataAccess.md) document
 
 ## Scenario list
 
-To shorten some of the naming the plots follow the abbreviation scheme the individual clients (c1-c6 and d1-d6) is configured to the specific setup.
+To shorten some of the naming, the plots follow the abbreviation scheme the individual clients (c1-c6 and d1-d6) is configured to the specific setup.
 
 
 Networking type   | abbreviation
@@ -19,7 +19,7 @@ Tor (Europe)      | TorE
 Tor (Scandinavia) | TorS
 Lokinet           | Loki
 
-The following tabels is the different scenarios which is being tested. Here i.e. c1 referees to the client c1 which can be seen in the [Deployment](../Deployment/Readme.md) documentation.
+The following tabels are the different scenarios which is being tested. Here c1 referees to the client c1, which can be seen in the [Deployment](../Deployment/Readme.md) documentation.
 
 One to one
 
@@ -56,13 +56,13 @@ Name              |  Setup
 19 TorS-TorE      | `Alice, TorS(c4)` &rarr; `Turn` &larr; `TorE(d3), Bob`
 
 
-For each test call, will there be added logs to Mongo database in the `calls` document which scenario is started and their outcome and when each client detected the session started and ended. In the `reports` document will the ObserveRTC log to, here will the WebRTC specific data be located.
+For each test call, there will be created logs that goes to the Mongo database. In the `calls` table the following will be present: which scenario is started, the outcome of the call and when each client detected the session started and ended. The ObserveRTC logs will go to the `reports` table, where the WebRTC specific data is located.
 
 ---
 
 ## Preprocessing
 
-To get data ready for processing, run the [ExtractRawData](./ExtractRawData.ipynb) notebook. This will connect to the MongoDB and gather the call stats, do som basic data transformation and save it to CSV files which will be overwritten each time the script is called. The outcome will be the following files:
+To get data ready for processing, run the [ExtractRawData](./ExtractRawData.ipynb) notebook. This will connect to the MongoDB and gather the call stats, do som basic data transformation and save it to CSV files, which will be overwritten each time the script is called. The outcome will be the following files:
 
 - `output_folder/uniqueCallsAndOutcomes.csv`
 - `output_folder/rawReport/c1-Normal.csv`
@@ -76,11 +76,11 @@ To get data ready for processing, run the [ExtractRawData](./ExtractRawData.ipyn
 - `output_folder/rawReport/d4-TorScandinavia.csv`
 - `output_folder/rawReport/d6-Lokinet.csv`
 
-Next run the [SuccessfulCallsStartAndEnd](./SuccessfulCallsStartAndEnd.ipynb) notebook this will for the scenarios `1, 8, 9, 10` and `11` find the start and end times for all the calls in this period. The outcome will be the file:
+Next, run the [SuccessfulCallsStartAndEnd](./SuccessfulCallsStartAndEnd.ipynb) notebook, this will for the scenarios `1, 8, 9, 10` and `11` find the start and end timestaps of all the successful calls. The outcome will be the file:
 
 - `output_folder/SuccessfulCallsStartAndEnd.csv`.
 
-Next to get the bandwidth usage data run the [BandwidthDataExtractionTransmit](./BandwidthDataExtractionTransmit.ipynb) and the [BandwidthDataExtractionReceive](./BandwidthDataExtractionReceive.ipynb) notebooks. the outcome will be the files:
+Next, to get the bandwidth usage data, run the [BandwidthDataExtractionTransmit](./BandwidthDataExtractionTransmit.ipynb) and the [BandwidthDataExtractionReceive](./BandwidthDataExtractionReceive.ipynb) notebooks. The outcome will be the files:
 
 - `output_folder/SuccessfulCallsUsedTransmitBandwidth.csv`
 - `output_folder/SuccessfulCallsUsedTransmitBandwidthValues.csv`
@@ -93,7 +93,7 @@ Now all preprocessing is complete.
 
 ## Results
 
-This section will show the results of the experiment. Also each sub section will describe which notebooks have been used to generate the specific plots.
+This section will show the results of the experiment that was gathered during the project. Also each sub section will describe which notebooks have been used to generate the specific plots.
 
 ### Success or fail overview
 
