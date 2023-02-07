@@ -36,13 +36,13 @@ Normal to Anonymized in pairs
 Name              |  Setup
 ---               | ---
 06 Norm-TorN      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `TorN(d2), Bob`
-07 TorN-Norm      | `Alice, TorN(c2)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
+07 TorN-Norm      | `Alice, TorN(c2)` &rarr; `Turn` &larr; `Norm(d1), Bob`
 08 Norm-TorE      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `TorE(d3), Bob`
-09 TorE-Norm      | `Alice, TorE(c3)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
+09 TorE-Norm      | `Alice, TorE(c3)` &rarr; `Turn` &larr; `Norm(d1), Bob`
 10 Norm-TorS      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `TorS(d4), Bob`
-11 TorS-Norm      | `Alice, TorS(c4)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
+11 TorS-Norm      | `Alice, TorS(c4)` &rarr; `Turn` &larr; `Norm(d1), Bob`
 12 Norm-Loki      | `Alice, Norm(c1)` &rarr; `Turn` &larr; `Loki(d6), Bob`
-13 Loki-Norm      | `Alice, Loki(c6)` &rarr; `Turn` &rarr; `Norm(d1), Bob`
+13 Loki-Norm      | `Alice, Loki(c6)` &rarr; `Turn` &larr; `Norm(d1), Bob`
 
 Tor to Tor in pairs
 
