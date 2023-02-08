@@ -22,7 +22,9 @@ The data can be downloaded for local development from [OneDrive](https://dtudk-m
 
 1. Extract the Mongo files to `./database/db` and the Prometheus files to `./database/prom`
 
-2. Start the docker containers with `docker-compose up -d`.
+2. Copy the .envExample to .env and fill in the information.
+
+3. Start the docker containers with `docker-compose up -d`.
 
 ## Mongo DB queries
 
