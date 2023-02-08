@@ -154,3 +154,15 @@ Plot for the total bandwidth used during successful calls. Created in the [Bandw
 ![Average bandwidth receive during successful calls](./output_folder/BoxPlotUsedBandwidthReceive.svg)
 
 ![Average bandwidth used during successful calls](./output_folder/BoxPlotUsedBandwidth.svg)
+
+## Validation
+
+To validate the results it can be related to the metrics from the material in [external_material](./external_material/Readme.md).
+
+Graph of throughput in the Tor network during the experiment. [Soruce](https://metrics.torproject.org/onionperf-throughput.html?start=2022-12-23&end=2023-01-24&server=public)
+
+![Graph of throughput in the Tor network during the experiment](./external_material/onionperf-throughput-public-2022-12-23-2023-01-24.png)
+
+Graph of latencies in the Tor network during the experiment. [Source](https://metrics.torproject.org/onionperf-latencies.html?start=2022-12-23&end=2023-01-24&server=public)
+
+![Graph of latencies in the Tor network during the experiment](./external_material/onionperf-latencies-public-2022-12-23-2023-01-24.png)
