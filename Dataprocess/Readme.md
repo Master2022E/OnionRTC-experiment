@@ -117,6 +117,8 @@ And provides the following graph:
 
 Note: Client C4 started to have a technical error from the 2023-01-15. That is the reason for 4 scenarios completely failing from that time and forward.
 
+![Success rate over time (Close up)](./output_folder/SuccessRateOverTimeCloseUp.svg)
+
 ### RTT in successful calls
 
 Plot for RTT of video and audio on successful calls. Created in the [RoundTripTimeBoxPlot](./RoundTripTimeBoxPlot.ipynb) notebook.
@@ -129,6 +131,10 @@ Plot for RTT of video and audio on successful calls. Created in the [RoundTripTi
 
 ![RTT for audio in successful calls on a logarithmic scale](./output_folder/BoxPlotRttAudioLogScale.svg)
 
+![RTT for video in successful calls (Close up)](./output_folder/BoxPlotRttVideoCloseUpLogScale.svg)
+
+![RTT for audio in successful calls (Close up)](./output_folder/BoxPlotRttAudioCloseUpLogScale.svg)
+
 ### Jitter in successful calls
 
 Plot for Jitter of video and audio on successful calls. Created in the [JitterBoxPlot](./JitterBoxPlot.ipynb) notebook.
@@ -137,6 +143,10 @@ Plot for Jitter of video and audio on successful calls. Created in the [JitterBo
 
 ![Jitter for audio in successful calls](./output_folder/BoxPlotJitterAudio.svg)
 
+![Jitter for Video in successful calls (Close up)](./output_folder/BoxPlotJitterVideoCloseUp.svg)
+
+![Jitter for audio in successful calls (Close up)](./output_folder/BoxPlotJitterAudioCloseUp.svg)
+
 ### Average jitter buffer delay
 
 Plot for Average jitter of video and audio on successful calls. Created in the [JitterBufferDelayBoxPlot](./JitterBufferDelayBoxPlot.ipynb) notebook
@@ -144,6 +154,10 @@ Plot for Average jitter of video and audio on successful calls. Created in the [
 ![Average video jitter buffer delay](./output_folder/BoxPlotAvgJitterBufferDelayVideo.svg)
 
 ![Average audio jitter buffer delay](./output_folder/BoxPlotAvgJitterBufferDelayAudio.svg)
+
+![Average video jitter buffer delay (Close up)](./output_folder/BoxPlotAvgJitterBufferDelayVideoCloseUp.svg)
+
+![Average audio jitter buffer delay (Close up)](./output_folder/BoxPlotAvgJitterBufferDelayAudioCloseUp.svg)
 
 ### Bandwidth used
 
