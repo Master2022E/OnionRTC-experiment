@@ -169,6 +169,8 @@ Plot for the total bandwidth used during successful calls. Created in the [Bandw
 
 ![Average bandwidth used during successful calls](./output_folder/BoxPlotUsedBandwidth.svg)
 
+![Average bandwidth used during successful calls with threshold values](./output_folder/BoxPlotUsedBandwidthWithThreshold.svg)
+
 ## Validation
 
 To validate the results it can be related to the metrics from the material in [external_material](./external_material/Readme.md).
