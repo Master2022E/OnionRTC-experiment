@@ -76,7 +76,7 @@ To get data ready for processing, run the [ExtractRawData](./ExtractRawData.ipyn
 - `output_folder/rawReport/d4-TorScandinavia.csv`
 - `output_folder/rawReport/d6-Lokinet.csv`
 
-Next, run the [SuccessfulCallsStartAndEnd](./SuccessfulCallsStartAndEnd.ipynb) notebook, this will for the scenarios `1, 8, 9, 10` and `11` find the start and end timestaps of all the successful calls. The outcome will be the file:
+Next, run the [SuccessfulCallsStartAndEnd](./SuccessfulCallsStartAndEnd.ipynb) notebook, this will for the scenarios `1, 8, 9, 10` and `11` find the start and end timestamps of all the successful calls. The outcome will be the file:
 
 - `output_folder/SuccessfulCallsStartAndEnd.csv`.
 
