@@ -10,7 +10,6 @@ To get access to the data please read the [DataAccess](./DataAccess.md) document
 
 To shorten some of the naming, the plots follow the abbreviation scheme the individual clients (c1-c6 and d1-d6) is configured to the specific setup.
 
-
 Networking type   | abbreviation
 ---               | ---
 Normal            | Norm
@@ -54,7 +53,6 @@ Name              |  Setup
 17 TorS-TorN      | `Alice, TorS(c4)` &rarr; `Turn` &larr; `TorN(d2), Bob`
 18 TorE-TorS      | `Alice, TorE(c3)` &rarr; `Turn` &larr; `TorS(d4), Bob`
 19 TorS-TorE      | `Alice, TorS(c4)` &rarr; `Turn` &larr; `TorE(d3), Bob`
-
 
 For each test call, there will be created logs that goes to the Mongo database. In the `calls` table the following will be present: which scenario is started, the outcome of the call and when each client detected the session started and ended. The ObserveRTC logs will go to the `reports` table, where the WebRTC specific data is located.
 
@@ -171,11 +169,15 @@ Plot for the total bandwidth used during successful calls. Created in the [Bandw
 
 ![Average bandwidth used during successful calls with threshold values](./output_folder/BoxPlotUsedBandwidthWithThreshold.svg)
 
+![Average bandwidth used during successful calls with threshold values (Zoom)](./output_folder/BoxPlotUsedBandwidthWithThresholdZoom.svg)
+
+![Average bandwidth used during successful calls with threshold values (Youtube and Teams)](./output_folder/BoxPlotUsedBandwidthWithThresholdYoutubeAndTeams.svg)
+
 ## Validation
 
-To validate the results it can be related to the metrics from the material in [external_material](./external_material/Readme.md).
+To validate the results it can be related to the metrics from the material in [external material](./external_material/Readme.md).
 
-Graph of throughput in the Tor network during the experiment. [Soruce](https://metrics.torproject.org/onionperf-throughput.html?start=2022-12-23&end=2023-01-24&server=public)
+Graph of throughput in the Tor network during the experiment. [Source](https://metrics.torproject.org/onionperf-throughput.html?start=2022-12-23&end=2023-01-24&server=public)
 
 ![Graph of throughput in the Tor network during the experiment](./external_material/onionperf-throughput-public-2022-12-23-2023-01-24.png)
 
