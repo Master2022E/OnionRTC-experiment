@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Host A - Application server - OnionRTC</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../Selenium/index.html"><strong aria-hidden="true">2.</strong> Client Setup</a></li><li class="chapter-item expanded "><a href="../../Deployment/index.html"><strong aria-hidden="true">3.</strong> Deployment</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Deployment/Ansible/index.html"><strong aria-hidden="true">3.1.</strong> Ansible</a></li><li class="chapter-item expanded "><a href="../../Deployment/HostA-Application/index.html" class="active"><strong aria-hidden="true">3.2.</strong> Host A - Application server</a></li><li class="chapter-item expanded "><a href="../../Deployment/HostB-Turn/index.html"><strong aria-hidden="true">3.3.</strong> Host B - Turn server</a></li><li class="chapter-item expanded "><a href="../../Deployment/HostCD-Router/index.html"><strong aria-hidden="true">3.4.</strong> Host CD - Router</a></li><li class="chapter-item expanded "><a href="../../Deployment/HostsCD-Clients/index.html"><strong aria-hidden="true">3.5.</strong> Hosts CD - Clients</a></li></ol></li><li class="chapter-item expanded "><a href="../../CommandAndControl/index.html"><strong aria-hidden="true">4.</strong> Command And Control</a></li><li class="chapter-item expanded "><a href="../../Dataprocess/index.html"><strong aria-hidden="true">5.</strong> Data Process</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">OnionRTC</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="host-a---application-server"><a class="header" href="#host-a---application-server">Host A - Application server</a></h1>
+<p>The purpose of the server is to coordinate the tests which will be executed, Store the logs and statuses of the tests and do data processing of the results.</p>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<p>To control the services are there in each of the sub folder an example <code>.env</code> file which contains the environment variables which is needed for the respective services to run.</p>
+<p>When the <code>.env</code> files have been configured, the service can be controlled with the makefile.</p>
+<pre><code class="language-shell">$ make
+
+Options include:
+  upload  - Uploads the local configuration files
+  start   - Starts the services from docker-compose
+  stop    - Stops the services from docker-compose
+  restart - Stops and starts the services.
+  status  - Get the status of the services
+  pull    - Pulls the latest images of the services
+  logs    - Get the latest 20 logs and follows the next logs
+  ssh     - Gets an ssh shell on the server
+</code></pre>
+<h3 id="caddy"><a class="header" href="#caddy">Caddy</a></h3>
+<p><a href="https://caddyserver.com/">Caddy</a> is a reverse proxy that can handle TLS certificates and pass the raw TCP socket data to the respective applications.</p>
+<h3 id="webrtc"><a class="header" href="#webrtc">WebRTC</a></h3>
+<p>The <a href="https://github.com/Master2022E/simple-webrtc">React application</a> which the clients will use to facilitate a call.</p>
+<h3 id="signal"><a class="header" href="#signal">Signal</a></h3>
+<p>The <a href="https://github.com/Master2022E/SignalServer">signaling server</a> that coordinates the clients when they join specific rooms.</p>
+<h3 id="observertc"><a class="header" href="#observertc">ObserveRTC</a></h3>
+<p><a href="https://observertc.org/">ObserveRTC</a> is a backend for receiving statistics of WebRTC streams.</p>
+<h3 id="mongodb"><a class="header" href="#mongodb">MongoDB</a></h3>
+<p>The <a href="https://www.mongodb.com/">MonogDB</a> database will stores the records saved by ObserveRTC and where we can query data for our notebook scripts.</p>
+<p>To access the database from a developer machine one needs to make a local ssh port forward to the server.</p>
+<pre><code class="language-shell">ssh -TNL 27017:127.0.0.1:27017 agpbruger@db.thomsen-it.dk -p 22022
+</code></pre>
+<h3 id="grafana"><a class="header" href="#grafana">Grafana</a></h3>
+<p><a href="https://grafana.com/">Grafana</a> in combination with <a href="https://prometheus.io/">Prometheus</a> and <a href="https://github.com/prometheus/node_exporter">Node Exporter</a> could give some easy insights to the load of the server.</p>
+<p><img src="./NodeExporterView.png" alt="NodeExporterView" /></p>
+<p>To access Grafana run a shell with the command below and then access it on <a href="http://localhost:4000">localhost:4000</a></p>
+<pre><code class="language-shell">ssh -TNL 4000:127.0.0.1:4000 agpbruger@a.thomsen-it.dk -p 22022
+</code></pre>
+<h2 id="initial-setup"><a class="header" href="#initial-setup">Initial setup</a></h2>
+<p>To run the applications on the server are the applications <a href="https://www.docker.com/">docker</a> and <a href="https://docs.docker.com/compose/gettingstarted/">docker-compose</a> needed.</p>
+<h3 id="firewall"><a class="header" href="#firewall">Firewall</a></h3>
+<p>Some applications are not meant to be exposed to the internet. Therefor is the the application ufw used to manage iptables on the server. The following ufw rules is used</p>
+<pre><code class="language-shell">sudo ufw allow 22022 comment 'Allow SSH connections'
+sudo ufw allow 443 comment 'HTTPS connections'
+sudo ufw allow 80 comment 'HTTP redirected to HTTPS'
+sudo ufw allow 3000 comment 'Signaling websocket server'
+
+</code></pre>
+<p>This gives the configuration like shown below.</p>
+<pre><code class="language-shell">sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22022                      ALLOW       Anywhere                   # Allow SSH connections
+80                         ALLOW       Anywhere                   # HTTP redirected to HTTPS
+443                        ALLOW       Anywhere                   # HTTPS connections
+3000                       ALLOW       Anywhere                   # Signaling websocket server
+22022 (v6)                 ALLOW       Anywhere (v6)              # Allow SSH connections
+80 (v6)                    ALLOW       Anywhere (v6)              # HTTP redirected to HTTPS
+443 (v6)                   ALLOW       Anywhere (v6)              # HTTPS connections
+3000 (v6)                  ALLOW       Anywhere (v6)              # Signaling websocket server
+</code></pre>
+<blockquote>
+<p>FIXME: Add a option to allow machines from Host C and Host D to access the mongodb server. <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands">link</a> with example of how to allow specific ips and ports access.</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../Deployment/Ansible/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../../Deployment/HostB-Turn/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../Deployment/Ansible/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../../Deployment/HostB-Turn/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

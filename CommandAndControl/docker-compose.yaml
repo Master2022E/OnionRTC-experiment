@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+
+  controller:
+    container_name: controller
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ~/.ssh/:/root/.ssh/
+      - ./debug.log:/app/debug.log

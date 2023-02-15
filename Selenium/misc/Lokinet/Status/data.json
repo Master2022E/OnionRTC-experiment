@@ -1,0 +1,3298 @@
+{
+  "error": "None",
+  "result": {
+    "dht": {
+      "nodes": {
+        "4g165kcg5qcaqsyxnsrcmtxdhziw1u7e4d41uoo89xu4azzyj8xy.snode": {
+          "addresses": [
+            {
+              "dialect": "iwp",
+              "in6_addr": ": :ffff: 161.35.232.158",
+              "port": 1090,
+              "pubkey": "cadf65ccb56bd3be593bbc3b0b8d7672cbe9d03d4b59204054a6da5644783853",
+              "rank": 2
+            }
+          ],
+          "identity": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+          "lastUpdated": 1669570411758,
+          "publicRouter": "True",
+          "routerVersion": "0.9.9 protocol version 0",
+          "srvRecords": []
+        },
+        "bcizysxnz1fyawzoaqtkhz4bok1qdojxh8bzboahue9ec5jq6noo.snode": {
+          "addresses": [
+            {
+              "dialect": "iwp",
+              "in6_addr": ": :ffff: 46.37.58.143",
+              "port": 1690,
+              "pubkey": "678fc04b06587e31bb76f5506e0bd89bfe06d2bdea06c7864795ecb201ffce2f",
+              "rank": 2
+            }
+          ],
+          "identity": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+          "lastUpdated": 1669570430841,
+          "publicRouter": "True",
+          "routerVersion": "0.9.9 protocol version 0",
+          "srvRecords": []
+        },
+        "dhe163qqp5hs4c49fzbmhbc6gfui8qxrqmikkq8533tuha74tqpy.snode": {
+          "addresses": [
+            {
+              "dialect": "iwp",
+              "in6_addr": ": :ffff: 88.99.102.229",
+              "port": 10912,
+              "pubkey": "bd1eeeb258e5da6959989cb8da912d733a7a30761e9dc39073464a9714030c5b",
+              "rank": 2
+            }
+          ],
+          "identity": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+          "lastUpdated": 1669570694295,
+          "publicRouter": "True",
+          "routerVersion": "0.9.10 protocol version 0",
+          "srvRecords": []
+        },
+        "zyxtwuyrthabuxpksm8ge5ddof1t7hips56y9mpqrxcwnoyf9oxy.snode": {
+          "addresses": [
+            {
+              "dialect": "iwp",
+              "in6_addr": ": :ffff: 104.244.79.191",
+              "port": 1090,
+              "pubkey": "95ed68c1b956388e70ac471766bcdf8a045759d9df8caa9336bee0fed2a02f17",
+              "rank": 2
+            }
+          ],
+          "identity": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+          "lastUpdated": 1669571350808,
+          "publicRouter": "True",
+          "routerVersion": "0.9.9 protocol version 0",
+          "srvRecords": []
+        }
+      },
+      "ourKey": "cdb7f2e41f41c336795466676bf733078d32c7d0aaec4169fb8af908ac774b26",
+      "pendingExploreLookups": {
+        "timeouts": [
+          {
+            "target": {
+              "hex": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+              "snode": "bcizysxnz1fyawzoaqtkhz4bok1qdojxh8bzboahue9ec5jq6noo.snode"
+            },
+            "time": 1669573459260
+          }
+        ],
+        "tx": [
+          {
+            "owner": {
+              "node": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+              "txid": 6305852056115157365
+            },
+            "tx": {
+              "asked": [],
+              "found": [],
+              "target": {
+                "hex": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                "snode": "bcizysxnz1fyawzoaqtkhz4bok1qdojxh8bzboahue9ec5jq6noo.snode"
+              },
+              "whoasked": {
+                "node": "0000000000000000000000000000000000000000000000000000000000000000",
+                "txid": 0
+              }
+            }
+          },
+          {
+            "owner": {
+              "node": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+              "txid": 6305852056115157361
+            },
+            "tx": {
+              "asked": [],
+              "found": [],
+              "target": {
+                "hex": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                "snode": "bcizysxnz1fyawzoaqtkhz4bok1qdojxh8bzboahue9ec5jq6noo.snode"
+              },
+              "whoasked": {
+                "node": "0000000000000000000000000000000000000000000000000000000000000000",
+                "txid": 0
+              }
+            }
+          }
+        ],
+        "waiting": [
+          {
+            "target": {
+              "hex": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+              "snode": "bcizysxnz1fyawzoaqtkhz4bok1qdojxh8bzboahue9ec5jq6noo.snode"
+            },
+            "whoasked": {
+              "node": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+              "txid": 6305852056115157365
+            }
+          },
+          {
+            "target": {
+              "hex": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+              "snode": "bcizysxnz1fyawzoaqtkhz4bok1qdojxh8bzboahue9ec5jq6noo.snode"
+            },
+            "whoasked": {
+              "node": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+              "txid": 6305852056115157361
+            }
+          }
+        ]
+      },
+      "pendingIntrosetLookups": {
+        "timeouts": [],
+        "tx": [],
+        "waiting": []
+      },
+      "pendingRouterLookups": {
+        "timeouts": [],
+        "tx": [],
+        "waiting": []
+      },
+      "services": "None"
+    },
+    "exit": "None",
+    "links": {
+      "inbound": [],
+      "outbound": [
+        {
+          "addr": "0.0.0.0: 0",
+          "name": "iwp",
+          "rank": 2,
+          "sessions": {
+            "established": [
+              {
+                "created": 17259058,
+                "inbound": "False",
+                "remoteAddr": "46.37.58.143: 1690",
+                "remoteRC": {
+                  "addresses": [
+                    {
+                      "dialect": "iwp",
+                      "in6_addr": ": :ffff: 46.37.58.143",
+                      "port": 1690,
+                      "pubkey": "678fc04b06587e31bb76f5506e0bd89bfe06d2bdea06c7864795ecb201ffce2f",
+                      "rank": 2
+                    }
+                  ],
+                  "identity": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                  "lastUpdated": 1669570430841,
+                  "publicRouter": "True",
+                  "routerVersion": "0.9.9 protocol version 0",
+                  "srvRecords": []
+                },
+                "replayFilter": 1,
+                "rx": 701,
+                "rxMsgQueueSize": 0,
+                "rxPktsRcvd": 2097,
+                "rxRateCurrent": 701,
+                "state": "Ready",
+                "tx": 2065,
+                "txMsgQueueSize": 0,
+                "txPktsAcked": 5,
+                "txPktsDropped": 101,
+                "txPktsInFlight": 844,
+                "txRateCurrent": 2065,
+                "uptime": 1677580
+              },
+              {
+                "created": 16598304,
+                "inbound": "False",
+                "remoteAddr": "161.35.232.158: 1090",
+                "remoteRC": {
+                  "addresses": [
+                    {
+                      "dialect": "iwp",
+                      "in6_addr": ": :ffff: 161.35.232.158",
+                      "port": 1090,
+                      "pubkey": "cadf65ccb56bd3be593bbc3b0b8d7672cbe9d03d4b59204054a6da5644783853",
+                      "rank": 2
+                    }
+                  ],
+                  "identity": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                  "lastUpdated": 1669570411758,
+                  "publicRouter": "True",
+                  "routerVersion": "0.9.9 protocol version 0",
+                  "srvRecords": []
+                },
+                "replayFilter": 0,
+                "rx": 93,
+                "rxMsgQueueSize": 0,
+                "rxPktsRcvd": 8417,
+                "rxRateCurrent": 93,
+                "state": "Ready",
+                "tx": 317,
+                "txMsgQueueSize": 0,
+                "txPktsAcked": 1,
+                "txPktsDropped": 23,
+                "txPktsInFlight": 3826,
+                "txRateCurrent": 317,
+                "uptime": 2338334
+              },
+              {
+                "created": 16598304,
+                "inbound": "False",
+                "remoteAddr": "88.99.102.229: 10912",
+                "remoteRC": {
+                  "addresses": [
+                    {
+                      "dialect": "iwp",
+                      "in6_addr": ": :ffff: 88.99.102.229",
+                      "port": 10912,
+                      "pubkey": "bd1eeeb258e5da6959989cb8da912d733a7a30761e9dc39073464a9714030c5b",
+                      "rank": 2
+                    }
+                  ],
+                  "identity": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                  "lastUpdated": 1669570694295,
+                  "publicRouter": "True",
+                  "routerVersion": "0.9.10 protocol version 0",
+                  "srvRecords": []
+                },
+                "replayFilter": 0,
+                "rx": 0,
+                "rxMsgQueueSize": 0,
+                "rxPktsRcvd": 8359,
+                "rxRateCurrent": 0,
+                "state": "Ready",
+                "tx": 0,
+                "txMsgQueueSize": 0,
+                "txPktsAcked": 0,
+                "txPktsDropped": 32,
+                "txPktsInFlight": 3759,
+                "txRateCurrent": 0,
+                "uptime": 2338334
+              },
+              {
+                "created": 16598304,
+                "inbound": "False",
+                "remoteAddr": "104.244.79.191: 1090",
+                "remoteRC": {
+                  "addresses": [
+                    {
+                      "dialect": "iwp",
+                      "in6_addr": ": :ffff: 104.244.79.191",
+                      "port": 1090,
+                      "pubkey": "95ed68c1b956388e70ac471766bcdf8a045759d9df8caa9336bee0fed2a02f17",
+                      "rank": 2
+                    }
+                  ],
+                  "identity": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                  "lastUpdated": 1669567750680,
+                  "publicRouter": "True",
+                  "routerVersion": "0.9.9 protocol version 0",
+                  "srvRecords": []
+                },
+                "replayFilter": 2,
+                "rx": 725,
+                "rxMsgQueueSize": 0,
+                "rxPktsRcvd": 6156,
+                "rxRateCurrent": 725,
+                "state": "Ready",
+                "tx": 521,
+                "txMsgQueueSize": 0,
+                "txPktsAcked": 1,
+                "txPktsDropped": 56,
+                "txPktsInFlight": 2789,
+                "txRateCurrent": 521,
+                "uptime": 2338334
+              }
+            ],
+            "pending": []
+          }
+        }
+      ]
+    },
+    "numNodesKnown": 1790,
+    "outboundMessages": [
+      "queueStats",
+      {
+        "dropped": 0,
+        "numTicks": 62243,
+        "perTickMax": 64,
+        "queueWatermark": 10,
+        "queued": 11490,
+        "sent": 11490
+      }
+    ],
+    "running": "True",
+    "services": {
+      "default": {
+        "addrs": {
+          ": :ffff: 172.16.0.1": {
+            "lastActive": 0,
+            "remote": "u7pr9x4i5q1mqwk4n76eycpnzcge85whkic7joof3duhozzo64jo.loki"
+          }
+        },
+        "authCodes": "None",
+        "buildStats": {
+          "attempts": 103,
+          "fails": 15,
+          "success": 69,
+          "timeouts": 18
+        },
+        "converstations": {
+          "fca0d7fe61037ece0aa9567a7e44d361": {
+            "intro": {
+              "expiresAt": 1669574342218,
+              "latency": 130,
+              "path": "ff849df2b4cdc8c51e184871de99795c",
+              "router": "fd248f464488e07fa07c5e2e24a4b4b62b1a5865ca6a01f5a31a01e5b4eccb42",
+              "version": 0
+            },
+            "lastRecv": 1669573448011,
+            "lastSend": 1669573448011,
+            "remote": "xjm61wjuq14m4pm7fjefbc3fij5i8jgzqo6ng7mqnp8hosx3jzsy.loki",
+            "replyIntro": {
+              "expiresAt": 1669574504567,
+              "latency": 650,
+              "path": "d9a20bbe7e473af9a4342ab0cbd3b0ed",
+              "router": "fd248f464488e07fa07c5e2e24a4b4b62b1a5865ca6a01f5a31a01e5b4eccb42",
+              "version": 0
+            },
+            "rx": 2996,
+            "seqno": 1906,
+            "tx": 1906
+          }
+        },
+        "deadSessions": "None",
+        "exitMap": {
+          ": :/0": "xjm61wjuq14m4pm7fjefbc3fij5i8jgzqo6ng7mqnp8hosx3jzsy.loki"
+        },
+        "identity": "u7pr9x4i5q1mqwk4n76eycpnzcge85whkic7joof3duhozzo64jo.loki",
+        "ifaddr": "172.16.0.1/16",
+        "ifname": "lokitun0",
+        "introset": {
+          "advertisedRanges": [],
+          "intros": [
+            {
+              "expiresAt": 1669574631988,
+              "latency": 348,
+              "path": "8f52ce571b0368700d8d47b22eac71b4",
+              "router": "1f510f028c7fa4dcd2fbfe897bb9d0aa6135f9e2bcd8997c1797984bfa68b41d",
+              "version": 0
+            },
+            {
+              "expiresAt": 1669574630736,
+              "latency": 434,
+              "path": "69d93d7b6cac78ba4a24aba14dd9e07e",
+              "router": "5b6709b0b5b7fe02f508a39d047d73e336de9ddbf1526ee5562c3ade4aeaa6ca",
+              "version": 0
+            },
+            {
+              "expiresAt": 1669574630487,
+              "latency": 231,
+              "path": "cf1dc37924385ba158caaec55efeb6f7",
+              "router": "f81098486acf33cb433ac2f0d8c76b0fb9a307495a564ee7da1d898b53cafb5b",
+              "version": 0
+            },
+            {
+              "expiresAt": 1669574630236,
+              "latency": 377,
+              "path": "a80d38000a3f69cf3c7d7d1b7fc04759",
+              "router": "e762d4c1e725b3790f871db6be8f6d91387dcc40dba56427aa29c1f9b939026b",
+              "version": 0
+            },
+            {
+              "expiresAt": 1669574422172,
+              "latency": 370,
+              "path": "be1809b0903732d057c92be847eab184",
+              "router": "d9c88023fada22bb4586bfbacdce7091926f77a43586ab866f208e29c2940b85",
+              "version": 0
+            },
+            {
+              "expiresAt": 1669574421669,
+              "latency": 235,
+              "path": "2e0ebd37d42e8d16f5e3fcdacaa0b6f5",
+              "router": "3986ead1ae91e7b7492f722ec9f004828af164a118c8b14af47a8f366fcd5506",
+              "version": 0
+            }
+          ],
+          "protos": [
+            "TrafficV4",
+            "QUIC"
+          ],
+          "published": 0
+        },
+        "lastPublishAttempt": 1669573433740,
+        "lastPublished": 1669573434509,
+        "localResolver": "127.3.2.1: 53",
+        "lookups": "None",
+        "maxIP": ": :ffff: 172.16.255.255",
+        "nextIP": ": :ffff: 172.16.0.1",
+        "numHops": 4,
+        "numPaths": 6,
+        "ourIP": ": :ffff: 172.16.0.1",
+        "paths": [
+          {
+            "buildStarted": 1669573432739,
+            "expired": "False",
+            "expiresAt": 1669574632739,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "fe87fc83f037c60b266b8044d826b499",
+                "txid": "62d9cd7b4c7c699507ad5ac93ae1af0f"
+              },
+              {
+                "ip": ": :ffff: 158.69.223.154",
+                "lifetime": 1200000,
+                "router": "10840dbcbbafd24f3410a005af241419cf9af23db60885c7b3904b67611f58f6",
+                "rxid": "62d9cd7b4c7c699507ad5ac93ae1af0f",
+                "txid": "515f892e9776df41b205c4d6614f9f62"
+              },
+              {
+                "ip": ": :ffff: 161.97.68.140",
+                "lifetime": 1200000,
+                "router": "55d6bc4446015e219c7f4fbb32780de91e009fe24ffaacf58ff2e03d9cfd6293",
+                "rxid": "515f892e9776df41b205c4d6614f9f62",
+                "txid": "45ce72755d71eb7727ee7311b6774ee1"
+              },
+              {
+                "ip": ": :ffff: 104.194.11.120",
+                "lifetime": 1200000,
+                "router": "1f324f04de177ba006351d65a3c27cb2e559834280702c0eac9327dad9a84848",
+                "rxid": "45ce72755d71eb7727ee7311b6774ee1",
+                "txid": "da68a0c8fe270ee273616b82d85e1cf7"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574632739,
+              "latency": 337,
+              "path": "da68a0c8fe270ee273616b82d85e1cf7",
+              "router": "1f324f04de177ba006351d65a3c27cb2e559834280702c0eac9327dad9a84848",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573434096,
+            "lastRecvMsg": 1669573434433,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573431988,
+            "expired": "False",
+            "expiresAt": 1669574631988,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 104.244.79.191",
+                "lifetime": 1200000,
+                "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                "rxid": "b85982e9694449822101788641ccff6b",
+                "txid": "ea215f03af983e5408435c9a16f7fedc"
+              },
+              {
+                "ip": ": :ffff: 103.195.100.91",
+                "lifetime": 1200000,
+                "router": "358fe4c64aaefcb77c79c859f8e23cc09eda09de28e2cb65274c9a6b8362be01",
+                "rxid": "ea215f03af983e5408435c9a16f7fedc",
+                "txid": "ca3a65048baa3c2aa262d4d650656489"
+              },
+              {
+                "ip": ": :ffff: 45.141.122.62",
+                "lifetime": 1200000,
+                "router": "d3d0bc9441b4dce51c2a324c47e3849d1c2a07bbff94b0546721efa6233d6ec1",
+                "rxid": "ca3a65048baa3c2aa262d4d650656489",
+                "txid": "e6a15b0438e8dbe1979644584dbc3965"
+              },
+              {
+                "ip": ": :ffff: 199.127.60.6",
+                "lifetime": 1200000,
+                "router": "1f510f028c7fa4dcd2fbfe897bb9d0aa6135f9e2bcd8997c1797984bfa68b41d",
+                "rxid": "e6a15b0438e8dbe1979644584dbc3965",
+                "txid": "8f52ce571b0368700d8d47b22eac71b4"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574631988,
+              "latency": 348,
+              "path": "8f52ce571b0368700d8d47b22eac71b4",
+              "router": "1f510f028c7fa4dcd2fbfe897bb9d0aa6135f9e2bcd8997c1797984bfa68b41d",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573433288,
+            "lastRecvMsg": 1669573441901,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573430236,
+            "expired": "False",
+            "expiresAt": 1669574630236,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 46.37.58.143",
+                "lifetime": 1200000,
+                "router": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                "rxid": "08f30053e4529d772e9dac37980f5118",
+                "txid": "6942bb2951fa8f1f18d0a6b46d963048"
+              },
+              {
+                "ip": ": :ffff: 192.99.34.110",
+                "lifetime": 1200000,
+                "router": "8b0d6ba0ea6fd392d25c3292c087994eb739174af19c0034d3bb24d4c1f4f2e5",
+                "rxid": "6942bb2951fa8f1f18d0a6b46d963048",
+                "txid": "68975b8cff724540d457ad621d48775c"
+              },
+              {
+                "ip": ": :ffff: 51.159.109.46",
+                "lifetime": 1200000,
+                "router": "52e63f4a051657c168c29455c4489054bb015ba2ba0dad356da05c6336b334a5",
+                "rxid": "68975b8cff724540d457ad621d48775c",
+                "txid": "9ea287b219f01c88e4f7a3c658e3fb11"
+              },
+              {
+                "ip": ": :ffff: 78.47.195.197",
+                "lifetime": 1200000,
+                "router": "e762d4c1e725b3790f871db6be8f6d91387dcc40dba56427aa29c1f9b939026b",
+                "rxid": "9ea287b219f01c88e4f7a3c658e3fb11",
+                "txid": "a80d38000a3f69cf3c7d7d1b7fc04759"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574630236,
+              "latency": 377,
+              "path": "a80d38000a3f69cf3c7d7d1b7fc04759",
+              "router": "e762d4c1e725b3790f871db6be8f6d91387dcc40dba56427aa29c1f9b939026b",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573431999,
+            "lastRecvMsg": 1669573432376,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573222172,
+            "expired": "False",
+            "expiresAt": 1669574422172,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "d315813816054d0676a8329a2b05e1ed",
+                "txid": "95618adfe27fe323955aa9b50bfa7f77"
+              },
+              {
+                "ip": ": :ffff: 49.12.202.31",
+                "lifetime": 1200000,
+                "router": "9e6f68a04bc25c88da24708fdefdb61b849f9e3046d77c1c73c693a20b5115a3",
+                "rxid": "95618adfe27fe323955aa9b50bfa7f77",
+                "txid": "a544651ebdb8b8de37cf68ae745e24f4"
+              },
+              {
+                "ip": ": :ffff: 89.233.108.236",
+                "lifetime": 1200000,
+                "router": "de1a64aa1edc72c8209a54d3705100ae7c1a17ab696fe1005d29d194e7577b42",
+                "rxid": "a544651ebdb8b8de37cf68ae745e24f4",
+                "txid": "fa88e856c7b0a89f7a853134b7f4e1e1"
+              },
+              {
+                "ip": ": :ffff: 167.99.242.75",
+                "lifetime": 1200000,
+                "router": "d9c88023fada22bb4586bfbacdce7091926f77a43586ab866f208e29c2940b85",
+                "rxid": "fa88e856c7b0a89f7a853134b7f4e1e1",
+                "txid": "be1809b0903732d057c92be847eab184"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574422172,
+              "latency": 366,
+              "path": "be1809b0903732d057c92be847eab184",
+              "router": "d9c88023fada22bb4586bfbacdce7091926f77a43586ab866f208e29c2940b85",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573443509,
+            "lastRecvMsg": 1669573443879,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573221669,
+            "expired": "False",
+            "expiresAt": 1669574421669,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 104.244.79.191",
+                "lifetime": 1200000,
+                "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                "rxid": "88d80ee8ab51a4425abbc764c993e531",
+                "txid": "010d31c298aaf6632993d546dbae2e46"
+              },
+              {
+                "ip": ": :ffff: 198.98.55.54",
+                "lifetime": 1200000,
+                "router": "4fa2b8e966d3f6a7cdd4d3e3caff984152604ea5c61a16ff9718fde97e7f09fb",
+                "rxid": "010d31c298aaf6632993d546dbae2e46",
+                "txid": "99dc38651e9d7ea4cd59bbdd92587e70"
+              },
+              {
+                "ip": ": :ffff: 104.243.45.45",
+                "lifetime": 1200000,
+                "router": "1f400f199a4d0242a05a26e952264042646bbbe0333ddbb4aac1628512f44558",
+                "rxid": "99dc38651e9d7ea4cd59bbdd92587e70",
+                "txid": "afa2ba22880a38bd6738015323380beb"
+              },
+              {
+                "ip": ": :ffff: 176.223.137.9",
+                "lifetime": 1200000,
+                "router": "3986ead1ae91e7b7492f722ec9f004828af164a118c8b14af47a8f366fcd5506",
+                "rxid": "afa2ba22880a38bd6738015323380beb",
+                "txid": "2e0ebd37d42e8d16f5e3fcdacaa0b6f5"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574421669,
+              "latency": 234,
+              "path": "2e0ebd37d42e8d16f5e3fcdacaa0b6f5",
+              "router": "3986ead1ae91e7b7492f722ec9f004828af164a118c8b14af47a8f366fcd5506",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573443008,
+            "lastRecvMsg": 1669573443238,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573221419,
+            "expired": "False",
+            "expiresAt": 1669574421419,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "3a108b85c985f7dd58c2d3f7bfc9a3d3",
+                "txid": "7d8ffde84caa4e49af5fd5b8d5049a43"
+              },
+              {
+                "ip": ": :ffff: 87.251.76.153",
+                "lifetime": 1200000,
+                "router": "434e0dcf0d56ffa262b3aaa46b2e1e43e4c03a3d9c41e32d45a443b8909ff80d",
+                "rxid": "7d8ffde84caa4e49af5fd5b8d5049a43",
+                "txid": "e7048f9182e6c3798518127a6cce5681"
+              },
+              {
+                "ip": ": :ffff: 104.194.11.120",
+                "lifetime": 1200000,
+                "router": "1f302f0dbbe571f3f1c26bb9fbea0fd6206c8ff7e9570e4a4f434fe8260dab7e",
+                "rxid": "e7048f9182e6c3798518127a6cce5681",
+                "txid": "477b4934e040c1315593e7e7cc9d95fc"
+              },
+              {
+                "ip": ": :ffff: 209.141.36.242",
+                "lifetime": 1200000,
+                "router": "8b26fa1527993fc53cc50ce5c1df018dd0b08bcf0e157d45e3e572f496e677da",
+                "rxid": "477b4934e040c1315593e7e7cc9d95fc",
+                "txid": "d41825138358e7b5fe62baf04a117d12"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574421419,
+              "latency": 194,
+              "path": "d41825138358e7b5fe62baf04a117d12",
+              "router": "8b26fa1527993fc53cc50ce5c1df018dd0b08bcf0e157d45e3e572f496e677da",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573444512,
+            "lastRecvMsg": 1669573444707,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573132279,
+            "expired": "False",
+            "expiresAt": 1669574332279,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 46.37.58.143",
+                "lifetime": 1200000,
+                "router": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                "rxid": "5df6dbfa703e11ad26678c5046382dea",
+                "txid": "f6e01616bfe35778fea5004e7e231671"
+              },
+              {
+                "ip": ": :ffff: 65.108.99.226",
+                "lifetime": 1200000,
+                "router": "1aae3f4311ee35ba9dc24201fceef4c19ce3c6c6ef1a9e65254f9feba19ac3e0",
+                "rxid": "f6e01616bfe35778fea5004e7e231671",
+                "txid": "455877a44bb8239df6580ecae4a17adf"
+              },
+              {
+                "ip": ": :ffff: 172.93.101.114",
+                "lifetime": 1200000,
+                "router": "c26c5451820dc3fae500d3d00a22976dd11f2752a83a95d1948a1497a88adf57",
+                "rxid": "455877a44bb8239df6580ecae4a17adf",
+                "txid": "f20071fd52d9d004bc9299b4bc61478c"
+              },
+              {
+                "ip": ": :ffff: 134.209.81.45",
+                "lifetime": 1200000,
+                "router": "aeb3221cce9da3e70b8e272a7754f86fd82fb493e252ad4032f1ee6051f09f84",
+                "rxid": "f20071fd52d9d004bc9299b4bc61478c",
+                "txid": "f60bec427a8fd754b364c96bd306c3d0"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574332279,
+              "latency": 452,
+              "path": "f60bec427a8fd754b364c96bd306c3d0",
+              "router": "aeb3221cce9da3e70b8e272a7754f86fd82fb493e252ad4032f1ee6051f09f84",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573433989,
+            "lastRecvMsg": 1669573434527,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573130777,
+            "expired": "False",
+            "expiresAt": 1669574330777,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 46.37.58.143",
+                "lifetime": 1200000,
+                "router": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                "rxid": "a565df4ad4995d6e98f1a1709bf24ca7",
+                "txid": "165f1375f5855003b4afc526e8ef4e46"
+              },
+              {
+                "ip": ": :ffff: 65.108.99.226",
+                "lifetime": 1200000,
+                "router": "b37a88428e88e82aefe1dd9f3e8d1a268d33e26fd24c67ebe1c7a11fc75ac3c2",
+                "rxid": "165f1375f5855003b4afc526e8ef4e46",
+                "txid": "df35ba6a3e4edc9fc31d0a7d73531a8e"
+              },
+              {
+                "ip": ": :ffff: 51.222.42.216",
+                "lifetime": 1200000,
+                "router": "1f216f4a8d132fcf7d74657dd82167a2037c5bbe40abefdf7a533133f0134601",
+                "rxid": "df35ba6a3e4edc9fc31d0a7d73531a8e",
+                "txid": "8f85efee562f0181bfa5658d3587107f"
+              },
+              {
+                "ip": ": :ffff: 104.194.8.115",
+                "lifetime": 1200000,
+                "router": "1f602f45297b941ac17d36e30a96716f6f606bf1288369ea7dd03b87c0fad744",
+                "rxid": "8f85efee562f0181bfa5658d3587107f",
+                "txid": "e51fc11ccf2432c2b3f6edda826b4931"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574330777,
+              "latency": 428,
+              "path": "e51fc11ccf2432c2b3f6edda826b4931",
+              "router": "1f602f45297b941ac17d36e30a96716f6f606bf1288369ea7dd03b87c0fad744",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573440244,
+            "lastRecvMsg": 1669573440608,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573130027,
+            "expired": "False",
+            "expiresAt": 1669574330027,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "5b576a033dfd43740966451ff129e35a",
+                "txid": "09e7901152598b2e11995338c34d6aec"
+              },
+              {
+                "ip": ": :ffff: 195.15.241.216",
+                "lifetime": 1200000,
+                "router": "cdb9b7785bb57c5ce1edd8d04cd4cf0148cc5a3dbd2bf00df7f20c3462ac93e6",
+                "rxid": "09e7901152598b2e11995338c34d6aec",
+                "txid": "8b97d8db2ee6fc7784c58f51bb55aa1b"
+              },
+              {
+                "ip": ": :ffff: 162.212.152.167",
+                "lifetime": 1200000,
+                "router": "1585a27d5bbf761cc11b6e3c13afd5e96d1402826fd07f343ec9a6e517630e8f",
+                "rxid": "8b97d8db2ee6fc7784c58f51bb55aa1b",
+                "txid": "7069860af645fcaf955da2cb73e2b3e7"
+              },
+              {
+                "ip": ": :ffff: 136.243.103.175",
+                "lifetime": 1200000,
+                "router": "cafe08f8d3580f2665366a22d74f5cf9d1584ea7ebb0551305f6ee4c1b9bc116",
+                "rxid": "7069860af645fcaf955da2cb73e2b3e7",
+                "txid": "c76797563fa9ae94e59140dd81785e19"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574330027,
+              "latency": 571,
+              "path": "c76797563fa9ae94e59140dd81785e19",
+              "router": "cafe08f8d3580f2665366a22d74f5cf9d1584ea7ebb0551305f6ee4c1b9bc116",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573432742,
+            "lastRecvMsg": 1669573433315,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573128772,
+            "expired": "False",
+            "expiresAt": 1669574328772,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "351ecd6e26aaf40664f1cefbe7a26293",
+                "txid": "c45af03421689c2bf79b0e987dd82e7a"
+              },
+              {
+                "ip": ": :ffff: 143.198.238.21",
+                "lifetime": 1200000,
+                "router": "3602143131036abd581a3bcd2faed275d437c5c8307ba44faaf288072ccd1da0",
+                "rxid": "c45af03421689c2bf79b0e987dd82e7a",
+                "txid": "1d55cf325e70b86ea17c3ccf70ddcb87"
+              },
+              {
+                "ip": ": :ffff: 51.161.134.40",
+                "lifetime": 1200000,
+                "router": "ba59d08aaa3372f5c11c3bf3849108c1cad756f869607496a14de3b990c04e89",
+                "rxid": "1d55cf325e70b86ea17c3ccf70ddcb87",
+                "txid": "e33a3601132b748e215ad3db90d2bdeb"
+              },
+              {
+                "ip": ": :ffff: 168.119.60.239",
+                "lifetime": 1200000,
+                "router": "c5dd7fbda21421b94c67bdd44983317198159ee7383b69ea80e6da8ab2af502a",
+                "rxid": "e33a3601132b748e215ad3db90d2bdeb",
+                "txid": "6b274b0a7cef871428ff7d411d38e14d"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574328772,
+              "latency": 636,
+              "path": "6b274b0a7cef871428ff7d411d38e14d",
+              "router": "c5dd7fbda21421b94c67bdd44983317198159ee7383b69ea80e6da8ab2af502a",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573430988,
+            "lastRecvMsg": 1669573431620,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572922935,
+            "expired": "False",
+            "expiresAt": 1669574122935,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "a45ae32bb2e429edb9e2619915acb15a",
+                "txid": "7be6b7cc70735a59a57c855c8d92a4f8"
+              },
+              {
+                "ip": ": :ffff: 209.222.97.35",
+                "lifetime": 1200000,
+                "router": "3fa2a471107b4c71eb7c92dc29ea62bac455282ae95e562cfae5f5470982221f",
+                "rxid": "7be6b7cc70735a59a57c855c8d92a4f8",
+                "txid": "cbfdeed2e84644c2decaf2f3a2867e84"
+              },
+              {
+                "ip": ": :ffff: 65.108.67.12",
+                "lifetime": 1200000,
+                "router": "5ef9dc828ce7c33c9044ae140f318f2bcdb86b3adae361e80cdebc25b22ea0f5",
+                "rxid": "cbfdeed2e84644c2decaf2f3a2867e84",
+                "txid": "5894bd59c52181dc900c1ce5614ac219"
+              },
+              {
+                "ip": ": :ffff: 51.222.42.216",
+                "lifetime": 1200000,
+                "router": "1f230f17b89ca4bfcbc3fc9a1e6a5127c71e42b8b7a2fdd962369f71909d93b2",
+                "rxid": "5894bd59c52181dc900c1ce5614ac219",
+                "txid": "b8a141348c9a9f08a9bcd6f9e8e66fb9"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574122935,
+              "latency": 490,
+              "path": "b8a141348c9a9f08a9bcd6f9e8e66fb9",
+              "router": "1f230f17b89ca4bfcbc3fc9a1e6a5127c71e42b8b7a2fdd962369f71909d93b2",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573445265,
+            "lastRecvMsg": 1669573445751,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573430487,
+            "expired": "False",
+            "expiresAt": 1669574630487,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "ca67c3ff200388cb11ae8b0b9c992a82",
+                "txid": "029188f629c29b088a592764cf2be0f4"
+              },
+              {
+                "ip": ": :ffff: 213.136.74.177",
+                "lifetime": 1200000,
+                "router": "47d7775f6f84420d6d4b5a35cdddad98047231ffd46503fff3ab78323892cada",
+                "rxid": "029188f629c29b088a592764cf2be0f4",
+                "txid": "af2e036ba4a37323e2c3051cfff7fe7f"
+              },
+              {
+                "ip": ": :ffff: 89.58.7.41",
+                "lifetime": 1200000,
+                "router": "ea37081d3e9ed5df6cc59f75698902130e655e503946c1e9c9dc7e967356bb45",
+                "rxid": "af2e036ba4a37323e2c3051cfff7fe7f",
+                "txid": "61e9af713f6a3452caeb0f2a68a7ed2c"
+              },
+              {
+                "ip": ": :ffff: 51.81.234.48",
+                "lifetime": 1200000,
+                "router": "f81098486acf33cb433ac2f0d8c76b0fb9a307495a564ee7da1d898b53cafb5b",
+                "rxid": "61e9af713f6a3452caeb0f2a68a7ed2c",
+                "txid": "cf1dc37924385ba158caaec55efeb6f7"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574630487,
+              "latency": 231,
+              "path": "cf1dc37924385ba158caaec55efeb6f7",
+              "router": "f81098486acf33cb433ac2f0d8c76b0fb9a307495a564ee7da1d898b53cafb5b",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573431299,
+            "lastRecvMsg": 1669573431531,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572920182,
+            "expired": "False",
+            "expiresAt": 1669574120182,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "454a84adff3a1179b7532d3c96db6dfc",
+                "txid": "9be3986c5fbb5b189f42e1a5b43f3abe"
+              },
+              {
+                "ip": ": :ffff: 139.59.74.101",
+                "lifetime": 1200000,
+                "router": "3bd4386bb5b0f7bcea1a1e1931f68019d8e656c4008d0df618d892504a174a57",
+                "rxid": "9be3986c5fbb5b189f42e1a5b43f3abe",
+                "txid": "cca93c2beac518e0a2ff2bd5d7da3175"
+              },
+              {
+                "ip": ": :ffff: 206.81.96.20",
+                "lifetime": 1200000,
+                "router": "97de8069c6999a58e0ea9142d2b5faa5e68324484d49bfa42db86992efc48c53",
+                "rxid": "cca93c2beac518e0a2ff2bd5d7da3175",
+                "txid": "6bd85f6cf66e9ab073c2c494be226625"
+              },
+              {
+                "ip": ": :ffff: 95.216.149.75",
+                "lifetime": 1200000,
+                "router": "bcdeae47f83c0573bf0907302ed11e7f65b1842467d489d3ef89eeaabcac8bc5",
+                "rxid": "6bd85f6cf66e9ab073c2c494be226625",
+                "txid": "4cad94cf9034272dcc5c5f8988e7062f"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574120182,
+              "latency": 833,
+              "path": "4cad94cf9034272dcc5c5f8988e7062f",
+              "router": "bcdeae47f83c0573bf0907302ed11e7f65b1842467d489d3ef89eeaabcac8bc5",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573447765,
+            "lastRecvMsg": 1669573443337,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 1,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 128
+          },
+          {
+            "buildStarted": 1669572828564,
+            "expired": "False",
+            "expiresAt": 1669574028564,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 46.37.58.143",
+                "lifetime": 1200000,
+                "router": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                "rxid": "03b068ff519e9c7498362230fac3381f",
+                "txid": "4dea4b7152334d9d34e1c162bb00b4ba"
+              },
+              {
+                "ip": ": :ffff: 95.216.196.246",
+                "lifetime": 1200000,
+                "router": "30c10f9e118ba68945c2473748b9e67e715ba53e9edddd4dc3c0b69e285c6fa0",
+                "rxid": "4dea4b7152334d9d34e1c162bb00b4ba",
+                "txid": "583bde18547d176b0bf1edd20903a81a"
+              },
+              {
+                "ip": ": :ffff: 51.222.42.216",
+                "lifetime": 1200000,
+                "router": "1f205f043d639bcde0634b408612c35e8ff94a56e5680548315d15b29e20f5c3",
+                "rxid": "583bde18547d176b0bf1edd20903a81a",
+                "txid": "50141935a9040081cb7096a24de4ffa6"
+              },
+              {
+                "ip": ": :ffff: 65.108.94.221",
+                "lifetime": 1200000,
+                "router": "cc4acee4e59523d01c569a7fdf8330ae975ffdf3a42ad52801ab60e83fcbbd6d",
+                "rxid": "50141935a9040081cb7096a24de4ffa6",
+                "txid": "d4dad9490f579f8ec5530f76996746c4"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574028564,
+              "latency": 438,
+              "path": "d4dad9490f579f8ec5530f76996746c4",
+              "router": "cc4acee4e59523d01c569a7fdf8330ae975ffdf3a42ad52801ab60e83fcbbd6d",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573430988,
+            "lastRecvMsg": 1669573441997,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572620249,
+            "expired": "False",
+            "expiresAt": 1669573820249,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "fe73f66cf64bb491a86b84bfdd25ba98",
+                "txid": "40b944bda1a4aeb700ad43efa67feb42"
+              },
+              {
+                "ip": ": :ffff: 88.99.15.47",
+                "lifetime": 1200000,
+                "router": "07a80d246f362289a0a5aa500e0b33cca61128bf8b36610a52c0c880b83dd3a2",
+                "rxid": "40b944bda1a4aeb700ad43efa67feb42",
+                "txid": "19261d53016889f93574afc113f460f3"
+              },
+              {
+                "ip": ": :ffff: 104.248.150.108",
+                "lifetime": 1200000,
+                "router": "35c7b025ba9d78b50aaa9a6439f4dd77707c9bf560af0015fa5831b334559213",
+                "rxid": "19261d53016889f93574afc113f460f3",
+                "txid": "d41bc88275ee2bb829025427779a23b4"
+              },
+              {
+                "ip": ": :ffff: 5.189.150.201",
+                "lifetime": 1200000,
+                "router": "4e12cab2bd47b5b77bf02d45a4d0fe108305da8187854066618aefe2ce3c0805",
+                "rxid": "d41bc88275ee2bb829025427779a23b4",
+                "txid": "198cd42bb83dff88b3c10d46e721d75a"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573820249,
+              "latency": 695,
+              "path": "198cd42bb83dff88b3c10d46e721d75a",
+              "router": "4e12cab2bd47b5b77bf02d45a4d0fe108305da8187854066618aefe2ce3c0805",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573445766,
+            "lastRecvMsg": 1669573446458,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572619499,
+            "expired": "False",
+            "expiresAt": 1669573819499,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "153c4ec5a8abc796c2aa60d07b1039f3",
+                "txid": "02cc28c10b27a1c9d9a898a3f3cdb945"
+              },
+              {
+                "ip": ": :ffff: 89.58.2.189",
+                "lifetime": 1200000,
+                "router": "f00c5e8aca5c3968378e56e9b5b236012f8f651c485e8ab2592d58c2d4c4f75d",
+                "rxid": "02cc28c10b27a1c9d9a898a3f3cdb945",
+                "txid": "157e330bbff117c5ffc7f5d515fddac7"
+              },
+              {
+                "ip": ": :ffff: 135.181.223.249",
+                "lifetime": 1200000,
+                "router": "cafe33f77845d5e4af49744dab73e1272c19d8ca88425b75e56369c88224e08a",
+                "rxid": "157e330bbff117c5ffc7f5d515fddac7",
+                "txid": "30b3119e29c4320573459b3f60b02d83"
+              },
+              {
+                "ip": ": :ffff: 195.201.95.156",
+                "lifetime": 1200000,
+                "router": "5cf3fc69e33b93d41a2446f8d8fd6c9ca437b3aefaa8afcca9994df320d1f613",
+                "rxid": "30b3119e29c4320573459b3f60b02d83",
+                "txid": "902d5d2547e68d980bf35ff085672a9c"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573819499,
+              "latency": 106,
+              "path": "902d5d2547e68d980bf35ff085672a9c",
+              "router": "5cf3fc69e33b93d41a2446f8d8fd6c9ca437b3aefaa8afcca9994df320d1f613",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573443259,
+            "lastRecvMsg": 1669573443363,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572919932,
+            "expired": "False",
+            "expiresAt": 1669574119932,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "9a9c5436f1622abd3755c1ea1cea694d",
+                "txid": "6e8a50b257eeef0938cb111ab7a432d2"
+              },
+              {
+                "ip": ": :ffff: 209.222.98.185",
+                "lifetime": 1200000,
+                "router": "8327502d29679ec5cd6936e8e4ee17359440c2738cf4e65bce887608b20c810a",
+                "rxid": "6e8a50b257eeef0938cb111ab7a432d2",
+                "txid": "f56b1f2fb082ca0bdad2fb42c0ce3609"
+              },
+              {
+                "ip": ": :ffff: 142.93.57.120",
+                "lifetime": 1200000,
+                "router": "7dbdfc8a62100f9758e3ca300e1b07e2dec7f75149f78c0f3485629b48ed1c86",
+                "rxid": "f56b1f2fb082ca0bdad2fb42c0ce3609",
+                "txid": "c757bb87f6653fa7631feb9fd7a1d358"
+              },
+              {
+                "ip": ": :ffff: 38.242.144.254",
+                "lifetime": 1200000,
+                "router": "c08f32fcf987e888fd376965a1feae163daecceec6cc101a8abddce15344fb67",
+                "rxid": "c757bb87f6653fa7631feb9fd7a1d358",
+                "txid": "bdbbd5052e3d3f995fc93abe32fd0be6"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574119932,
+              "latency": 230,
+              "path": "bdbbd5052e3d3f995fc93abe32fd0be6",
+              "router": "c08f32fcf987e888fd376965a1feae163daecceec6cc101a8abddce15344fb67",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573441752,
+            "lastRecvMsg": 1669573441976,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572619248,
+            "expired": "False",
+            "expiresAt": 1669573819248,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "e161da7bf9fe39b1edfd724232bf61de",
+                "txid": "37550faf89eba6ce40cdd486a2795d8a"
+              },
+              {
+                "ip": ": :ffff: 95.216.200.253",
+                "lifetime": 1200000,
+                "router": "51370e3f8eb6393f696bcf85ca28830a3b0c34e4b7327d0ab2dcf688c242b499",
+                "rxid": "37550faf89eba6ce40cdd486a2795d8a",
+                "txid": "b872e8f985469b74d8959fe2ca0769d3"
+              },
+              {
+                "ip": ": :ffff: 217.61.18.235",
+                "lifetime": 1200000,
+                "router": "1cc8ff8cec0a588ea7488a14c879d2d3b14ce1226761b6325d8fe580a786de62",
+                "rxid": "b872e8f985469b74d8959fe2ca0769d3",
+                "txid": "10ec9a08388e049d2f1329570f610cae"
+              },
+              {
+                "ip": ": :ffff: 209.222.97.35",
+                "lifetime": 1200000,
+                "router": "ffec5e1bbebb36d10222238cebf6d5146f17ae1a970ae0f7898a3fdcac968a88",
+                "rxid": "10ec9a08388e049d2f1329570f610cae",
+                "txid": "73b3715197622f8ab80b23262791afe5"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573819248,
+              "latency": 489,
+              "path": "73b3715197622f8ab80b23262791afe5",
+              "router": "ffec5e1bbebb36d10222238cebf6d5146f17ae1a970ae0f7898a3fdcac968a88",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573442007,
+            "lastRecvMsg": 1669573442490,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572618497,
+            "expired": "False",
+            "expiresAt": 1669573818497,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "a622f88ba1aeea63df2e4f649811c1c5",
+                "txid": "2207c60ebb10b2c57098386cfd3b3237"
+              },
+              {
+                "ip": ": :ffff: 104.194.11.120",
+                "lifetime": 1200000,
+                "router": "1f307f24e1b16f3fb1e8e2feee0f1ba46f2c7efa0b01f96572708192c82ff800",
+                "rxid": "2207c60ebb10b2c57098386cfd3b3237",
+                "txid": "298bac9ecf5c961883526157da00dcb2"
+              },
+              {
+                "ip": ": :ffff: 205.189.160.55",
+                "lifetime": 1200000,
+                "router": "3ddb2079161fbaad80824cdf346d6b69092d4344eadb147892ccdf2755f86af6",
+                "rxid": "298bac9ecf5c961883526157da00dcb2",
+                "txid": "c5825282211862cca397ca6c554b39d4"
+              },
+              {
+                "ip": ": :ffff: 37.120.190.233",
+                "lifetime": 1200000,
+                "router": "ef9f506e8d0f0f8d83ceb4bd680dbd46ae0a2a5c14324fab7d9619f4d961572d",
+                "rxid": "c5825282211862cca397ca6c554b39d4",
+                "txid": "5ed18b0fe69790e6b03b753c03a054df"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573818497,
+              "latency": 585,
+              "path": "5ed18b0fe69790e6b03b753c03a054df",
+              "router": "ef9f506e8d0f0f8d83ceb4bd680dbd46ae0a2a5c14324fab7d9619f4d961572d",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573442007,
+            "lastRecvMsg": 1669573442587,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572618247,
+            "expired": "False",
+            "expiresAt": 1669573818247,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "2c80bdc74fc7c31227675cc0664a10eb",
+                "txid": "6bf1c4f2ea033b25b263bca3c096bcb6"
+              },
+              {
+                "ip": ": :ffff: 146.59.17.119",
+                "lifetime": 1200000,
+                "router": "1d52ad6ccd8c0d3a1920ce8582e7aabcddb3d7df611a65ba2ca831f0298d86f1",
+                "rxid": "6bf1c4f2ea033b25b263bca3c096bcb6",
+                "txid": "59ec01c6a6c64851d0c466dda4ba1409"
+              },
+              {
+                "ip": ": :ffff: 104.243.45.162",
+                "lifetime": 1200000,
+                "router": "ae43b653edc73564a39f8651e84e3348e2069a28aff8c2d33d79fc16baa2532f",
+                "rxid": "59ec01c6a6c64851d0c466dda4ba1409",
+                "txid": "593c18122baaaa178703a9698ffa75db"
+              },
+              {
+                "ip": ": :ffff: 23.239.20.166",
+                "lifetime": 1200000,
+                "router": "6cf2b0fee6a044cfd0612d77b9e2674b3fd077d61a95f3149d4d4649abe32dcf",
+                "rxid": "593c18122baaaa178703a9698ffa75db",
+                "txid": "3e1b5263a4fb36507636b0e41a8b887d"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573818247,
+              "latency": 532,
+              "path": "3e1b5263a4fb36507636b0e41a8b887d",
+              "router": "6cf2b0fee6a044cfd0612d77b9e2674b3fd077d61a95f3149d4d4649abe32dcf",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573441252,
+            "lastRecvMsg": 1669573441779,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572317487,
+            "expired": "False",
+            "expiresAt": 1669573517487,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "6d3d54abe3752e1fc732b3ff7f40d3fc",
+                "txid": "58318a3d397fedc8833a2e410cb0c7bb"
+              },
+              {
+                "ip": ": :ffff: 144.76.164.202",
+                "lifetime": 1200000,
+                "router": "1f013f0df7b1e4d4eb11b2b51ec983554af9506f637b93f4ec41627c22c48d92",
+                "rxid": "58318a3d397fedc8833a2e410cb0c7bb",
+                "txid": "fb8f668343f6805dee99b852d9a64a84"
+              },
+              {
+                "ip": ": :ffff: 45.32.55.86",
+                "lifetime": 1200000,
+                "router": "726080fb88e16bd31613aeaefab6b03bfd86ca4ec8c14d8c57bd7589197b8426",
+                "rxid": "fb8f668343f6805dee99b852d9a64a84",
+                "txid": "965da22ff0c229008fb5b9bb6a445f44"
+              },
+              {
+                "ip": ": :ffff: 172.105.184.119",
+                "lifetime": 1200000,
+                "router": "37d21ad8335ce2e2003429fcb84922b6e7296c9fa22e02a95249c49aa273f197",
+                "rxid": "965da22ff0c229008fb5b9bb6a445f44",
+                "txid": "3fcd0c318a88d6f8909adffd5237c92c"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573517487,
+              "latency": 489,
+              "path": "3fcd0c318a88d6f8909adffd5237c92c",
+              "router": "37d21ad8335ce2e2003429fcb84922b6e7296c9fa22e02a95249c49aa273f197",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573443259,
+            "lastRecvMsg": 1669573443748,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669573430736,
+            "expired": "False",
+            "expiresAt": 1669574630736,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 104.244.79.191",
+                "lifetime": 1200000,
+                "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                "rxid": "7e970513b52b028200eb4438abac79fd",
+                "txid": "33314a8a7ff480a3cc8816b6f7f712be"
+              },
+              {
+                "ip": ": :ffff: 213.136.91.230",
+                "lifetime": 1200000,
+                "router": "cc4960d9f4177fc23a867856d5cafeef0ec8f9d88c9c9cd93f5b47ad22f11085",
+                "rxid": "33314a8a7ff480a3cc8816b6f7f712be",
+                "txid": "782706ce11d95760053e8b8fa03649bf"
+              },
+              {
+                "ip": ": :ffff: 199.195.252.238",
+                "lifetime": 1200000,
+                "router": "a021ee1e2bb7353088377618ce17e6e1407731bf4d44bfd79e919c6e75eadab8",
+                "rxid": "782706ce11d95760053e8b8fa03649bf",
+                "txid": "7c0edbc73ffca9459c8aae256052df2b"
+              },
+              {
+                "ip": ": :ffff: 139.59.29.239",
+                "lifetime": 1200000,
+                "router": "5b6709b0b5b7fe02f508a39d047d73e336de9ddbf1526ee5562c3ade4aeaa6ca",
+                "rxid": "7c0edbc73ffca9459c8aae256052df2b",
+                "txid": "69d93d7b6cac78ba4a24aba14dd9e07e"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574630736,
+              "latency": 434,
+              "path": "69d93d7b6cac78ba4a24aba14dd9e07e",
+              "router": "5b6709b0b5b7fe02f508a39d047d73e336de9ddbf1526ee5562c3ade4aeaa6ca",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573432440,
+            "lastRecvMsg": 1669573432875,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572317987,
+            "expired": "False",
+            "expiresAt": 1669573517987,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "9bea9e01003a0e0b769eaa0f9f3f271b",
+                "txid": "f388485afcc9e689cbe43acc4b71ca56"
+              },
+              {
+                "ip": ": :ffff: 51.83.133.162",
+                "lifetime": 1200000,
+                "router": "9d29df990148a49d841e794c3fd6aa2768e13a3752c947c4c467c4c36e95e213",
+                "rxid": "f388485afcc9e689cbe43acc4b71ca56",
+                "txid": "0bc21367103cf2c6e9fec7dd7f62099a"
+              },
+              {
+                "ip": ": :ffff: 185.231.207.173",
+                "lifetime": 1200000,
+                "router": "0c96ecb7ec7880ea6f1ebc1d255f03383b2033f0973eb6abaa25eeb58436c8bd",
+                "rxid": "0bc21367103cf2c6e9fec7dd7f62099a",
+                "txid": "52dd31ef7f6634edb2b0ff592772c0c6"
+              },
+              {
+                "ip": ": :ffff: 158.69.223.104",
+                "lifetime": 1200000,
+                "router": "4d1c5ba950be3640f3ccddc59cc75b2b38be412e8f4f47466328453adfaa7a28",
+                "rxid": "52dd31ef7f6634edb2b0ff592772c0c6",
+                "txid": "836819240e25d3f841b30f3b2131f195"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573517987,
+              "latency": 515,
+              "path": "836819240e25d3f841b30f3b2131f195",
+              "router": "4d1c5ba950be3640f3ccddc59cc75b2b38be412e8f4f47466328453adfaa7a28",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573441753,
+            "lastRecvMsg": 1669573442263,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572315737,
+            "expired": "False",
+            "expiresAt": 1669573515737,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "770f21a0ee5a79f9bde23e7841676b67",
+                "txid": "ba037bb666c2004e9acd21a864f7a6da"
+              },
+              {
+                "ip": ": :ffff: 185.52.1.73",
+                "lifetime": 1200000,
+                "router": "4bb84ebc5e0d1abe5503faefc8948171ab8d89699f3221bf13e20d249d7ad987",
+                "rxid": "ba037bb666c2004e9acd21a864f7a6da",
+                "txid": "5eab03ceef02030a01dac0895a0414c3"
+              },
+              {
+                "ip": ": :ffff: 135.181.138.190",
+                "lifetime": 1200000,
+                "router": "9a09304539570c6a1df6138c16bdb4a57a993e3aa92b6207a188a755d09df4f2",
+                "rxid": "5eab03ceef02030a01dac0895a0414c3",
+                "txid": "d9b338cc94d097d010b42728b3ef230c"
+              },
+              {
+                "ip": ": :ffff: 195.15.240.134",
+                "lifetime": 1200000,
+                "router": "730e6c131cf41dd9f1c69a18e02030622d77eb29c1137fbd88e233cc0c5b26a0",
+                "rxid": "d9b338cc94d097d010b42728b3ef230c",
+                "txid": "c50ce94ae2fe4b2919b468c42f26a7e5"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573515737,
+              "latency": 403,
+              "path": "c50ce94ae2fe4b2919b468c42f26a7e5",
+              "router": "730e6c131cf41dd9f1c69a18e02030622d77eb29c1137fbd88e233cc0c5b26a0",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573438745,
+            "lastRecvMsg": 1669573439148,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572314736,
+            "expired": "False",
+            "expiresAt": 1669573514736,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "76d471b0880a160e7c19b7a216a1217d",
+                "txid": "0f7e5ca1ba51a74742c95700ddd14a3c"
+              },
+              {
+                "ip": ": :ffff: 104.194.11.120",
+                "lifetime": 1200000,
+                "router": "1f309f07379b2e3fb7792e9b38381bd9c2fabb47f6c4d9e5a360505ab922107c",
+                "rxid": "0f7e5ca1ba51a74742c95700ddd14a3c",
+                "txid": "246cc4b57ca0827f08f4466d5e4a2199"
+              },
+              {
+                "ip": ": :ffff: 38.54.96.133",
+                "lifetime": 1200000,
+                "router": "164685eb834261e16f64f10c4e1f4bb6997b5af92665a6b6bf9b8564dde17566",
+                "rxid": "246cc4b57ca0827f08f4466d5e4a2199",
+                "txid": "ad6229a5250e967480a13707bb6e0121"
+              },
+              {
+                "ip": ": :ffff: 154.53.50.217",
+                "lifetime": 1200000,
+                "router": "6884863c90f6b2adec09f9f4199f55974dfdd7d4822cc32b9015a3a5214e434c",
+                "rxid": "ad6229a5250e967480a13707bb6e0121",
+                "txid": "1c797cf7c687d4eac539bbae579ce11f"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573514736,
+              "latency": 620,
+              "path": "1c797cf7c687d4eac539bbae579ce11f",
+              "router": "6884863c90f6b2adec09f9f4199f55974dfdd7d4822cc32b9015a3a5214e434c",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573441001,
+            "lastRecvMsg": 1669573441615,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572314486,
+            "expired": "False",
+            "expiresAt": 1669573514486,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "ea283e52f077ace359f8a9cf5a11e473",
+                "txid": "9ae9410690c8a4f9944c65548729a262"
+              },
+              {
+                "ip": ": :ffff: 192.99.55.241",
+                "lifetime": 1200000,
+                "router": "f2be60c0661f89ff208bce79c631f1a989e95ef93ebd9373391768fc7d2e54bc",
+                "rxid": "9ae9410690c8a4f9944c65548729a262",
+                "txid": "fa1ae3574de8567d53b42915001e2517"
+              },
+              {
+                "ip": ": :ffff: 89.58.2.189",
+                "lifetime": 1200000,
+                "router": "8dcc7c24ffd48c3919a0625a22c1fe12dd1a83c7cafd867c6173cde5675b63bb",
+                "rxid": "fa1ae3574de8567d53b42915001e2517",
+                "txid": "a3769ff143de7741a9a0d2d3a19f0839"
+              },
+              {
+                "ip": ": :ffff: 107.189.30.239",
+                "lifetime": 1200000,
+                "router": "5d2110d17dba41ab1e672c08d644a9aa0af09c3f813d83d7e3c5d71d748556db",
+                "rxid": "a3769ff143de7741a9a0d2d3a19f0839",
+                "txid": "e62d23f2fbb1d0202aeade8dde8bb1cb"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573514486,
+              "latency": 456,
+              "path": "e62d23f2fbb1d0202aeade8dde8bb1cb",
+              "router": "5d2110d17dba41ab1e672c08d644a9aa0af09c3f813d83d7e3c5d71d748556db",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573445015,
+            "lastRecvMsg": 1669573445368,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572617250,
+            "expired": "False",
+            "expiresAt": 1669573817250,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "d9d71032403fae5163de0642e319862d",
+                "txid": "e95390f8d4425d2e10101e49230b311a"
+              },
+              {
+                "ip": ": :ffff: 167.86.86.191",
+                "lifetime": 1200000,
+                "router": "67ab847d20e5168ee53d8b4cea33baf52453b46a3dcd5f8b0491664d965f74a0",
+                "rxid": "e95390f8d4425d2e10101e49230b311a",
+                "txid": "85f775db336d4dcc65408289fab87a5b"
+              },
+              {
+                "ip": ": :ffff: 62.171.145.135",
+                "lifetime": 1200000,
+                "router": "5d9b6c663f367dceaa698f677e77d64e9bf7e0c376e7da3a496fd3f1e207b59f",
+                "rxid": "85f775db336d4dcc65408289fab87a5b",
+                "txid": "91636f5c0ed610676699d53786ca628b"
+              },
+              {
+                "ip": ": :ffff: 192.99.167.206",
+                "lifetime": 1200000,
+                "router": "7b80bbfdd56e0b6f1c003755fc300a8d709af49301b261d40accb94f2f80322c",
+                "rxid": "91636f5c0ed610676699d53786ca628b",
+                "txid": "92698ecef65af6db4b111498da89266d"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573817250,
+              "latency": 447,
+              "path": "92698ecef65af6db4b111498da89266d",
+              "router": "7b80bbfdd56e0b6f1c003755fc300a8d709af49301b261d40accb94f2f80322c",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573440000,
+            "lastRecvMsg": 1669573440443,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572921184,
+            "expired": "False",
+            "expiresAt": 1669574121184,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 88.99.102.229",
+                "lifetime": 1200000,
+                "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                "rxid": "a3e73f6f492a1571fc466f9f96d35623",
+                "txid": "3b9f4ba6808c3045264db42fa6b7138d"
+              },
+              {
+                "ip": ": :ffff: 199.127.60.6",
+                "lifetime": 1200000,
+                "router": "1f521f2654b0c6632fc8ffcb21f0a9c29e2241c0e5b57c87277011d3f3a38d0d",
+                "rxid": "3b9f4ba6808c3045264db42fa6b7138d",
+                "txid": "ca41deab8175d0ece587e9dd577ce5f6"
+              },
+              {
+                "ip": ": :ffff: 144.76.164.202",
+                "lifetime": 1200000,
+                "router": "1f002f0d39343febcb29f1e9e5d725104bd24f8abfaab2269394c05cb38557f5",
+                "rxid": "ca41deab8175d0ece587e9dd577ce5f6",
+                "txid": "00d9d08763df83bde29ccd90eff1116e"
+              },
+              {
+                "ip": ": :ffff: 135.181.138.83",
+                "lifetime": 1200000,
+                "router": "f6e72121ee253f26ae9b744805bed3096285bc54995c1aac86a6062c4ae49896",
+                "rxid": "00d9d08763df83bde29ccd90eff1116e",
+                "txid": "e28cfccef8673f1e608425b77fd9175e"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574121184,
+              "latency": 284,
+              "path": "e28cfccef8673f1e608425b77fd9175e",
+              "router": "f6e72121ee253f26ae9b744805bed3096285bc54995c1aac86a6062c4ae49896",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573443259,
+            "lastRecvMsg": 1669573443544,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572919680,
+            "expired": "False",
+            "expiresAt": 1669574119680,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 104.244.79.191",
+                "lifetime": 1200000,
+                "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                "rxid": "8c229e5e6fbbae2542745708b467125c",
+                "txid": "cc7beddb781ba3d31298d395fd73c981"
+              },
+              {
+                "ip": ": :ffff: 157.230.38.154",
+                "lifetime": 1200000,
+                "router": "da69aa0d68de5e2b5663ae28170adb514c2fad4b2f200b1c131c681afee9475e",
+                "rxid": "cc7beddb781ba3d31298d395fd73c981",
+                "txid": "a9515769e924ba3be8e96bedd8e01c85"
+              },
+              {
+                "ip": ": :ffff: 51.159.109.46",
+                "lifetime": 1200000,
+                "router": "52e63f4a051657c168c29455c4489054bb015ba2ba0dad356da05c6336b334a5",
+                "rxid": "a9515769e924ba3be8e96bedd8e01c85",
+                "txid": "b01dfbb98329b260e4f37b4f45fc8f10"
+              },
+              {
+                "ip": ": :ffff: 206.81.96.20",
+                "lifetime": 1200000,
+                "router": "78fa14bbe431ce33dabceaf753e871bb532745f8710957f252517a865678086a",
+                "rxid": "b01dfbb98329b260e4f37b4f45fc8f10",
+                "txid": "71fb9e389f14a32bef521b6ec7a5dbb3"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669574119680,
+              "latency": 593,
+              "path": "71fb9e389f14a32bef521b6ec7a5dbb3",
+              "router": "78fa14bbe431ce33dabceaf753e871bb532745f8710957f252517a865678086a",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573446765,
+            "lastRecvMsg": 1669573447361,
+            "ready": "True",
+            "replayRX": 1,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572318738,
+            "expired": "False",
+            "expiresAt": 1669573518738,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 104.244.79.191",
+                "lifetime": 1200000,
+                "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                "rxid": "fb5526fbd96d2b4b617838dff57f089f",
+                "txid": "bada2243901d2e4a869c8f615d882881"
+              },
+              {
+                "ip": ": :ffff: 213.136.74.177",
+                "lifetime": 1200000,
+                "router": "a36cec975d3e0af617d4a41649198c046d7b13438095f717582c84ab0695cae5",
+                "rxid": "bada2243901d2e4a869c8f615d882881",
+                "txid": "7b0589014e0a6c7368ae3b70beb3c15d"
+              },
+              {
+                "ip": ": :ffff: 145.239.196.193",
+                "lifetime": 1200000,
+                "router": "5d50ee6abbbb6d9b28d474eeff991295f9b46fe61b54f2fcd87cdf9a1bb5832f",
+                "rxid": "7b0589014e0a6c7368ae3b70beb3c15d",
+                "txid": "58dda67e2247d27db426b93b4274852e"
+              },
+              {
+                "ip": ": :ffff: 89.58.2.189",
+                "lifetime": 1200000,
+                "router": "12d96ac8107a47f26344841d298088028dde46823dac2bc068ad5681a8175e8c",
+                "rxid": "58dda67e2247d27db426b93b4274852e",
+                "txid": "fce67dce9861886b1505f2bb895ba33d"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573518738,
+              "latency": 112,
+              "path": "fce67dce9861886b1505f2bb895ba33d",
+              "router": "12d96ac8107a47f26344841d298088028dde46823dac2bc068ad5681a8175e8c",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573447015,
+            "lastRecvMsg": 1669573447113,
+            "ready": "True",
+            "replayRX": 1,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572648290,
+            "expired": "False",
+            "expiresAt": 1669573848290,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 161.35.232.158",
+                "lifetime": 1200000,
+                "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                "rxid": "52322378fa0fcc962ceb48cb67db3aba",
+                "txid": "74984f0720587b54a7cf835e9ed22886"
+              },
+              {
+                "ip": ": :ffff: 38.54.8.136",
+                "lifetime": 1200000,
+                "router": "1df4e52ce3ec7526b985fbc2849dd38405094e318401ae30298496dcb0cd9d80",
+                "rxid": "74984f0720587b54a7cf835e9ed22886",
+                "txid": "94122455e9d78ff7b0798974b431dbbf"
+              },
+              {
+                "ip": ": :ffff: 144.76.164.202",
+                "lifetime": 1200000,
+                "router": "1f022f08ecb801299cb43fafba721dfb7d9deb10a7734951f46b9c7c8ec1c274",
+                "rxid": "94122455e9d78ff7b0798974b431dbbf",
+                "txid": "bfb276b06549209b2cd5872c5ec6c036"
+              },
+              {
+                "ip": ": :ffff: 173.249.49.4",
+                "lifetime": 1200000,
+                "router": "2ab861c6acbc7d75e5b9f4bec3e49ad0ea6a829d72b86ff9edd08846f971a6f0",
+                "rxid": "bfb276b06549209b2cd5872c5ec6c036",
+                "txid": "213c1176c7a4f8463a08d32c7cf2f4f9"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573848290,
+              "latency": 550,
+              "path": "213c1176c7a4f8463a08d32c7cf2f4f9",
+              "router": "2ab861c6acbc7d75e5b9f4bec3e49ad0ea6a829d72b86ff9edd08846f971a6f0",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573433239,
+            "lastRecvMsg": 1669573433796,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          },
+          {
+            "buildStarted": 1669572316237,
+            "expired": "False",
+            "expiresAt": 1669573516237,
+            "expiresSoon": "False",
+            "hasExit": "True",
+            "hops": [
+              {
+                "ip": ": :ffff: 46.37.58.143",
+                "lifetime": 1200000,
+                "router": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                "rxid": "f6cfbade31efe4e2531fa3716403ac33",
+                "txid": "943f00e1313708b52e53f8e798a26207"
+              },
+              {
+                "ip": ": :ffff: 172.93.101.16",
+                "lifetime": 1200000,
+                "router": "9268bdb02099fc35ec6bdf0d8589d15fd513ee407f9d0d580c57a0358f8a5636",
+                "rxid": "943f00e1313708b52e53f8e798a26207",
+                "txid": "333f78eb06452d774281f60477c42b49"
+              },
+              {
+                "ip": ": :ffff: 5.100.255.226",
+                "lifetime": 1200000,
+                "router": "c84048ff9d2126f9b08086829f696036cf8a4af0482d0e3ddace8432254e3bb9",
+                "rxid": "333f78eb06452d774281f60477c42b49",
+                "txid": "5a49a7272988eb449356307da134e44e"
+              },
+              {
+                "ip": ": :ffff: 45.88.188.183",
+                "lifetime": 1200000,
+                "router": "9156ba6a182a80061ad332af70d1513c4ad09ddcb132e0289b0fc0cae47d9c57",
+                "rxid": "5a49a7272988eb449356307da134e44e",
+                "txid": "71021e0ea246947a83b664a0d945b2d8"
+              }
+            ],
+            "intro": {
+              "expiresAt": 1669573516237,
+              "latency": 471,
+              "path": "71021e0ea246947a83b664a0d945b2d8",
+              "router": "9156ba6a182a80061ad332af70d1513c4ad09ddcb132e0289b0fc0cae47d9c57",
+              "version": 0
+            },
+            "lastLatencyTest": 1669573431734,
+            "lastRecvMsg": 1669573443018,
+            "ready": "True",
+            "replayRX": 0,
+            "replayTX": 0,
+            "rxRateCurrent": 0,
+            "status": "established",
+            "txRateCurrent": 0
+          }
+        ],
+        "remoteSessions": [
+          {
+            "buildStats": {
+              "attempts": 68,
+              "fails": 7,
+              "success": 52,
+              "timeouts": 9
+            },
+            "currentConvoTag": "fca0d7fe61037ece0aa9567a7e44d361",
+            "currentRemoteIntroset": {
+              "advertisedRanges": [],
+              "intros": [
+                {
+                  "expiresAt": 1669574342468,
+                  "latency": 163,
+                  "path": "cb06d49796b89257724a183712aec4b9",
+                  "router": "2571c1cf7bcc9085fba2d2c3bdb2baeb6c7e28830eb0f74b0444dbe72189e1ce",
+                  "version": 0
+                },
+                {
+                  "expiresAt": 1669574342218,
+                  "latency": 130,
+                  "path": "ff849df2b4cdc8c51e184871de99795c",
+                  "router": "fd248f464488e07fa07c5e2e24a4b4b62b1a5865ca6a01f5a31a01e5b4eccb42",
+                  "version": 0
+                },
+                {
+                  "expiresAt": 1669574341967,
+                  "latency": 74,
+                  "path": "cb55b1439c9edbe54b7ce859339638b0",
+                  "router": "02769c6698a3142b568bf0d420a98cfadb8c2676212042bad3313411e7cef96a",
+                  "version": 0
+                },
+                {
+                  "expiresAt": 1669574341717,
+                  "latency": 138,
+                  "path": "0e9280ff217e465f9dc1c10dce0f0fb1",
+                  "router": "c14bbba97f52f997b913990f473d91ee9b431fd4340507554f5b2256156cbb1b",
+                  "version": 0
+                },
+                {
+                  "expiresAt": 1669574341467,
+                  "latency": 97,
+                  "path": "2115cd6325e1f79a2ad3254daddbd14d",
+                  "router": "6a9d07d04b652b0e68bf7b75eb87fa65b4e8c7464eb62aa541ebd694eaec5f5a",
+                  "version": 0
+                },
+                {
+                  "expiresAt": 1669574341217,
+                  "latency": 494,
+                  "path": "24d28f51c474b98b490d5be451e2a8f7",
+                  "router": "1f328f11cde9b55d44ce4113714bbc01c629f56fe46e2ee1bed60677e293492d",
+                  "version": 0
+                },
+                {
+                  "expiresAt": 1669574340967,
+                  "latency": 440,
+                  "path": "7649a84cea19af44579cfb745ad2bc6e",
+                  "router": "1f107f2b38e8246b644f917c7f8d226ff5ab9fb416d5647f74b80f833c179aca",
+                  "version": 0
+                },
+                {
+                  "expiresAt": 1669574340467,
+                  "latency": 9,
+                  "path": "5a98ec21356ce784dad821d1f00c4864",
+                  "router": "1f324f04de177ba006351d65a3c27cb2e559834280702c0eac9327dad9a84848",
+                  "version": 0
+                }
+              ],
+              "protos": [
+                "TrafficV4",
+                "Exit",
+                "QUIC"
+              ],
+              "published": 1669573292979
+            },
+            "estimatedRTT": 1560,
+            "lastGoodSend": 1669573448011,
+            "lastIntrosetUpdate": 1669573384935,
+            "lastRecv": 1669573448011,
+            "lastShift": 1669573385678,
+            "markedBad": "False",
+            "nextIntro": {
+              "expiresAt": 1669574342468,
+              "latency": 163,
+              "path": "cb06d49796b89257724a183712aec4b9",
+              "router": "2571c1cf7bcc9085fba2d2c3bdb2baeb6c7e28830eb0f74b0444dbe72189e1ce",
+              "version": 0
+            },
+            "numHops": 4,
+            "numPaths": 4,
+            "paths": [
+              {
+                "buildStarted": 1669573303063,
+                "expired": "False",
+                "expiresAt": 1669574503063,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 88.99.102.229",
+                    "lifetime": 1200000,
+                    "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                    "rxid": "4d18e5b8a449d2a2916dcb43e2a0c014",
+                    "txid": "bbdd2cc24d6b72aad153e1d021e5e562"
+                  },
+                  {
+                    "ip": ": :ffff: 209.222.98.185",
+                    "lifetime": 1200000,
+                    "router": "46468f3abc0fb5ae8391a1bfe54f18a0e4cd4a21b4b8436e3600444fa37dd857",
+                    "rxid": "bbdd2cc24d6b72aad153e1d021e5e562",
+                    "txid": "b6b7b43e8098f133286893bf19c58c8b"
+                  },
+                  {
+                    "ip": ": :ffff: 51.79.71.162",
+                    "lifetime": 1200000,
+                    "router": "8a2e54263ecad03cdabebfb589eb1581c51abcb7077d7b28510b4cad1249b4ca",
+                    "rxid": "b6b7b43e8098f133286893bf19c58c8b",
+                    "txid": "00801e41f394e73c7ee290c2c8c38ed3"
+                  },
+                  {
+                    "ip": ": :ffff: 212.199.114.210",
+                    "lifetime": 1200000,
+                    "router": "2571c1cf7bcc9085fba2d2c3bdb2baeb6c7e28830eb0f74b0444dbe72189e1ce",
+                    "rxid": "00801e41f394e73c7ee290c2c8c38ed3",
+                    "txid": "ab614b3b605b3d0cb85921c876b63efc"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574503063,
+                  "latency": 280,
+                  "path": "ab614b3b605b3d0cb85921c876b63efc",
+                  "router": "2571c1cf7bcc9085fba2d2c3bdb2baeb6c7e28830eb0f74b0444dbe72189e1ce",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573444260,
+                "lastRecvMsg": 1669573444541,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669573164081,
+                "expired": "False",
+                "expiresAt": 1669574364081,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "8d11dd0f6acfa647e1db2d81c6847624",
+                    "txid": "740b41bd3d226dbeabcf3ba614087895"
+                  },
+                  {
+                    "ip": ": :ffff: 216.128.178.77",
+                    "lifetime": 1200000,
+                    "router": "9cb5e8654ed9a21b4dd8a827e29eae45e26d7f600c8fc52ae35dc91108c46c8f",
+                    "rxid": "740b41bd3d226dbeabcf3ba614087895",
+                    "txid": "7b6bbd0a3fc5659ce4bb6d6de0a6bed1"
+                  },
+                  {
+                    "ip": ": :ffff: 91.231.182.121",
+                    "lifetime": 1200000,
+                    "router": "23fd4abe81af81d62f60f896de730903daeb5a81bbda2ad4f587b2fc9f22def2",
+                    "rxid": "7b6bbd0a3fc5659ce4bb6d6de0a6bed1",
+                    "txid": "ebe58f4ce05fef66ae8fb1e0ff717216"
+                  },
+                  {
+                    "ip": ": :ffff: 136.243.103.175",
+                    "lifetime": 1200000,
+                    "router": "c0e9b45d89de6d8d20866409f5894d0a6923e57d92af8f3a54e63ec4395b610f",
+                    "rxid": "ebe58f4ce05fef66ae8fb1e0ff717216",
+                    "txid": "1f987c6b5e2e601fb264a92eb789217f"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574364081,
+                  "latency": 402,
+                  "path": "1f987c6b5e2e601fb264a92eb789217f",
+                  "router": "c0e9b45d89de6d8d20866409f5894d0a6923e57d92af8f3a54e63ec4395b610f",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573445265,
+                "lastRecvMsg": 1669573445663,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669573070926,
+                "expired": "False",
+                "expiresAt": 1669574270926,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "6e667c2a855c2693008f131d5d70e063",
+                    "txid": "96a04491f626d9e5441a6755167a8f87"
+                  },
+                  {
+                    "ip": ": :ffff: 104.243.45.45",
+                    "lifetime": 1200000,
+                    "router": "1f413f009b489ae560dbcdca23659690b962fe40169d928dc2a1ca8611339730",
+                    "rxid": "96a04491f626d9e5441a6755167a8f87",
+                    "txid": "04f63c2a912334e5ca8456fa84add3be"
+                  },
+                  {
+                    "ip": ": :ffff: 104.243.45.162",
+                    "lifetime": 1200000,
+                    "router": "8095ead66887edafb2a66ec52ea28d8aa52400f6c76b0d654d6d9134c4734044",
+                    "rxid": "04f63c2a912334e5ca8456fa84add3be",
+                    "txid": "6c800be5f0c452564c8a4653b16526b4"
+                  },
+                  {
+                    "ip": ": :ffff: 206.81.96.20",
+                    "lifetime": 1200000,
+                    "router": "8c34090ef07ea39a1a67d1fd8d4fd5b58ac6f5c4004ebb453110d8dc9a44ee0c",
+                    "rxid": "6c800be5f0c452564c8a4653b16526b4",
+                    "txid": "95e393e51a68b9a2ee325dd8e650c303"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574270926,
+                  "latency": 322,
+                  "path": "95e393e51a68b9a2ee325dd8e650c303",
+                  "router": "8c34090ef07ea39a1a67d1fd8d4fd5b58ac6f5c4004ebb453110d8dc9a44ee0c",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573432490,
+                "lastRecvMsg": 1669573432812,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669573304567,
+                "expired": "False",
+                "expiresAt": 1669574504567,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 46.37.58.143",
+                    "lifetime": 1200000,
+                    "router": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                    "rxid": "c6a45b3eb1c096f5b39fa29ceb08d00e",
+                    "txid": "cd30bfdd1fda0ddda0c49d7f5e1e5f57"
+                  },
+                  {
+                    "ip": ": :ffff: 202.182.103.230",
+                    "lifetime": 1200000,
+                    "router": "531600a162153e913327d6879b0eec65e40457a999534456e9f7b03f4dd8516b",
+                    "rxid": "cd30bfdd1fda0ddda0c49d7f5e1e5f57",
+                    "txid": "1ec2e30820f9e2f0e20d552e33e79cd9"
+                  },
+                  {
+                    "ip": ": :ffff: 45.58.124.18",
+                    "lifetime": 1200000,
+                    "router": "706e4a34412bbdfeba21749d23700008485f0c661533173f547e5b3fcba4200c",
+                    "rxid": "1ec2e30820f9e2f0e20d552e33e79cd9",
+                    "txid": "9b3a477f83ed42b8e3f5cb5c3692a3f8"
+                  },
+                  {
+                    "ip": ": :ffff: 135.181.254.56",
+                    "lifetime": 1200000,
+                    "router": "fd248f464488e07fa07c5e2e24a4b4b62b1a5865ca6a01f5a31a01e5b4eccb42",
+                    "rxid": "9b3a477f83ed42b8e3f5cb5c3692a3f8",
+                    "txid": "d9a20bbe7e473af9a4342ab0cbd3b0ed"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574504567,
+                  "latency": 650,
+                  "path": "d9a20bbe7e473af9a4342ab0cbd3b0ed",
+                  "router": "fd248f464488e07fa07c5e2e24a4b4b62b1a5865ca6a01f5a31a01e5b4eccb42",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573369400,
+                "lastRecvMsg": 1669573448011,
+                "ready": "True",
+                "replayRX": 1,
+                "replayTX": 1,
+                "rxRateCurrent": 512,
+                "status": "established",
+                "txRateCurrent": 1696
+              },
+              {
+                "buildStarted": 1669573047386,
+                "expired": "False",
+                "expiresAt": 1669574247386,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 46.37.58.143",
+                    "lifetime": 1200000,
+                    "router": "0b2b7059e2bc8a0c52f0c3a2ae5f4182a4e1c12fe1c370c31c9a3e866d2ef0a1",
+                    "rxid": "bfc51e697da1fca9bd470e4488bf5974",
+                    "txid": "bce5de442e7ba2c61ebffbdca727e8b9"
+                  },
+                  {
+                    "ip": ": :ffff: 134.122.115.173",
+                    "lifetime": 1200000,
+                    "router": "f8d194447a7846097e462ae7e7710846a79a179a88823560fb688a38756006bd",
+                    "rxid": "bce5de442e7ba2c61ebffbdca727e8b9",
+                    "txid": "9109bdf56ac6a024c930e8bf7487a567"
+                  },
+                  {
+                    "ip": ": :ffff: 167.179.117.12",
+                    "lifetime": 1200000,
+                    "router": "c66ead21441d47467d0c33a58de760fe67be4b2236f532d99327e9519f73140b",
+                    "rxid": "9109bdf56ac6a024c930e8bf7487a567",
+                    "txid": "cd5fa3ca109de2a24461e9f36c81b723"
+                  },
+                  {
+                    "ip": ": :ffff: 45.34.182.196",
+                    "lifetime": 1200000,
+                    "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                    "rxid": "cd5fa3ca109de2a24461e9f36c81b723",
+                    "txid": "c596683aa08a6f1de2ab067c19a7704a"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574247386,
+                  "latency": 469,
+                  "path": "c596683aa08a6f1de2ab067c19a7704a",
+                  "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573431735,
+                "lastRecvMsg": 1669573432207,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669573047136,
+                "expired": "False",
+                "expiresAt": 1669574247136,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "cdaa6079fe492e99026283959103418f",
+                    "txid": "f9cebcfe7c239c15699a0cd491d1d218"
+                  },
+                  {
+                    "ip": ": :ffff: 188.166.29.105",
+                    "lifetime": 1200000,
+                    "router": "170b68dcf4b6b81d312b96909b38bc3c30e801376300c5c23b0b2797546bfa38",
+                    "rxid": "f9cebcfe7c239c15699a0cd491d1d218",
+                    "txid": "3e234a26228921a1c9810abc6137ed32"
+                  },
+                  {
+                    "ip": ": :ffff: 206.81.96.20",
+                    "lifetime": 1200000,
+                    "router": "0cece2b19a2437a59d54e7dc1512d71d8c07776876fcaf887e96a21b1e3ad623",
+                    "rxid": "3e234a26228921a1c9810abc6137ed32",
+                    "txid": "9665bbafa64aa6bf1853b4a3e6974674"
+                  },
+                  {
+                    "ip": ": :ffff: 45.34.182.196",
+                    "lifetime": 1200000,
+                    "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                    "rxid": "9665bbafa64aa6bf1853b4a3e6974674",
+                    "txid": "1bccc1956c9595d8ffa4892f20438d89"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574247136,
+                  "latency": 636,
+                  "path": "1bccc1956c9595d8ffa4892f20438d89",
+                  "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573429735,
+                "lastRecvMsg": 1669573430373,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572857343,
+                "expired": "False",
+                "expiresAt": 1669574057343,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 104.244.79.191",
+                    "lifetime": 1200000,
+                    "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                    "rxid": "2a33bfc6d25aae3bdcf47bd772a8f43a",
+                    "txid": "84c6962e8c230918319b20f23fd9c627"
+                  },
+                  {
+                    "ip": ": :ffff: 74.208.42.54",
+                    "lifetime": 1200000,
+                    "router": "d9445c5b1887d7b764985820754772f29aeb0c5a69700ab0edfeffb37092eed6",
+                    "rxid": "84c6962e8c230918319b20f23fd9c627",
+                    "txid": "f48c2d221cd3b268160d11024335d8ef"
+                  },
+                  {
+                    "ip": ": :ffff: 167.114.129.231",
+                    "lifetime": 1200000,
+                    "router": "20a761c9d553bdfe1688a1e8ba495023b831dd0c2faeea4b029a5a818219bb0e",
+                    "rxid": "f48c2d221cd3b268160d11024335d8ef",
+                    "txid": "4767b57006b096b10813aa3947938fe7"
+                  },
+                  {
+                    "ip": ": :ffff: 45.63.124.80",
+                    "lifetime": 1200000,
+                    "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                    "rxid": "4767b57006b096b10813aa3947938fe7",
+                    "txid": "987cd62e6b9fe9204f2612359a6869e0"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574057343,
+                  "latency": 444,
+                  "path": "987cd62e6b9fe9204f2612359a6869e0",
+                  "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573442007,
+                "lastRecvMsg": 1669573442448,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669573088196,
+                "expired": "False",
+                "expiresAt": 1669574288196,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 104.244.79.191",
+                    "lifetime": 1200000,
+                    "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                    "rxid": "c93b5d7cced8aba431b82b812d83c751",
+                    "txid": "3c150fa965a00c2875245f0b494094f2"
+                  },
+                  {
+                    "ip": ": :ffff: 89.58.2.189",
+                    "lifetime": 1200000,
+                    "router": "0cc9b4574de196ba38984e1b3bcc1e249d5cfa0d3c7224f55fc721bf0027d043",
+                    "rxid": "3c150fa965a00c2875245f0b494094f2",
+                    "txid": "ea3e893055f1a8abdb8f804c37e11e3d"
+                  },
+                  {
+                    "ip": ": :ffff: 172.93.101.114",
+                    "lifetime": 1200000,
+                    "router": "7a8ab9759d011e19d520b3521e49a01ed595b9a2e6320a95723bdeaed6cb622d",
+                    "rxid": "ea3e893055f1a8abdb8f804c37e11e3d",
+                    "txid": "22b5c0a98bcf3454c6f9c3191c5a62e1"
+                  },
+                  {
+                    "ip": ": :ffff: 206.189.53.142",
+                    "lifetime": 1200000,
+                    "router": "840ea6695ffd8e2c0c26a3f891519da7d412fe7d4ba86d1a75e5a32494fc36fd",
+                    "rxid": "22b5c0a98bcf3454c6f9c3191c5a62e1",
+                    "txid": "9e33ff382e0a6407a244f814ea4c4885"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574288196,
+                  "latency": 231,
+                  "path": "9e33ff382e0a6407a244f814ea4c4885",
+                  "router": "840ea6695ffd8e2c0c26a3f891519da7d412fe7d4ba86d1a75e5a32494fc36fd",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573429735,
+                "lastRecvMsg": 1669573429967,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572857093,
+                "expired": "False",
+                "expiresAt": 1669574057093,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 88.99.102.229",
+                    "lifetime": 1200000,
+                    "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                    "rxid": "d561f36897b998f61586b15c4d23fd02",
+                    "txid": "910ffca62feb6a492919191ec97ae83d"
+                  },
+                  {
+                    "ip": ": :ffff: 109.207.79.178",
+                    "lifetime": 1200000,
+                    "router": "be5f6173c067dcd6e8bed9ef43db1b8db7150754c263674f78444682785e38f4",
+                    "rxid": "910ffca62feb6a492919191ec97ae83d",
+                    "txid": "8276b42737a4d744ce0dd4691efe8dc6"
+                  },
+                  {
+                    "ip": ": :ffff: 172.105.177.181",
+                    "lifetime": 1200000,
+                    "router": "f2913acd4f0e40de47fd2ff89992f3b9ab9add3603ee1ac798748f8c9b095e86",
+                    "rxid": "8276b42737a4d744ce0dd4691efe8dc6",
+                    "txid": "7b645e6badf62e3d734354fb5718fec0"
+                  },
+                  {
+                    "ip": ": :ffff: 45.63.124.80",
+                    "lifetime": 1200000,
+                    "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                    "rxid": "7b645e6badf62e3d734354fb5718fec0",
+                    "txid": "f32f88698f4782dbccb63b7bc3658ef9"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574057093,
+                  "latency": 603,
+                  "path": "f32f88698f4782dbccb63b7bc3658ef9",
+                  "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573440501,
+                "lastRecvMsg": 1669573441102,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572746953,
+                "expired": "False",
+                "expiresAt": 1669573946953,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 88.99.102.229",
+                    "lifetime": 1200000,
+                    "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                    "rxid": "64512e0dd3d42bb1014c8f4922f8b04c",
+                    "txid": "8e25b9911ab239bab17553e49b7f8140"
+                  },
+                  {
+                    "ip": ": :ffff: 70.34.205.230",
+                    "lifetime": 1200000,
+                    "router": "c2bd3dc902f3d228feaf58f6562d737ad18c8583c1dbfe0fc85acc1b7ce5a2bd",
+                    "rxid": "8e25b9911ab239bab17553e49b7f8140",
+                    "txid": "bdcd17be8cdded465d05e97b77d4b2c4"
+                  },
+                  {
+                    "ip": ": :ffff: 199.127.60.6",
+                    "lifetime": 1200000,
+                    "router": "1f504f00d83b8fba9f85f181faf3a78d5a2536802472c7f0c6abd7120aefb4b7",
+                    "rxid": "bdcd17be8cdded465d05e97b77d4b2c4",
+                    "txid": "20819ee5e168a17879e2cbc716bc44a6"
+                  },
+                  {
+                    "ip": ": :ffff: 45.63.124.80",
+                    "lifetime": 1200000,
+                    "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                    "rxid": "20819ee5e168a17879e2cbc716bc44a6",
+                    "txid": "708d15b23ad1164557d754a359f4e258"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573946953,
+                  "latency": 372,
+                  "path": "708d15b23ad1164557d754a359f4e258",
+                  "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573431236,
+                "lastRecvMsg": 1669573431607,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572746704,
+                "expired": "False",
+                "expiresAt": 1669573946704,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 104.244.79.191",
+                    "lifetime": 1200000,
+                    "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                    "rxid": "e969ced8ff1d0c2dde0fcd8a0db8605c",
+                    "txid": "326e3c3bcd08619397000b6ed0fb9819"
+                  },
+                  {
+                    "ip": ": :ffff: 5.161.108.119",
+                    "lifetime": 1200000,
+                    "router": "60e50c0904bcdc68d7f607893924f9ac0d5acc553cbe0770aef236f7788c0f5a",
+                    "rxid": "326e3c3bcd08619397000b6ed0fb9819",
+                    "txid": "ef2b6aeb2cb984b29a3a64a8269dc30d"
+                  },
+                  {
+                    "ip": ": :ffff: 89.58.2.189",
+                    "lifetime": 1200000,
+                    "router": "9880ce062f1eb3c4329c3ba449d503bddcecd4525d0cf0c9a3c20ef132cb6105",
+                    "rxid": "ef2b6aeb2cb984b29a3a64a8269dc30d",
+                    "txid": "dbc3d3bdfc4944b524b491b4a99166b3"
+                  },
+                  {
+                    "ip": ": :ffff: 45.63.124.80",
+                    "lifetime": 1200000,
+                    "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                    "rxid": "dbc3d3bdfc4944b524b491b4a99166b3",
+                    "txid": "279b44dc880c9fc2de88ada8d73c5fef"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573946704,
+                  "latency": 471,
+                  "path": "279b44dc880c9fc2de88ada8d73c5fef",
+                  "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573429736,
+                "lastRecvMsg": 1669573430210,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572555107,
+                "expired": "False",
+                "expiresAt": 1669573755107,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "bd73c5782257b47255db7c4cb87cd9a5",
+                    "txid": "904c5f281931b869bfd3f000f6fbddff"
+                  },
+                  {
+                    "ip": ": :ffff: 167.114.36.118",
+                    "lifetime": 1200000,
+                    "router": "c7d95a7409a5d29582e7ad347a63cb4d6a5f38bae342823a7df8721941cf0ed9",
+                    "rxid": "904c5f281931b869bfd3f000f6fbddff",
+                    "txid": "008c8af75271855fa84d4da2d2bcea5f"
+                  },
+                  {
+                    "ip": ": :ffff: 104.243.45.162",
+                    "lifetime": 1200000,
+                    "router": "48a3e02b5bf2fec49d22c63b87a08ac321e9ccda2e9c288a2a0cedf6757d0cd0",
+                    "rxid": "008c8af75271855fa84d4da2d2bcea5f",
+                    "txid": "2f4c9eb4d38646dc59dee381c64db1d3"
+                  },
+                  {
+                    "ip": ": :ffff: 45.63.124.80",
+                    "lifetime": 1200000,
+                    "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                    "rxid": "2f4c9eb4d38646dc59dee381c64db1d3",
+                    "txid": "cf7d7ac048df22e41087d3a94706a046"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573755107,
+                  "latency": 436,
+                  "path": "cf7d7ac048df22e41087d3a94706a046",
+                  "router": "bfe6dafa0d7fb82e2d7ea02b257f32dab4e7664aa4a5dd0abf52d56de791d977",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573437746,
+                "lastRecvMsg": 1669573438181,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572444704,
+                "expired": "False",
+                "expiresAt": 1669573644704,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 104.244.79.191",
+                    "lifetime": 1200000,
+                    "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                    "rxid": "62bc37db61a9a53969ac99c12b2f3da0",
+                    "txid": "7d2a8e733537daf29dd33b822a92e13a"
+                  },
+                  {
+                    "ip": ": :ffff: 141.95.149.172",
+                    "lifetime": 1200000,
+                    "router": "1a89189d0a0b5ebedc5f5a948bfdadfa6da005a231b6a09a1a6ca43761db5297",
+                    "rxid": "7d2a8e733537daf29dd33b822a92e13a",
+                    "txid": "eb8d5af3aad08873459f4b8fd232d730"
+                  },
+                  {
+                    "ip": ": :ffff: 45.58.124.18",
+                    "lifetime": 1200000,
+                    "router": "0642a218b3accd64560a6ebd10c8dce0c000070672c5fd32ea6e30c6b6ee35d8",
+                    "rxid": "eb8d5af3aad08873459f4b8fd232d730",
+                    "txid": "a1385227cb7794d908e92c50d32a10c2"
+                  },
+                  {
+                    "ip": ": :ffff: 162.55.48.223",
+                    "lifetime": 1200000,
+                    "router": "6b715b37ace696a3bd2507d71a95b9c548f36d8fe671cb9be7eb51a6019af7de",
+                    "rxid": "a1385227cb7794d908e92c50d32a10c2",
+                    "txid": "35f343b125cae9ee9b8f9d0ce62e62d5"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573644704,
+                  "latency": 216,
+                  "path": "35f343b125cae9ee9b8f9d0ce62e62d5",
+                  "router": "6b715b37ace696a3bd2507d71a95b9c548f36d8fe671cb9be7eb51a6019af7de",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573431236,
+                "lastRecvMsg": 1669573431450,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669573154070,
+                "expired": "False",
+                "expiresAt": 1669574354070,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "413794e4227fff7817be52e2b964912f",
+                    "txid": "84084bf363892289bac9ffce196a35de"
+                  },
+                  {
+                    "ip": ": :ffff: 192.99.152.12",
+                    "lifetime": 1200000,
+                    "router": "1fa3cf32aeaf10aefb1e349b88bc20321a411a592a57493b864a200a00f7540b",
+                    "rxid": "84084bf363892289bac9ffce196a35de",
+                    "txid": "e0492e0482e78466d53e97ccb6f2f478"
+                  },
+                  {
+                    "ip": ": :ffff: 82.223.70.189",
+                    "lifetime": 1200000,
+                    "router": "14f1bfe3ce366d30c94ef71a8137720cac6079183c5110bdb9b2162df5efb9d4",
+                    "rxid": "e0492e0482e78466d53e97ccb6f2f478",
+                    "txid": "c6ee1a11bf6ec3e035f5f0306e355564"
+                  },
+                  {
+                    "ip": ": :ffff: 104.194.11.120",
+                    "lifetime": 1200000,
+                    "router": "1f324f04de177ba006351d65a3c27cb2e559834280702c0eac9327dad9a84848",
+                    "rxid": "c6ee1a11bf6ec3e035f5f0306e355564",
+                    "txid": "991ae4f92cbc939bc42f326109f93c8c"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669574354070,
+                  "latency": 467,
+                  "path": "991ae4f92cbc939bc42f326109f93c8c",
+                  "router": "1f324f04de177ba006351d65a3c27cb2e559834280702c0eac9327dad9a84848",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573437995,
+                "lastRecvMsg": 1669573438461,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572749205,
+                "expired": "False",
+                "expiresAt": 1669573949205,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "c3fe4c180b1819e83604a8c940159243",
+                    "txid": "ab3dc306f705a3502ce1863f30905b7e"
+                  },
+                  {
+                    "ip": ": :ffff: 198.98.59.71",
+                    "lifetime": 1200000,
+                    "router": "9db4c5b63894ab67cd44225eb82ee6e02e3d442f74ac64ff552e1d4f83da17b3",
+                    "rxid": "ab3dc306f705a3502ce1863f30905b7e",
+                    "txid": "39ff9379fdbd23f0cf2c5ba9e65654ef"
+                  },
+                  {
+                    "ip": ": :ffff: 104.243.45.162",
+                    "lifetime": 1200000,
+                    "router": "e60d1e0852eba59772ac82602a64f3051394b67bb3356963e58b412f847ef9f3",
+                    "rxid": "39ff9379fdbd23f0cf2c5ba9e65654ef",
+                    "txid": "a70d3033dcb2b07a201768cbe9ec2a90"
+                  },
+                  {
+                    "ip": ": :ffff: 45.34.182.196",
+                    "lifetime": 1200000,
+                    "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                    "rxid": "a70d3033dcb2b07a201768cbe9ec2a90",
+                    "txid": "1d21a411d882c6c1b89ba3f8ecea6862"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573949205,
+                  "latency": 458,
+                  "path": "1d21a411d882c6c1b89ba3f8ecea6862",
+                  "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573432490,
+                "lastRecvMsg": 1669573432953,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572256880,
+                "expired": "False",
+                "expiresAt": 1669573456880,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "f185da46ca62e0bb421d14bdb975b2a5",
+                    "txid": "d5bfccba8977a0757e43189a565a9fd9"
+                  },
+                  {
+                    "ip": ": :ffff: 149.102.129.77",
+                    "lifetime": 1200000,
+                    "router": "b38869888505e51e7fcb0710422011c0f89c766d5aa9f4520cd10074611d15be",
+                    "rxid": "d5bfccba8977a0757e43189a565a9fd9",
+                    "txid": "c3f174eb8611ee96405f4ae20331469c"
+                  },
+                  {
+                    "ip": ": :ffff: 195.15.241.197",
+                    "lifetime": 1200000,
+                    "router": "4b39adf79f6d6486ef8fadca8647b9331c7ae73de371849529e40760c814e351",
+                    "rxid": "c3f174eb8611ee96405f4ae20331469c",
+                    "txid": "1b74022ab807102a192181e4d5eea804"
+                  },
+                  {
+                    "ip": ": :ffff: 95.183.50.141",
+                    "lifetime": 1200000,
+                    "router": "4ee8ab46fac1f6482471d9832e01cc3e505a857a94180aaf2f467a61c91ba31b",
+                    "rxid": "1b74022ab807102a192181e4d5eea804",
+                    "txid": "c2aa23bc949598bf776a4de0db68d7d6"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573456880,
+                  "latency": 438,
+                  "path": "c2aa23bc949598bf776a4de0db68d7d6",
+                  "router": "4ee8ab46fac1f6482471d9832e01cc3e505a857a94180aaf2f467a61c91ba31b",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573439749,
+                "lastRecvMsg": 1669573440103,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572444452,
+                "expired": "False",
+                "expiresAt": 1669573644452,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "0051f91882c987f404e29cfec58ec813",
+                    "txid": "a718cf09f8096329c3bba038b13a1a5b"
+                  },
+                  {
+                    "ip": ": :ffff: 206.81.96.20",
+                    "lifetime": 1200000,
+                    "router": "0cece2b19a2437a59d54e7dc1512d71d8c07776876fcaf887e96a21b1e3ad623",
+                    "rxid": "a718cf09f8096329c3bba038b13a1a5b",
+                    "txid": "20365743a3018a7ee482785d7c4ff56a"
+                  },
+                  {
+                    "ip": ": :ffff: 172.93.101.114",
+                    "lifetime": 1200000,
+                    "router": "e21f25d8d10bd72fa7827816bdfab5ac368bee00b002959c1bb46afd89b79862",
+                    "rxid": "20365743a3018a7ee482785d7c4ff56a",
+                    "txid": "3c546c1f7363434210455727d0fe31eb"
+                  },
+                  {
+                    "ip": ": :ffff: 162.55.48.223",
+                    "lifetime": 1200000,
+                    "router": "6b715b37ace696a3bd2507d71a95b9c548f36d8fe671cb9be7eb51a6019af7de",
+                    "rxid": "3c546c1f7363434210455727d0fe31eb",
+                    "txid": "d202ddda8d16c81f94cd7900f8f9b1b6"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573644452,
+                  "latency": 341,
+                  "path": "d202ddda8d16c81f94cd7900f8f9b1b6",
+                  "router": "6b715b37ace696a3bd2507d71a95b9c548f36d8fe671cb9be7eb51a6019af7de",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573431489,
+                "lastRecvMsg": 1669573431835,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572258385,
+                "expired": "False",
+                "expiresAt": 1669573458385,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 104.244.79.191",
+                    "lifetime": 1200000,
+                    "router": "b81f1a4c048f3019bdaab2ce646c6381651ef2adb6fc0fadae23d9414005fc1e",
+                    "rxid": "ed2850416f964829238b347092c8023f",
+                    "txid": "65f8e335715bc7908823fe115b0d0a30"
+                  },
+                  {
+                    "ip": ": :ffff: 139.99.133.134",
+                    "lifetime": 1200000,
+                    "router": "ac1454f342a3dc9d8e08b256dd327c18f8a6baef2fe1e92e1cf9fad04cb8cd16",
+                    "rxid": "65f8e335715bc7908823fe115b0d0a30",
+                    "txid": "7427c435cca5fc9f522dbf447e85c3d9"
+                  },
+                  {
+                    "ip": ": :ffff: 139.99.173.120",
+                    "lifetime": 1200000,
+                    "router": "16956a43c61bfbc1bc7d0a2af89643d017f99c38296aef50522f14fc26995db8",
+                    "rxid": "7427c435cca5fc9f522dbf447e85c3d9",
+                    "txid": "e0dac1b5bbebdbab07e061ae577b5d8d"
+                  },
+                  {
+                    "ip": ": :ffff: 172.93.101.114",
+                    "lifetime": 1200000,
+                    "router": "406edc93311fa412c76ca7bd3f19e51358dc950a7b96861f7a9ac8831412080d",
+                    "rxid": "e0dac1b5bbebdbab07e061ae577b5d8d",
+                    "txid": "23ae9891d2b94da89584c27863583849"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573458385,
+                  "latency": 578,
+                  "path": "23ae9891d2b94da89584c27863583849",
+                  "router": "406edc93311fa412c76ca7bd3f19e51358dc950a7b96861f7a9ac8831412080d",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573444512,
+                "lastRecvMsg": 1669573445086,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572446456,
+                "expired": "False",
+                "expiresAt": 1669573646456,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 161.35.232.158",
+                    "lifetime": 1200000,
+                    "router": "d1a5eda986db9987580f1588c5c5e3e5eb494fa8d0f529c207fbe7ac5ee049de",
+                    "rxid": "3c5fe24a722b62a0cbebb24613c86e5c",
+                    "txid": "71bbc27d02f9572682ea9265085ce0e5"
+                  },
+                  {
+                    "ip": ": :ffff: 167.114.36.118",
+                    "lifetime": 1200000,
+                    "router": "c7d95a7409a5d29582e7ad347a63cb4d6a5f38bae342823a7df8721941cf0ed9",
+                    "rxid": "71bbc27d02f9572682ea9265085ce0e5",
+                    "txid": "97c363dcd4acac7126369aa6c85fa2b5"
+                  },
+                  {
+                    "ip": ": :ffff: 87.251.76.150",
+                    "lifetime": 1200000,
+                    "router": "2b15f7759564d0a2c7d60b04f8c7b5604b793cdd570fd0754a38d5738e919dad",
+                    "rxid": "97c363dcd4acac7126369aa6c85fa2b5",
+                    "txid": "e2db654a08405b3d6891a44145ba5cf5"
+                  },
+                  {
+                    "ip": ": :ffff: 135.181.138.83",
+                    "lifetime": 1200000,
+                    "router": "3824cbe4b8d7c9ad97fa5a71695e26858398691d873a5d3d8cfa567d6baf1905",
+                    "rxid": "e2db654a08405b3d6891a44145ba5cf5",
+                    "txid": "af38ec2c094d03e3929e0d1d825c2728"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573646456,
+                  "latency": 370,
+                  "path": "af38ec2c094d03e3929e0d1d825c2728",
+                  "router": "3824cbe4b8d7c9ad97fa5a71695e26858398691d873a5d3d8cfa567d6baf1905",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573431740,
+                "lastRecvMsg": 1669573432108,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572556863,
+                "expired": "False",
+                "expiresAt": 1669573756863,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 88.99.102.229",
+                    "lifetime": 1200000,
+                    "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                    "rxid": "3868d689d358eeda14068d94c7b827c6",
+                    "txid": "2ccc4fe6da7ceeed2b7275f200492306"
+                  },
+                  {
+                    "ip": ": :ffff: 139.99.170.194",
+                    "lifetime": 1200000,
+                    "router": "86201ac8aa4238e5bfb3b1b1672d5cc54b7804fded8c4871ef9ca20363160b92",
+                    "rxid": "2ccc4fe6da7ceeed2b7275f200492306",
+                    "txid": "df9c6f8d24dac3753ac4e61846e66255"
+                  },
+                  {
+                    "ip": ": :ffff: 95.217.220.15",
+                    "lifetime": 1200000,
+                    "router": "766e9c2084aff7aea132a128473c83180d404c81f26d47395392379673f9acb1",
+                    "rxid": "df9c6f8d24dac3753ac4e61846e66255",
+                    "txid": "2ce48f300cee5a27da5f0bccafc73936"
+                  },
+                  {
+                    "ip": ": :ffff: 45.34.182.196",
+                    "lifetime": 1200000,
+                    "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                    "rxid": "2ce48f300cee5a27da5f0bccafc73936",
+                    "txid": "e2863395a2b921859246569cba44c4b4"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573756863,
+                  "latency": 860,
+                  "path": "e2863395a2b921859246569cba44c4b4",
+                  "router": "5002a64a4f5568a73dd49201c1887819efa6205bd0f4a4d0c21b117b5c075148",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573441753,
+                "lastRecvMsg": 1669573442613,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              },
+              {
+                "buildStarted": 1669572447458,
+                "expired": "False",
+                "expiresAt": 1669573647458,
+                "expiresSoon": "False",
+                "hasExit": "True",
+                "hops": [
+                  {
+                    "ip": ": :ffff: 88.99.102.229",
+                    "lifetime": 1200000,
+                    "router": "1f112f65ce6ef96d335f2dc2be059e316753b9e472eaa538fbce633e63ba8b9a",
+                    "rxid": "a6f3906d5633d52f513e21e5319504ae",
+                    "txid": "815e420820498dadef0bcc1f031744dd"
+                  },
+                  {
+                    "ip": ": :ffff: 45.58.124.18",
+                    "lifetime": 1200000,
+                    "router": "d504b2e4a4883a3cfafa1e460c50a772cfffe67fdb933128c2569b85d4d32cbf",
+                    "rxid": "815e420820498dadef0bcc1f031744dd",
+                    "txid": "f73b30405295ecebd01648f5470ed363"
+                  },
+                  {
+                    "ip": ": :ffff: 23.183.81.9",
+                    "lifetime": 1200000,
+                    "router": "9a4b0f6add87b0e85ec586bb3937bf2dd95d1d3ac310c7079b212cba4cd73671",
+                    "rxid": "f73b30405295ecebd01648f5470ed363",
+                    "txid": "90ce17a99325b5a1d7904c8e7b0157b6"
+                  },
+                  {
+                    "ip": ": :ffff: 135.181.138.83",
+                    "lifetime": 1200000,
+                    "router": "3824cbe4b8d7c9ad97fa5a71695e26858398691d873a5d3d8cfa567d6baf1905",
+                    "rxid": "90ce17a99325b5a1d7904c8e7b0157b6",
+                    "txid": "206bcafe4c93fb5c0ac04ce5e7ee4815"
+                  }
+                ],
+                "intro": {
+                  "expiresAt": 1669573647458,
+                  "latency": 226,
+                  "path": "206bcafe4c93fb5c0ac04ce5e7ee4815",
+                  "router": "3824cbe4b8d7c9ad97fa5a71695e26858398691d873a5d3d8cfa567d6baf1905",
+                  "version": 0
+                },
+                "lastLatencyTest": 1669573429985,
+                "lastRecvMsg": 1669573430205,
+                "ready": "True",
+                "replayRX": 0,
+                "replayTX": 0,
+                "rxRateCurrent": 0,
+                "status": "established",
+                "txRateCurrent": 0
+              }
+            ],
+            "readyToSend": "True",
+            "remoteIdentity": "xjm61wjuq14m4pm7fjefbc3fij5i8jgzqo6ng7mqnp8hosx3jzsy.loki",
+            "remoteIntro": {
+              "expiresAt": 1669574342218,
+              "latency": 130,
+              "path": "ff849df2b4cdc8c51e184871de99795c",
+              "router": "fd248f464488e07fa07c5e2e24a4b4b62b1a5865ca6a01f5a31a01e5b4eccb42",
+              "version": 0
+            },
+            "seqno": 1906,
+            "sessionCreatedAt": 1669571112494
+          }
+        ],
+        "snodeSessions": "None",
+        "ustreamResolvers": [
+          "9.9.9.10: 53"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+nyx==2.1.0
+pyfiglet==0.8.post1
+pymongo==4.3.3
+stem==1.8.0
+python-dotenv==0.21.0
+selenium==4.5.0
+hurry.filesize==0.9

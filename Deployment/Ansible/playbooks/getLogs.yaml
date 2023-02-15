@@ -1,0 +1,18 @@
+---
+
+  - hosts: clients
+    gather_facts: false
+    tasks:
+
+    - name: Check for limit argument
+      fail:
+        msg: "you must use -l or --limit - when you really want to use all hosts, use -l 'clients' or -l 'c2,d2'"
+      when: ansible_limit is not defined
+      run_once: true
+      
+    - name: Get the log file(s).
+      ansible.builtin.fetch:
+        src: /home/agpbruger/OnionRTC-experiment/Selenium/debug.log
+        dest: ./logs/{{ inventory_hostname }}/debug.log
+        flat: true
+        fail_on_missing: false
